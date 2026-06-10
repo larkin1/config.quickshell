@@ -1,5 +1,6 @@
 singleton Theme Theme.qml
 LeftGroup LeftGroup.qml
 RightGroup RightGroup.qml
+MiddleGroup MiddleGroup.qml
 BorderL BorderL.qml
 BorderR BorderR.qml

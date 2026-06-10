@@ -7,7 +7,7 @@ PanelWindow {
 
   property int innerMarginLR: 10
   property int outerMarginU: 10
-  property int barheight: 22
+  property int barheight: 26
   
   anchors {
     top: true
@@ -28,11 +28,21 @@ PanelWindow {
 
   Item { Layout.fillWidth: true }
 
+  MiddleGroup {
+    id: middleGroup
+    innerMarginLR: root.innerMarginLR
+    outerMarginU: root.outerMarginU
+    barheight: root.barheight
+  }
+
+  Item { Layout.fillWidth: true }
+
   RightGroup {
     id: rightGroup
     innerMarginLR: root.innerMarginLR
     outerMarginU: root.outerMarginU
     barheight: root.barheight
+    mainWindow: root
   }
 
 }
