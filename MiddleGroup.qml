@@ -39,15 +39,12 @@ Item {
       id: text1
       color: Theme.surface0
       height: parent.height
-      width: childrenRect.width
-      Layout.alignment: Qt.AlignVCenter
+      width: childrenRect.width + root.innerMarginLR
 
-      RowLayout {
-        anchors.verticalCenter: parent.verticalCenter
-        Text {
-          text: "beans"
-          color: Theme.text
-        }
+      Text {
+        anchors.centerIn: parent
+        text: "beans"
+        color: Theme.text
       }
     }
   }
@@ -81,16 +78,15 @@ Item {
       id: text2
       color: Theme.mauve
       height: parent.height
-      width: childrenRect.width
+      width: childrenRect.width + (root.innerMarginLR * 0.8)
       Layout.alignment: Qt.AlignVCenter
 
       RowLayout {
+        anchors.centerIn: parent
         Text {
-          Layout.topMargin: 2
-          Layout.leftMargin: root.innerMarginLR * 0.4
-          Layout.rightMargin: root.innerMarginLR * 0.3
           text: "󰣇"
           color: Theme.crust
+          Layout.topMargin: 1.5
           scale: 1.2
         }
       }
@@ -126,15 +122,13 @@ Item {
       id: text3
       color: Theme.surface0
       height: parent.height
-      width: childrenRect.width
+      width: childrenRect.width + root.innerMarginLR
       Layout.alignment: Qt.AlignVCenter
 
-      RowLayout {
-        anchors.verticalCenter: parent.verticalCenter
-        Text {
-          text: "beans"
-          color: Theme.text
-        }
+      Text {
+        anchors.centerIn: parent
+        text: "beans"
+        color: Theme.text
       }
     }
 
