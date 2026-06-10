@@ -137,6 +137,12 @@ Item {
         }
       }
     }
+
+    BorderR {
+      foreground: Theme.surface0
+      background: "transparent"
+      height: parent.height
+    }
   }
   
 }
