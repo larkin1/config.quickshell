@@ -5,10 +5,11 @@ Item {
   id: root
   required property color foreground
   required property color background
+  required property int itemHeight
   property int outerMargin: 0
 
-  width: (root.height / 2) + outerMargin
-  height: parent.height
+  implicitHeight: itemHeight
+  implicitWidth: (itemHeight / 2) + outerMargin
 
   Rectangle {
     color: root.background

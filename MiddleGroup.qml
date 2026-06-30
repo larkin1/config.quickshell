@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Io
 
 Item {
   id: root
@@ -8,22 +9,21 @@ Item {
   required property int innerMarginLR
   required property int barheight
 
-  height: barheight
+  // height: barheight
+  implicitHeight: barheight
 
   anchors {
     horizontalCenter: parent.horizontalCenter
   }
 
-
   RowLayout {
     id: leftLayout
-
-    height: parent.height
     spacing: 0
 
     anchors {
       top: parent.top
       topMargin: root.outerMarginU
+      bottom: parent.bottom
       right: centerLayout.left
     }
 
@@ -31,17 +31,18 @@ Item {
     BorderL {
       background: "transparent"
       foreground: Theme.surface0
-      height: parent.height
+      itemHeight: root.barheight
       Layout.leftMargin: root.innerMarginLR
     }
 
     Rectangle {
       id: text1
       color: Theme.surface0
-      height: parent.height
-      width: childrenRect.width + root.innerMarginLR
+      Layout.fillHeight: true
+      width: text1InnerContent.implicitWidth + root.innerMarginLR
 
       Text {
+        id: text1InnerContent
         anchors.centerIn: parent
         text: "beans"
         color: Theme.text
@@ -52,7 +53,7 @@ Item {
   RowLayout {
     id: centerLayout
 
-    height: parent.height
+    height: root.barheight
     spacing: 0
 
     anchors {
@@ -64,30 +65,30 @@ Item {
     BorderL {
       background: Theme.surface0
       foreground: "transparent"
-      height: parent.height
+      itemHeight: root.barheight
     }
 
     BorderL {
       background: "transparent"
       foreground: Theme.mauve
-      height: parent.height
+      itemHeight: root.barheight
     }
 
 
     Rectangle {
       id: text2
       color: Theme.mauve
-      height: parent.height
-      width: childrenRect.width + (root.innerMarginLR * 0.8)
-      Layout.alignment: Qt.AlignVCenter
+      Layout.fillHeight: true
+      width: text2InnerContent.implicitWidth + root.innerMarginLR
 
       RowLayout {
+        id: text2InnerContent
         anchors.centerIn: parent
         Text {
-          text: "󰣇"
+          text: ""
           color: Theme.crust
           Layout.topMargin: 1.5
-          scale: 1.2
+          scale: 1.1
         }
       }
     }
@@ -95,25 +96,24 @@ Item {
     BorderR {
       foreground: Theme.mauve
       background: "transparent"
-      height: parent.height
+      itemHeight: root.barheight
     }
 
     BorderR {
       foreground: "transparent"
       background: Theme.surface0
-      height: parent.height
+      itemHeight: root.barheight
     }
   }
 
   RowLayout {
     id: rightLayout
-
-    height: parent.height
     spacing: 0
 
     anchors {
       top: parent.top
       topMargin: root.outerMarginU
+      bottom: parent.bottom
       left: centerLayout.right
     }
 
@@ -121,22 +121,28 @@ Item {
     Rectangle {
       id: text3
       color: Theme.surface0
-      height: parent.height
-      width: childrenRect.width + root.innerMarginLR
-      Layout.alignment: Qt.AlignVCenter
+      width: clock.implicitWidth + root.innerMarginLR
+      Layout.fillHeight: true
 
       Text {
+        id: clock
+        text: "ERROR" // same length as 00:00 for spacing; displays ERROR if the command doesn't run correctly
         anchors.centerIn: parent
-        text: "beans"
         color: Theme.text
+        Process {
+          command: ["date", "+%H:%M"]
+          running: true
+          stdout: StdioCollector { 
+            onStreamFinished: clock.text = this.text.trim()
+          }
+        }
       }
     }
 
     BorderR {
       foreground: Theme.surface0
       background: "transparent"
-      height: parent.height
+      itemHeight: root.barheight
     }
   }
-  
 }

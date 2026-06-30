@@ -8,36 +8,34 @@ Item {
   required property int innerMarginLR
   required property int barheight
 
-  height: barheight
+  implicitHeight: barheight
 
   RowLayout {
     id: innerLayout
-
-    height: parent.height
     spacing: 0
 
     anchors {
       top: parent.top
       topMargin: root.outerMarginU
+      bottom: parent.bottom
     }
 
     // Content
-
     BorderL {
       background: "transparent"
       foreground: Theme.base
-      height: parent.height
       Layout.leftMargin: root.innerMarginLR
+      itemHeight: root.barheight
     }
 
     Rectangle {
       id: text1
       color: Theme.base
-      height: parent.height
-      width: childrenRect.width
-      Layout.alignment: Qt.AlignVCenter
+      Layout.fillHeight: true
+      width: text1InnerContent.implicitWidth
 
       RowLayout {
+        id: text1InnerContent
         anchors.verticalCenter: parent.verticalCenter
         Text {
           text: "beans"
@@ -49,18 +47,18 @@ Item {
     BorderR {
       foreground: Theme.base
       background: Theme.mantle
-      height: parent.height
+      itemHeight: root.barheight
       outerMargin: root.innerMarginLR
     }
 
     Rectangle {
       id: text2
       color: Theme.mantle
-      height: parent.height
-      width: childrenRect.width
-      Layout.alignment: Qt.AlignVCenter
+      width: text2InnerContent.implicitWidth
+      Layout.fillHeight: true
 
       RowLayout {
+        id: text2InnerContent
         anchors.verticalCenter: parent.verticalCenter
         Text {
           text: "beans"
@@ -72,7 +70,7 @@ Item {
     BorderR {
       foreground: Theme.mantle
       background: "transparent"
-      height: parent.height
+      itemHeight: root.barheight
     }
   }
 }

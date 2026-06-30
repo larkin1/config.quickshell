@@ -10,7 +10,8 @@ Item {
   required property int barheight
   required property PanelWindow mainWindow
 
-  height: barheight
+  // height: barheight
+  implicitHeight: barheight
 
   anchors {
     right: parent.right
@@ -18,31 +19,30 @@ Item {
 
   RowLayout {
     id: innerLayout
-
-    height: parent.height
     spacing: 0
 
     anchors {
       top: parent.top
       topMargin: root.outerMarginU
-      right: parent.right
+      bottom: parent.bottom
+      right: parent.left
     }
 
     // Content
     BorderL {
       background: "transparent"
       foreground: Theme.mantle
-      height: parent.height
+      itemHeight: root.barheight
     }
 
     Rectangle {
       id: text1
       color: Theme.mantle
-      height: parent.height
-      width: childrenRect.width
-      Layout.alignment: Qt.AlignVCenter
+      Layout.fillHeight: true
+      width: text1InnerContent.implicitWidth
 
       RowLayout {
+        id: text1InnerContent
         anchors.verticalCenter: parent.verticalCenter
         Text {
           text: "beansbeans"
@@ -54,51 +54,61 @@ Item {
     BorderL {
       foreground: Theme.base
       background: Theme.mantle
-      height: parent.height
-      // outerMargin: root.innerMarginLR
+      itemHeight: root.barheight
     }
 
     Rectangle {
       id: text2
       color: Theme.base
-      height: parent.height
-      width: childrenRect.width + (root.innerMarginLR * 1.5)
-      Layout.alignment: Qt.AlignVCenter
+      Layout.fillHeight: true
+      width: text2InnerContent.implicitWidth + (root.innerMarginLR * 1.5)
 
-      RowLayout {
-        anchors.verticalCenter: parent.verticalCenter
-        x: root.innerMarginLR * 0.5
-        Text {
-          text: "beans"
-          color: Theme.text
+      Text {
+        id: text2InnerContent
+        anchors {
+          verticalCenter: parent.verticalCenter
+          left: parent.left
+          leftMargin: root.innerMarginLR * 0.5
         }
+        text: "beans"
+        color: Theme.text
       }
     }
 
     BorderL {
       background: Theme.base
       foreground: Theme.surface0
-      height: parent.height
+      itemHeight: root.barheight
     }
 
     BorderL {
       background: Theme.surface0
       foreground: "transparent"
-      height: parent.height
       Layout.rightMargin: root.innerMarginLR * 0.2
+      itemHeight: root.barheight
     }
 
     Rectangle {
       id: powerButton
-      width: parent.height
-      height: parent.height
-      radius: parent.height / 2
-      color: powerHover.hovered ? Theme.surface1 : Theme.surface0
+      width: root.barheight
+      Layout.fillHeight: true
+      radius: root.barheight / 2
+      // color: powerHover.hovered ? Theme.surface1 : Theme.surface0
+      color: Theme.surface0
+      // Behavior on color {
+      //   ColorAnimation { duration: 200 }
+      // }
 
       Layout.rightMargin: root.innerMarginLR
+      
+      Text {
+        anchors.centerIn: parent
+        text: ""
 
-      Behavior on color {
-        ColorAnimation { duration: 100 }
+        color: powerHover.hovered ? Theme.red : Theme.text
+        Behavior on color {
+          ColorAnimation { duration: 200 }
+        }
       }
 
       HoverHandler {
