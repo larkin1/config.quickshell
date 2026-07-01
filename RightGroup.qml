@@ -47,6 +47,9 @@ Item {
         Text {
           text: "beansbeans"
           color: Theme.text
+          font.family: Theme.font
+          font.weight: Theme.fontWeight
+          font.pixelSize: Theme.fontSize
         }
       }
     }
@@ -72,6 +75,9 @@ Item {
         }
         text: "beans"
         color: Theme.text
+        font.family: Theme.font
+        font.weight: Theme.fontWeight
+        font.pixelSize: Theme.fontSize
       }
     }
 
@@ -102,6 +108,9 @@ Item {
       Layout.rightMargin: root.innerMarginLR
       
       Text {
+        font.family: Theme.font
+        font.weight: Theme.fontWeight
+        font.pixelSize: Theme.fontSize
         anchors.centerIn: parent
         text: ""
 

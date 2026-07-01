@@ -31,5 +31,10 @@ QtObject {
     readonly property color sapphire:  "#74c7ec"
     readonly property color blue:      "#89b4fa"
     readonly property color lavender:  "#b4befe"
-}
 
+    // Fonts
+    // Note: most of this config assumes a monospace font. Elements will break if a non-monospace font is used.
+    readonly property string font: "JetBrainsMono Nerd Font"
+    readonly property int fontSize: 14
+    readonly property int fontWeight: 600
+}

@@ -1,5 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
+import Quickshell.Wayland
+import Quickshell.Hyprland
 
 Item {
   id: root
@@ -7,6 +10,7 @@ Item {
   required property int outerMarginU
   required property int innerMarginLR
   required property int barheight
+  required property PanelWindow bar
 
   implicitHeight: barheight
 
@@ -37,9 +41,25 @@ Item {
       RowLayout {
         id: text1InnerContent
         anchors.verticalCenter: parent.verticalCenter
-        Text {
-          text: "beans"
-          color: Theme.text
+        Repeater {
+         model: Hyprland.workspaces
+
+          Text {
+            property var ws: Hyprland.workspaces.values.find(w => w.id === index + 1)
+            readonly property HyprlandMonitor monitor: Hyprland.monitorFor(root.bar.screen);
+
+            text: modelData.id
+            color: isActive ? Theme.text : Theme.surface0
+
+            font.family: Theme.font
+            font.weight: Theme.fontWeight
+            font.pixelSize: Theme.fontSize
+
+            MouseArea {
+              anchors.fill: parent
+              onClicked: Hyprland.dispatch("hl.dsp.focus({ workspace = \"" + (index + 1) + "\"})")
+            }
+          }
         }
       }
     }
@@ -61,6 +81,9 @@ Item {
         id: text2InnerContent
         anchors.verticalCenter: parent.verticalCenter
         Text {
+          font.family: Theme.font
+          font.weight: Theme.fontWeight
+          font.pixelSize: Theme.fontSize
           text: "beans"
           color: Theme.text
         }

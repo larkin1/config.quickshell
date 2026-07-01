@@ -24,6 +24,7 @@ PanelWindow {
     innerMarginLR: root.innerMarginLR
     outerMarginU: root.outerMarginU
     barheight: root.barheight
+    bar: root
   }
 
   Item { Layout.fillWidth: true }

@@ -44,8 +44,12 @@ Item {
       Text {
         id: text1InnerContent
         anchors.centerIn: parent
-        text: "beans"
+        // text: "ERRR"
+        // text: cpuTracker.cpuUsage + "%"
         color: Theme.text
+        font.family: Theme.font
+        font.weight: Theme.fontWeight
+        font.pixelSize: Theme.fontSize
       }
     }
   }
@@ -85,6 +89,9 @@ Item {
         id: text2InnerContent
         anchors.centerIn: parent
         Text {
+          font.family: Theme.font
+          font.weight: Theme.fontWeight
+          font.pixelSize: Theme.fontSize
           text: ""
           color: Theme.crust
           Layout.topMargin: 1.5
@@ -129,6 +136,9 @@ Item {
         text: "ERROR" // same length as 00:00 for spacing; displays ERROR if the command doesn't run correctly
         anchors.centerIn: parent
         color: Theme.text
+        font.family: Theme.font
+        font.weight: Theme.fontWeight
+        font.pixelSize: Theme.fontSize
         Process {
           command: ["date", "+%H:%M"]
           running: true
