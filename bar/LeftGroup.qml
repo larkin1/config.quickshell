@@ -25,11 +25,12 @@ Item {
     }
 
     // Content
-    BorderL {
+    Border {
       background: "transparent"
       foreground: Theme.base
       Layout.leftMargin: root.innerMarginLR
       itemHeight: root.barheight
+      reversed: true
     }
 
     Rectangle { // Workspaces
@@ -55,11 +56,12 @@ Item {
       }
     }
 
-    BorderR {
+    Border {
       foreground: Theme.base
       background: Theme.mantle
       itemHeight: root.barheight
       outerMargin: root.innerMarginLR
+      reversed: false
     }
 
     Rectangle {
@@ -81,10 +83,11 @@ Item {
       }
     }
 
-    BorderR {
+    Border {
       foreground: Theme.mantle
       background: "transparent"
       itemHeight: root.barheight
+      reversed: false
     }
   }
 }

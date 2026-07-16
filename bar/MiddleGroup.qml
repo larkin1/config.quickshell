@@ -29,11 +29,12 @@ Item {
     }
 
     // Content
-    BorderL {
+    Border {
       background: "transparent"
       foreground: Theme.surface0
       itemHeight: root.barheight
       Layout.leftMargin: root.innerMarginLR
+      reversed: true
     }
 
     Rectangle {
@@ -67,16 +68,18 @@ Item {
       horizontalCenter: root.horizontalCenter
     }
 
-    BorderL {
+    Border {
       background: Theme.surface0
       foreground: "transparent"
       itemHeight: root.barheight
+      reversed: true
     }
 
-    BorderL {
+    Border {
       background: "transparent"
       foreground: Theme.mauve
       itemHeight: root.barheight
+      reversed: true
     }
 
 
@@ -101,16 +104,18 @@ Item {
       }
     }
 
-    BorderR {
+    Border {
       foreground: Theme.mauve
       background: "transparent"
       itemHeight: root.barheight
+      reversed: false
     }
 
-    BorderR {
+    Border {
       foreground: "transparent"
       background: Theme.surface0
       itemHeight: root.barheight
+      reversed: false
     }
   }
 
@@ -150,10 +155,11 @@ Item {
       }
     }
 
-    BorderR {
+    Border {
       foreground: Theme.surface0
       background: "transparent"
       itemHeight: root.barheight
+      reversed: false
     }
   }
 }

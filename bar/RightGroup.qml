@@ -30,10 +30,11 @@ Item {
     }
 
     // Content
-    BorderL {
+    Border {
       background: "transparent"
       foreground: Theme.mantle
       itemHeight: root.barheight
+      reversed: true
     }
 
     Rectangle {
@@ -55,10 +56,11 @@ Item {
       }
     }
 
-    BorderL {
+    Border {
       foreground: Theme.base
       background: Theme.mantle
       itemHeight: root.barheight
+      reversed: true
     }
 
     Rectangle {
@@ -82,17 +84,19 @@ Item {
       }
     }
 
-    BorderL {
+    Border {
       background: Theme.base
       foreground: Theme.surface0
       itemHeight: root.barheight
+      reversed: true
     }
 
-    BorderL {
+    Border {
       background: Theme.surface0
       foreground: "transparent"
       Layout.rightMargin: root.innerMarginLR * 0.2
       itemHeight: root.barheight
+      reversed: true
     }
 
     Rectangle {

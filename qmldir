@@ -3,6 +3,5 @@ LeftGroup bar/LeftGroup.qml
 RightGroup bar/RightGroup.qml
 MiddleGroup bar/MiddleGroup.qml
 Bar bar/Bar.qml
-BorderL lib/BorderL.qml
-BorderR lib/BorderR.qml
+Border lib/Border.qml
 Workspaces lib/widgets/Workspaces.qml
