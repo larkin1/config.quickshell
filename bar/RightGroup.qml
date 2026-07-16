@@ -1,6 +1,7 @@
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
+import ".."
 
 Item {
   id: root
@@ -39,7 +40,7 @@ Item {
       id: text1
       color: Theme.mantle
       Layout.fillHeight: true
-      width: text1InnerContent.implicitWidth
+      implicitWidth: text1InnerContent.implicitWidth
 
       RowLayout {
         id: text1InnerContent
@@ -64,7 +65,7 @@ Item {
       id: text2
       color: Theme.base
       Layout.fillHeight: true
-      width: text2InnerContent.implicitWidth + (root.innerMarginLR * 1.5)
+      implicitWidth: text2InnerContent.implicitWidth + (root.innerMarginLR * 1.5)
 
       Text {
         id: text2InnerContent
@@ -96,7 +97,7 @@ Item {
 
     Rectangle {
       id: powerButton
-      width: root.barheight
+      implicitWidth: root.barheight
       Layout.fillHeight: true
       radius: root.barheight / 2
       // color: powerHover.hovered ? Theme.surface1 : Theme.surface0

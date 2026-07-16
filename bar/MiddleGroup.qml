@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Io
+import ".."
 
 Item {
   id: root
@@ -39,7 +40,7 @@ Item {
       id: text1
       color: Theme.surface0
       Layout.fillHeight: true
-      width: text1InnerContent.implicitWidth + root.innerMarginLR
+      implicitWidth: text1InnerContent.implicitWidth + root.innerMarginLR
 
       Text {
         id: text1InnerContent
@@ -83,7 +84,7 @@ Item {
       id: text2
       color: Theme.mauve
       Layout.fillHeight: true
-      width: text2InnerContent.implicitWidth + root.innerMarginLR
+      implicitWidth: text2InnerContent.implicitWidth + root.innerMarginLR
 
       RowLayout {
         id: text2InnerContent
@@ -128,7 +129,7 @@ Item {
     Rectangle {
       id: text3
       color: Theme.surface0
-      width: clock.implicitWidth + root.innerMarginLR
+      implicitWidth: clock.implicitWidth + root.innerMarginLR
       Layout.fillHeight: true
 
       Text {
