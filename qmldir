@@ -5,3 +5,5 @@ MiddleGroup bar/MiddleGroup.qml
 Bar bar/Bar.qml
 Border lib/Border.qml
 Workspaces lib/widgets/Workspaces.qml
+Clock lib/widgets/Clock.qml
+Media lib/widgets/Media.qml

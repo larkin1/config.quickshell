@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Io
 import ".."
 
 Item {
@@ -10,7 +9,6 @@ Item {
   required property int innerMarginLR
   required property int barheight
 
-  // height: barheight
   implicitHeight: barheight
 
   anchors {
@@ -132,26 +130,18 @@ Item {
 
     // Content
     Rectangle {
-      id: text3
+      id: clockWidget
       color: Theme.surface0
       implicitWidth: clock.implicitWidth + root.innerMarginLR
       Layout.fillHeight: true
 
-      Text {
+      Clock {
         id: clock
-        text: "ERROR" // same length as 00:00 for spacing; displays ERROR if the command doesn't run correctly
+        fontSize: Theme.fontSize
+        fontWeight: Theme.fontWeight
+        fontFamily: Theme.font
+        fontColor: Theme.text
         anchors.centerIn: parent
-        color: Theme.text
-        font.family: Theme.font
-        font.weight: Theme.fontWeight
-        font.pixelSize: Theme.fontSize
-        Process {
-          command: ["date", "+%H:%M"]
-          running: true
-          stdout: StdioCollector { 
-            onStreamFinished: clock.text = this.text.trim()
-          }
-        }
       }
     }
 

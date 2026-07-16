@@ -1,7 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
-import Quickshell.Hyprland
 import ".."
 
 Item {
@@ -10,7 +8,6 @@ Item {
   required property int outerMarginU
   required property int innerMarginLR
   required property int barheight
-  required property PanelWindow bar
 
   implicitHeight: barheight
 
@@ -65,21 +62,18 @@ Item {
     }
 
     Rectangle {
-      id: text2
+      id: mediaWidget
       color: Theme.mantle
-      implicitWidth: text2InnerContent.implicitWidth
+      implicitWidth: media.implicitWidth
       Layout.fillHeight: true
 
-      RowLayout {
-        id: text2InnerContent
-        anchors.verticalCenter: parent.verticalCenter
-        Text {
-          font.family: Theme.font
-          font.weight: Theme.fontWeight
-          font.pixelSize: Theme.fontSize
-          text: "placeholder"
-          color: Theme.text
-        }
+      Media {
+        id: media
+        fontSize: Theme.fontSize
+        fontWeight: Theme.fontWeight
+        fontFamily: Theme.font
+        fontColor: Theme.text
+        anchors.centerIn: parent
       }
     }
 
