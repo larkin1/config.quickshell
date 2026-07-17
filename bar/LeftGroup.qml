@@ -1,5 +1,7 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
+import Quickshell.Services.Mpris
 import ".."
 
 Item {
@@ -46,7 +48,7 @@ Item {
       Workspaces {
         id: workspaces
         barheight: root.barheight
-        bGColor: Theme.base
+        bgColor: Theme.base
         activeBGColor: Theme.surface0
         inactiveTextColor: Theme.surface2
         activeTextColor: Theme.text
@@ -64,18 +66,25 @@ Item {
     Rectangle {
       id: mediaWidget
       color: Theme.mantle
-      implicitWidth: media.implicitWidth
       Layout.fillHeight: true
+      implicitWidth: media.implicitWidth
 
-      Media {
+      Behavior on implicitWidth {
+        SpringAnimation {
+          spring: 3
+          damping: 0.2
+        }
+      }
+
+      Mpris {
         id: media
-        fontSize: Theme.fontSize
-        fontWeight: Theme.fontWeight
-        fontFamily: Theme.font
-        fontColor: Theme.text
-        anchors.centerIn: parent
+        barheight: root.barheight
+        textColor: Theme.text
+        activeBGColor: Theme.surface1
+        bgColor: Theme.mantle
       }
     }
+
 
     Border {
       foreground: Theme.mantle

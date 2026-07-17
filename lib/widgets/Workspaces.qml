@@ -5,7 +5,7 @@ import "../.."
 
 Row {
   required property int barheight
-  required property color bGColor
+  required property color bgColor
   required property color activeBGColor
   required property color inactiveTextColor
   required property color activeTextColor
@@ -53,7 +53,7 @@ Row {
       Rectangle {
         width: parent.width - 3
         height: parent.height - 6
-        color: workspaceHover.hovered ? root.activeBGColor : root.bGColor
+        color: workspaceHover.hovered ? root.activeBGColor : root.bgColor
         radius: height/2
         anchors.centerIn: parent
         Behavior on color {
