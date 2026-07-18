@@ -14,7 +14,7 @@ Variants {
     property int innerMarginLR: 10
     property int outerMarginU: 10
     property int barheight: 26
-    
+
     anchors {
       top: true
       left: true
@@ -22,7 +22,7 @@ Variants {
     }
 
     color: "transparent"
-    
+
     implicitHeight: barheight + outerMarginU
 
     LeftGroup {

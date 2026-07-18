@@ -111,7 +111,7 @@ Item {
       // }
 
       Layout.rightMargin: root.innerMarginLR
-      
+
       Text {
         font.family: Theme.font
         font.weight: Theme.fontWeight

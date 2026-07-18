@@ -19,7 +19,7 @@ Text {
     id: dateproc
     command: ["date", "+%H:%M"]
     running: true
-    stdout: StdioCollector { 
+    stdout: StdioCollector {
       onStreamFinished: root.text = this.text.trim()
     }
   }

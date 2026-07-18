@@ -19,13 +19,13 @@ Row {
     model: Hyprland.workspaces
 
     // the weird ?s are to prevent some warnings from values being null at startup
-    property string windowMonitor: QsWindow.window?.screen.name ?? ""
+    property string windowMonitor: QsWindow.window?.screen.name ?? "" // qmllint disable missing-property
 
     Rectangle {
-      property var workspace: modelData
+      property var workspace: modelData // qmllint disable unqualified
 
       property string workspaceMonitor: workspace.monitor?.name ?? "" // ditto ^
-      property bool onCurrentMonitor: workspaceMonitor == workspacesRepeater.windowMonitor
+      property bool onCurrentMonitor: workspaceMonitor == workspacesRepeater.windowMonitor // qmllint disable unqualified
       property bool isActive: workspace.focused
 
       visible: onCurrentMonitor
@@ -42,18 +42,18 @@ Row {
 
       HoverHandler {
         id: workspaceHover
-        cursorShape: Qt.PointingHandCursor
       }
 
       MouseArea {
         anchors.fill: parent
         onClicked: Hyprland.dispatch("hl.dsp.focus({ workspace = " + parent.workspace.id + " })")
+        cursorShape: Qt.PointingHandCursor
       }
 
       Rectangle {
         width: parent.width - 3
         height: parent.height - 6
-        color: workspaceHover.hovered ? root.activeBGColor : root.bgColor
+        color: workspaceHover.hovered ? root.activeBGColor : root.bgColor // qmllint disable unqualified
         radius: height/2
         anchors.centerIn: parent
         Behavior on color {
@@ -67,7 +67,7 @@ Row {
         font.family: Theme.font
         font.weight: Theme.fontWeight
         font.pixelSize: Theme.fontSize
-        color: parent.isActive ? root.activeTextColor : root.inactiveTextColor
+        color: parent.isActive ? root.activeTextColor : root.inactiveTextColor // qmllint disable unqualified
         anchors.centerIn: parent
       }
     }
