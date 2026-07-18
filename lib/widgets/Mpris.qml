@@ -12,21 +12,33 @@ Item {
 
   anchors.verticalCenter: parent.verticalCenter
   height: barheight
-  implicitWidth: mediaWidget.implicitWidth
+  implicitWidth: currentPlayer ? mediaWidget.implicitWidth : 0
 
   property var currentPlayer: null
   property var playingList: null
 
   property var playerIcon: {
-    switch (currentPlayer.identity) {
+    switch (currentPlayer?.identity) {
       case "Mozilla firefox":
-        return "󰈹";
+        return {
+          icon:"󰈹",
+          color: Theme.peach
+        };
       case "Helium":
-        return "";
+        return {
+          icon:"",
+          color: Theme.sky
+        };
       case "Spotify":
-        return "";
+        return {
+          icon:"",
+          color: Theme.green
+        };
       default:
-        return "";
+        return {
+          icon:"",
+          color: Theme.sky
+        };
     }
   }
 
@@ -37,7 +49,7 @@ Item {
     function onRowsInserted() { root.updateCurrentPlayer() }
     function onRowsRemoved()  { root.updateCurrentPlayer() }
     function onModelReset()   { root.updateCurrentPlayer() }
-    function onDataChanged()  { root.updateCurrentPlayer() } // doesn't work for some reason, hence the timer below
+    function onDataChanged()  { root.updateCurrentPlayer() } // doesn't work reliably for some reason, hence the timer below
   }
 
   Timer {
@@ -50,8 +62,22 @@ Item {
   function updateCurrentPlayer() {
     let players = Mpris.players.values; // qmllint disable missing-property
 
+    if ( !players || players.length <= 1 ) { // it seems that there is always a "default" player, so we check if the list is <= 1
+      root.currentPlayer = null;
+      root.playingList = [];
+      return;
+    }
+
+    if (root.currentPlayer && !players.includes(root.currentPlayer)) {
+      root.currentPlayer = null;
+    }
+
     // keep a list of any players that are active globally
     let newPlayingList = players.filter( u => u.playbackState == MprisPlaybackState.Playing );
+
+    if ( !root.playingList ) {
+      playingList = newPlayingList;
+    }
 
     // if currentPlayer is null, and there is a player in the list, set that player as the current player.
     if ( !root.currentPlayer && players.length > 0 ) {
@@ -59,7 +85,7 @@ Item {
     }
 
     // if the currentPlayer pauses, drop back to a player that is playing
-    if (root.currentPlayer.playbackState != MprisPlaybackState.Playing && newPlayingList.length > 0) {
+    if (root.currentPlayer && root.currentPlayer.playbackState != MprisPlaybackState.Playing && newPlayingList.length > 0) {
       root.currentPlayer = newPlayingList[0];
     }
 
@@ -75,7 +101,7 @@ Item {
     root.playingList = newPlayingList;
   }
 
-  visible: currentPlayer !== null
+  visible: currentPlayer != null
 
   Rectangle {
     anchors.fill: parent
@@ -98,22 +124,37 @@ Item {
         font.weight: Theme.fontWeight
         font.pixelSize: Theme.fontSize
         color: root.textColor
-        text: (
-          root.playerIcon + " "
-          + (root.currentPlayer.playbackState == MprisPlaybackState.Playing ? " " : " ")
-          + root.currentPlayer.trackTitle
-          + (root.currentPlayer.trackArtist == "" ? "" : " - " + root.currentPlayer.trackArtist)
-        ) || "Unknown Title"
+        textFormat: Text.StyledText
+        text: {
+          const player = root.currentPlayer;
+          if (!player || !player.trackTitle) return "Unknown Title";
+
+          let result = "";
+
+          const icon = root.playerIcon
+          if (icon && icon.icon && icon.color) {
+            result += "<font color='" + root.playerIcon.color + "'>" + root.playerIcon.icon + "</font> ";
+          }
+
+          result += (root.currentPlayer.playbackState == MprisPlaybackState.Playing ? " " : " ")
+          result += root.currentPlayer.trackTitle;
+
+          if (player.trackArtist) {
+            result += " - " + player.trackArtist;
+          }
+
+          return result;
+        }
       }
 
       MouseArea {
-        visible: root.currentPlayer.canTogglePlaying
+        visible: root.currentPlayer?.canTogglePlaying ?? false
         anchors.fill: parent
         onClicked: {
           root.currentPlayer.togglePlaying()
           root.updateCurrentPlayer()
         }
-        cursorShape: root.currentPlayer.canTogglePlaying ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: root.currentPlayer?.canTogglePlaying ? Qt.PointingHandCursor : Qt.ArrowCursor
         onWheel: (wheel) => {
           if (wheel.angleDelta.y < 0) {
             root.currentPlayer.next()

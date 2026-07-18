@@ -85,7 +85,6 @@ Item {
       }
     }
 
-
     Border {
       foreground: Theme.mantle
       background: "transparent"

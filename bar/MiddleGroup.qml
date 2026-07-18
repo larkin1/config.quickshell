@@ -80,7 +80,6 @@ Item {
       reversed: true
     }
 
-
     Rectangle {
       id: text2
       color: Theme.mauve
