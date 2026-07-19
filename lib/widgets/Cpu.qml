@@ -42,7 +42,10 @@ Item {
     id: cpuText
     text: "󰍛 " + root.cpuUsage + "%"
     anchors.centerIn: parent
-    color: Theme.text
+    color: (root.cpuUsage > 75)? Theme.red : (
+           (root.cpuUsage > 50)? Theme.peach : (
+           (root.cpuUsage > 25)? Theme.yellow : Theme.text
+    ))
     font.family: Theme.font
     font.pixelSize: Theme.fontSize
     font.weight: Theme.fontWeight
