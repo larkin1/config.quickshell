@@ -8,3 +8,4 @@ Workspaces lib/widgets/Workspaces.qml
 Clock lib/widgets/Clock.qml
 Mpris lib/widgets/Mpris.qml
 Cpu lib/widgets/Cpu.qml
+Mem lib/widgets/Mem.qml

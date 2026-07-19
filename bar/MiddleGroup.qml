@@ -27,15 +27,31 @@ Item {
     }
 
     Border {
-      id: cpuborder
       background: "transparent"
-      foreground: Theme.surface0
+      foreground: Theme.base
       itemHeight: root.barheight
       reversed: true
     }
 
     Rectangle {
-      id: cpuRect
+      color: Theme.base
+      Layout.fillHeight: true
+      implicitWidth: mem.width + root.innerMarginLR
+      Mem {
+        id: mem
+        anchors.centerIn: parent
+      }
+    }
+
+    Border {
+      foreground: Theme.surface0
+      background: Theme.base
+      itemHeight: root.barheight
+      reversed: true
+    }
+
+
+    Rectangle {
       color: Theme.surface0
       Layout.fillHeight: true
       implicitWidth: cpu.width + root.innerMarginLR
@@ -44,6 +60,7 @@ Item {
         anchors.centerIn: parent
       }
     }
+
   }
 
   RowLayout {

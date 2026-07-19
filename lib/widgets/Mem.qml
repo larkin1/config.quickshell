@@ -8,24 +8,18 @@ Item {
 
   property int interval: 1000
 
-  property int cpuUsage: 0
-  property var lastCpuIdle: 0
-  property var lastCpuTotal: 0
+  property int memUsage: 0
 
   Process {
     id: proc
-    command: ["sh", "-c", "head -1 /proc/stat"]
+    command: ["sh", "-c", "free | grep Mem"]
     stdout: SplitParser {
       onRead: data => {
         if (!data) return
-        var p = data.trim().split(/\s+/)
-        var idle = parseInt(p[4]) + parseInt(p[5])
-        var total = p.slice(1, 8).reduce((a, b) => a + parseInt(b), 0)
-        if (root.lastCpuTotal > 0) {
-            root.cpuUsage = Math.round(100 * (1 - (idle - root.lastCpuIdle) / (total - root.lastCpuTotal)))
-        }
-        root.lastCpuTotal = total
-        root.lastCpuIdle = idle
+        var parts = data.trim().split(/\s+/)
+        var total = parseInt(parts[1]) || 1
+        var used = parseInt(parts[2]) || 0
+        root.memUsage = Math.round(100 * used / total)
       }
     }
   }
@@ -40,7 +34,7 @@ Item {
 
   Text {
     id: cpuText
-    text: "󰍛 " + root.cpuUsage + "%"
+    text: "󰘚 " + root.memUsage + "%"
     anchors.centerIn: parent
     color: Theme.text
     font.family: Theme.font
