@@ -26,30 +26,22 @@ Item {
       right: centerLayout.left
     }
 
-    // Content
     Border {
+      id: cpuborder
       background: "transparent"
       foreground: Theme.surface0
       itemHeight: root.barheight
-      Layout.leftMargin: root.innerMarginLR
       reversed: true
     }
 
     Rectangle {
-      id: text1
+      id: cpuRect
       color: Theme.surface0
       Layout.fillHeight: true
-      implicitWidth: text1InnerContent.implicitWidth + root.innerMarginLR
-
-      Text {
-        id: text1InnerContent
+      implicitWidth: cpu.width + root.innerMarginLR
+      Cpu {
+        id: cpu
         anchors.centerIn: parent
-        // text: "ERRR"
-        // text: cpuTracker.cpuUsage + "%"
-        color: Theme.text
-        font.family: Theme.font
-        font.weight: Theme.fontWeight
-        font.pixelSize: Theme.fontSize
       }
     }
   }
@@ -70,6 +62,7 @@ Item {
       background: Theme.surface0
       foreground: "transparent"
       itemHeight: root.barheight
+      outerMargin: 4
       reversed: true
     }
 
@@ -127,19 +120,14 @@ Item {
       left: centerLayout.right
     }
 
-    // Content
     Rectangle {
       id: clockWidget
       color: Theme.surface0
-      implicitWidth: clock.implicitWidth + root.innerMarginLR
       Layout.fillHeight: true
+      implicitWidth: clock.implicitWidth + root.innerMarginLR
 
       Clock {
         id: clock
-        fontSize: Theme.fontSize
-        fontWeight: Theme.fontWeight
-        fontFamily: Theme.font
-        fontColor: Theme.text
         anchors.centerIn: parent
       }
     }

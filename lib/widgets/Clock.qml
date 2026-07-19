@@ -1,35 +1,29 @@
 import QtQuick
-import Quickshell.Io
+import "../.."
 
-Text {
-  required property string fontFamily
-  required property int fontWeight
-  required property int fontSize
-  required property color fontColor
+Item {
+  id: root
+
   property int interval: 1000
 
-  id: root
-  text: "ERROR" // same length as 00:00 for spacing; displays ERROR if the command doesn't run correctly
-  color: fontColor
-  font.family: fontFamily
-  font.weight: fontWeight
-  font.pixelSize: fontSize
+  implicitWidth: clockText.implicitWidth
 
-  Process {
-    id: dateproc
-    command: ["date", "+%H:%M"]
-    running: true
-    stdout: StdioCollector {
-      onStreamFinished: root.text = this.text.trim()
-    }
+  Text {
+    id: clockText
+    text: Qt.formatDateTime(new Date(), "HH:mm")
+    anchors.centerIn: parent
+    color: Theme.text
+    font.family: Theme.font
+    font.pixelSize: Theme.fontSize
+    font.weight: Theme.fontWeight
   }
 
   Timer {
-    interval: interval
+    interval: root.interval
     running: true
     repeat: true
     onTriggered: {
-      dateproc.running = true
+      clockText.text = Qt.formatDateTime(new Date(), "HH:mm")
     }
   }
 }

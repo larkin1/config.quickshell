@@ -62,7 +62,7 @@ Item {
   function updateCurrentPlayer() {
     let players = Mpris.players.values; // qmllint disable missing-property
 
-    if ( !players || players.length <= 1 ) { // it seems that there is always a "default" player, so we check if the list is <= 1
+    if ( !players || players.length < 1 ) { // it seems that there is always a "default" player, so we check if the list is <= 1
       root.currentPlayer = null;
       root.playingList = [];
       return;
@@ -108,11 +108,12 @@ Item {
     color: root.bgColor
   }
 
-  Row {
-    id: mediaWidget
-    height: root.barheight
-
+  // Row {
+  //   id: mediaWidget
+  //   height: root.barheight
+  //
     Rectangle {
+      id: mediaWidget
       color: "transparent"
       implicitWidth: mediaText.implicitWidth
       height: root.barheight
@@ -127,7 +128,7 @@ Item {
         textFormat: Text.StyledText
         text: {
           const player = root.currentPlayer;
-          if (!player || !player.trackTitle) return "Unknown Title";
+          if (!player || !player.trackTitle) return "";
 
           let result = "";
 
@@ -171,5 +172,4 @@ Item {
         id: workspaceHover
       }
     }
-  }
 }
