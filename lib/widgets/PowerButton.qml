@@ -48,5 +48,26 @@ Item {
       id: powerHover
       cursorShape: Qt.PointingHandCursor
     }
+
+    PowerMenu {
+      id: powerMenu
+      visible: false
+    }
+
+    MouseArea {
+      id: mouse
+      anchors.fill: parent
+      onClicked: {
+        powerMenu.visible = !powerMenu.visible
+      }
+      cursorShape: Qt.PointingHandCursor
+      onWheel: (wheel) => {
+        if (wheel.angleDelta.y < 0) {
+        }
+        if (wheel.angleDelta.y > 0) {
+        }
+        wheel.accepted = true;
+      }
+    }
   }
 }

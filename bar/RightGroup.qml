@@ -54,7 +54,7 @@ Item {
       reversed: true
     }
 
-    Power {
+    PowerButton {
       id: power
       Layout.rightMargin: (Theme.horizMargin/1.5)
     }
