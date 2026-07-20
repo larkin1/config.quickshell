@@ -108,68 +108,67 @@ Item {
     color: root.bgColor
   }
 
-  // Row {
-  //   id: mediaWidget
-  //   height: root.barheight
-  //
-    Rectangle {
-      id: mediaWidget
-      color: "transparent"
-      implicitWidth: mediaText.implicitWidth
-      height: root.barheight
+  Rectangle {
+    id: mediaWidget
+    color: "transparent"
+    implicitWidth: mediaText.implicitWidth
+    height: root.barheight
 
-      Text {
-        id: mediaText
-        anchors.verticalCenter: parent.verticalCenter
-        font.family: Theme.font
-        font.weight: Theme.fontWeight
-        font.pixelSize: Theme.fontSize
-        color: root.textColor
-        textFormat: Text.StyledText
-        text: {
-          const player = root.currentPlayer;
-          if (!player || !player.trackTitle) return "";
+    Text {
+      id: mediaText
+      anchors.verticalCenter: parent.verticalCenter
+      width: parent.width
+      elide: Text.ElideRight
+      wrapMode: Text.NoWrap
+      font.family: Theme.font
+      font.weight: Theme.fontWeight
+      font.pixelSize: Theme.fontSize
+      color: root.textColor
+      textFormat: Text.StyledText
+      text: {
+        const player = root.currentPlayer;
+        if (!player || !player.trackTitle) return "";
 
-          let result = "";
+        let result = "";
 
-          const icon = root.playerIcon
-          if (icon && icon.icon && icon.color) {
-            result += "<font color='" + root.playerIcon.color + "'>" + root.playerIcon.icon + "</font> ";
-          }
-
-          result += (root.currentPlayer.playbackState == MprisPlaybackState.Playing ? " " : " ")
-          result += root.currentPlayer.trackTitle;
-
-          if (player.trackArtist) {
-            result += " - " + player.trackArtist;
-          }
-
-          return result;
+        const icon = root.playerIcon
+        if (icon && icon.icon && icon.color) {
+          result += "<font color='" + root.playerIcon.color + "'>" + root.playerIcon.icon + "</font> ";
         }
-      }
 
-      MouseArea {
-        visible: root.currentPlayer?.canTogglePlaying ?? false
-        anchors.fill: parent
-        onClicked: {
-          root.currentPlayer.togglePlaying()
-          root.updateCurrentPlayer()
-        }
-        cursorShape: root.currentPlayer?.canTogglePlaying ? Qt.PointingHandCursor : Qt.ArrowCursor
-        onWheel: (wheel) => {
-          if (wheel.angleDelta.y < 0) {
-            root.currentPlayer.next()
-          }
-          if (wheel.angleDelta.y > 0) {
-            root.currentPlayer.previous()
-          }
-          wheel.accepted = true;
-          root.updateCurrentPlayer()
-        }
-      }
+        result += (root.currentPlayer.playbackState == MprisPlaybackState.Playing ? " " : " ")
+        result += root.currentPlayer.trackTitle;
 
-      HoverHandler {
-        id: workspaceHover
+        if (player.trackArtist) {
+          result += " - " + player.trackArtist;
+        }
+
+        return result;
       }
     }
+
+    MouseArea {
+      visible: root.currentPlayer?.canTogglePlaying ?? false
+      anchors.fill: parent
+      onClicked: {
+        root.currentPlayer.togglePlaying()
+        root.updateCurrentPlayer()
+      }
+      cursorShape: root.currentPlayer?.canTogglePlaying ? Qt.PointingHandCursor : Qt.ArrowCursor
+      onWheel: (wheel) => {
+        if (wheel.angleDelta.y < 0) {
+          root.currentPlayer.next()
+        }
+        if (wheel.angleDelta.y > 0) {
+          root.currentPlayer.previous()
+        }
+        wheel.accepted = true;
+        root.updateCurrentPlayer()
+      }
+    }
+
+    HoverHandler {
+      id: workspaceHover
+    }
+  }
 }

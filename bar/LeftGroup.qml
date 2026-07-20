@@ -11,6 +11,8 @@ Item {
   required property int innerMarginLR
   required property int barheight
 
+  property real rightBoundary: 0
+
   implicitHeight: barheight
 
   RowLayout {
@@ -68,6 +70,9 @@ Item {
       color: Theme.mantle
       Layout.fillHeight: true
       implicitWidth: media.implicitWidth
+      clip: true
+
+      Layout.maximumWidth: Math.max(80, root.rightBoundary - mediaWidget.x - root.innerMarginLR)
 
       Behavior on implicitWidth {
         SpringAnimation {
@@ -78,6 +83,7 @@ Item {
 
       Mpris {
         id: media
+        width: parent.width
         barheight: root.barheight
         textColor: Theme.text
         activeBGColor: Theme.surface1

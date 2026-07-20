@@ -5,6 +5,8 @@ import ".."
 Item {
   id: root
 
+  readonly property real contentLeft: leftLayout.x
+
   required property int outerMarginU
   required property int innerMarginLR
   required property int barheight

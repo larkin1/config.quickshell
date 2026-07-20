@@ -30,6 +30,7 @@ Variants {
       innerMarginLR: root.innerMarginLR
       outerMarginU: root.outerMarginU
       barheight: root.barheight
+      rightBoundary: middleGroup.x + middleGroup.contentLeft - root.innerMarginLR
     }
 
     Item { Layout.fillWidth: true }
