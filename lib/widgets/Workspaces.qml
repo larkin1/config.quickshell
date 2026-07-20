@@ -20,7 +20,7 @@ Row {
     // the weird ?s are to prevent some warnings from values being null at startup
     property string windowMonitor: QsWindow.window?.screen.name ?? "" // qmllint disable missing-property
 
-    Rectangle {
+    delegate: Rectangle {
       property var workspace: modelData // qmllint disable unqualified
 
       property string workspaceMonitor: workspace.monitor?.name ?? "" // ditto ^
@@ -37,8 +37,8 @@ Row {
 
       Behavior on width {
         NumberAnimation {
-          duration: 200
-          easing.type: Easing.InOutQuad
+          duration: Theme.animationDuration
+          easing.type: Theme.animationEasing
         }
       }
 
@@ -59,7 +59,7 @@ Row {
         radius: height/2
         anchors.centerIn: parent
         Behavior on color {
-          ColorAnimation { duration: 200 }
+          ColorAnimation { duration: Theme.colorAnimationDuration }
         }
       }
 

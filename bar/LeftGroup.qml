@@ -61,9 +61,9 @@ Item {
       Layout.maximumWidth: Math.max(80, root.rightBoundary - mediaWidget.x - Theme.horizMargin)
 
       Behavior on implicitWidth {
-        SpringAnimation {
-          spring: 3
-          damping: 0.2
+        NumberAnimation {
+          duration: Theme.animationDuration
+          easing.type: Theme.animationEasing
         }
       }
 
