@@ -117,14 +117,12 @@ Item {
       foreground: Theme.mauve
       background: "transparent"
       itemHeight: root.barheight
-      reversed: false
     }
 
     Border {
       foreground: "transparent"
       background: Theme.surface0
       itemHeight: root.barheight
-      reversed: false
     }
   }
 
@@ -153,9 +151,28 @@ Item {
 
     Border {
       foreground: Theme.surface0
+      background: Theme.base
+      itemHeight: root.barheight
+    }
+
+    Rectangle {
+      id: dateWidget
+      color: Theme.base
+      Layout.fillHeight: true
+      implicitWidth: clock.implicitWidth + root.innerMarginLR
+
+      Clock {
+        id: date
+        anchors.centerIn: parent
+        timeStr: "MM-dd"
+        interval: 1000 * 60
+      }
+    }
+
+    Border {
+      foreground: Theme.base
       background: "transparent"
       itemHeight: root.barheight
-      reversed: false
     }
   }
 }

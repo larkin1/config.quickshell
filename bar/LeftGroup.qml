@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell.Services.Mpris
 import ".."
@@ -62,7 +61,6 @@ Item {
       background: Theme.mantle
       itemHeight: root.barheight
       outerMargin: root.innerMarginLR
-      reversed: false
     }
 
     Rectangle {
@@ -95,7 +93,6 @@ Item {
       foreground: Theme.mantle
       background: "transparent"
       itemHeight: root.barheight
-      reversed: false
     }
   }
 }

@@ -5,12 +5,13 @@ Item {
   id: root
 
   property int interval: 1000
+  property string timeStr: "HH:mm"
 
   implicitWidth: clockText.implicitWidth
 
   Text {
     id: clockText
-    text: Qt.formatDateTime(new Date(), "HH:mm")
+    text: Qt.formatDateTime(new Date(), root.timeStr)
     anchors.centerIn: parent
     color: Theme.text
     font.family: Theme.font
@@ -23,7 +24,7 @@ Item {
     running: true
     repeat: true
     onTriggered: {
-      clockText.text = Qt.formatDateTime(new Date(), "HH:mm")
+      clockText.text = Qt.formatDateTime(new Date(), root.timeStr)
     }
   }
 }

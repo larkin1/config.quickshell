@@ -6,7 +6,7 @@ Item {
   required property color foreground
   required property color background
   required property int itemHeight
-  required property bool reversed
+  property bool reversed: false
   property int outerMargin: 0
   property int arrowWidth: Math.round(root.height / 2)
   property int midY: Math.round(root.height / 2)
