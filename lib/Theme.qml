@@ -3,9 +3,9 @@ import QtQuick
 
 QtObject {
   // Base
-  readonly property color crust:   "#11111b"
-  readonly property color mantle:  "#181825"
-  readonly property color base:    "#1e1e2e"
+  readonly property color crust:    "#11111b"
+  readonly property color mantle:   "#181825"
+  readonly property color base:     "#1e1e2e"
   readonly property color surface0: "#313244"
   readonly property color surface1: "#45475a"
   readonly property color surface2: "#585b70"
@@ -14,7 +14,7 @@ QtObject {
   readonly property color overlay2: "#9399b2"
   readonly property color subtext0: "#a6adc8"
   readonly property color subtext1: "#bac2de"
-  readonly property color text:    "#cdd6f4"
+  readonly property color text:     "#cdd6f4"
 
   // Accent
   readonly property color rosewater: "#f5e0dc"

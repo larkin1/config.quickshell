@@ -14,16 +14,33 @@ Item {
     color: Theme.surface2
     anchors.centerIn: parent
 
-    StyledText {
-      anchors.fill: parent
-      horizontalAlignment: Text.AlignHCenter
-      verticalAlignment: Text.AlignVCenter
-      text: ""
+    Image {
+      id: iconInactive
+      anchors.centerIn: parent
+      width: parent.width * 0.55
+      height: width
+      sourceSize: Qt.size(width * 2, height * 2)
+      source: "../../svg/power-button-inactive.svg"
+      opacity: powerHover.hovered ? 0 : 1
+      Behavior on opacity {
+        NumberAnimation {
+          duration: Theme.colorAnimationDuration
+        }
+      }
+    }
 
-      color: powerHover.hovered ? Theme.red : Theme.text
-
-      Behavior on color {
-        ColorAnimation { duration: Theme.colorAnimationDuration }
+    Image {
+      id: iconActive
+      anchors.centerIn: parent
+      width: parent.width * 0.55
+      height: width
+      sourceSize: Qt.size(width * 2, height * 2)
+      source: "../../svg/power-button-active.svg"
+      opacity: powerHover.hovered ? 1 : 0
+      Behavior on opacity {
+        NumberAnimation {
+          duration: Theme.colorAnimationDuration
+        }
       }
     }
 
