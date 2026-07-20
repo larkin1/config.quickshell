@@ -1,33 +1,29 @@
 import QtQuick
-import QtQuick.Layouts
 import "../.."
 
 Item {
   id: root
+  implicitWidth: powerButton.width
+  height: Theme.barHeight
 
   Rectangle {
     id: powerButton
-    implicitWidth: Theme.barHeight
-    Layout.fillHeight: true
+    width: Theme.barHeight
+    height: Theme.barHeight
     radius: Theme.barHeight / 2
-    // color: powerHover.hovered ? Theme.surface1 : Theme.surface0
-    color: Theme.surface0
-    // Behavior on color {
-    //   ColorAnimation { duration: 200 }
-    // }
+    color: Theme.surface2
+    anchors.centerIn: parent
 
-    Layout.rightMargin: Theme.horizMargin
-
-    Text {
-      font.family: Theme.font
-      font.weight: Theme.fontWeight
-      font.pixelSize: Theme.fontSize
-      anchors.centerIn: parent
+    StyledText {
+      anchors.fill: parent
+      horizontalAlignment: Text.AlignHCenter
+      verticalAlignment: Text.AlignVCenter
       text: ""
 
       color: powerHover.hovered ? Theme.red : Theme.text
+
       Behavior on color {
-        ColorAnimation { duration: 200 }
+        ColorAnimation { duration: Theme.colorAnimationDuration }
       }
     }
 

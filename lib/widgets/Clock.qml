@@ -9,14 +9,10 @@ Item {
 
   implicitWidth: clockText.implicitWidth
 
-  Text {
+  StyledText {
     id: clockText
     text: Qt.formatDateTime(new Date(), root.timeStr)
     anchors.centerIn: parent
-    color: Theme.text
-    font.family: Theme.font
-    font.pixelSize: Theme.fontSize
-    font.weight: Theme.fontWeight
   }
 
   Timer {

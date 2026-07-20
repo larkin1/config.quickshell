@@ -54,5 +54,9 @@ Item {
       reversed: true
     }
 
+    Power {
+      id: power
+      Layout.rightMargin: (Theme.horizMargin/1.5)
+    }
   }
 }

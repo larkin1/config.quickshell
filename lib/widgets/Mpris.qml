@@ -113,16 +113,12 @@ Item {
     implicitWidth: mediaText.implicitWidth
     height: Theme.barHeight
 
-    Text {
+    StyledText {
       id: mediaText
       anchors.verticalCenter: parent.verticalCenter
       width: parent.width
       elide: Text.ElideRight
       wrapMode: Text.NoWrap
-      font.family: Theme.font
-      font.weight: Theme.fontWeight
-      font.pixelSize: Theme.fontSize
-      color: root.textColor
       textFormat: Text.StyledText
       text: {
         const player = root.currentPlayer;

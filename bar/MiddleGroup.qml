@@ -96,10 +96,8 @@ Item {
       RowLayout {
         id: text2InnerContent
         anchors.centerIn: parent
-        Text {
-          font.family: Theme.font
-          font.weight: Theme.fontWeight
-          font.pixelSize: Theme.fontSize
+        StyledText {
+          renderType: Text.QtRendering
           text: ""
           color: Theme.crust
           Layout.topMargin: 1.5

@@ -1,4 +1,5 @@
 singleton Theme lib/Theme.qml
+StyledText lib/defaults/StyledText.qml
 LeftGroup bar/LeftGroup.qml
 RightGroup bar/RightGroup.qml
 MiddleGroup bar/MiddleGroup.qml
@@ -9,3 +10,4 @@ Clock lib/widgets/Clock.qml
 Mpris lib/widgets/Mpris.qml
 Cpu lib/widgets/Cpu.qml
 Mem lib/widgets/Mem.qml
+Power lib/widgets/Power.qml

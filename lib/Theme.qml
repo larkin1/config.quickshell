@@ -36,14 +36,14 @@ QtObject {
   // Note: most of this config assumes a monospace font. Elements will likely break if a non-monospace font is used.
   readonly property string font: "JetBrainsMono Nerd Font"
   readonly property int fontSize: 14
-  readonly property int fontWeight: 600
+  readonly property int fontWeight: 650
 
   // Dimensions
   readonly property int horizMargin: 10
   readonly property int vertMargin: 10
   readonly property int barHeight: 26
 
-  // animations
+  // Animations
   readonly property int animationDuration: 200
   readonly property int colorAnimationDuration: 200
   readonly property var animationEasing: Easing.InOutQuad

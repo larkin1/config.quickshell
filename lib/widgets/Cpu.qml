@@ -38,7 +38,7 @@ Item {
     onTriggered: proc.running = true
   }
 
-  Text {
+  StyledText {
     id: cpuText
     text: "󰍛 " + root.cpuUsage + "%"
     anchors.centerIn: parent
@@ -46,8 +46,5 @@ Item {
            (root.cpuUsage > 50)? Theme.peach : (
            (root.cpuUsage > 25)? Theme.yellow : Theme.text
     ))
-    font.family: Theme.font
-    font.pixelSize: Theme.fontSize
-    font.weight: Theme.fontWeight
   }
 }

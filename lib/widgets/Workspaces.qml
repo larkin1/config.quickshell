@@ -63,12 +63,9 @@ Row {
         }
       }
 
-      Text {
+      StyledText {
         rightPadding: 2
         text: parent.isActive ? "-" + parent.workspace.id + "-" : parent.workspace.id
-        font.family: Theme.font
-        font.weight: Theme.fontWeight
-        font.pixelSize: Theme.fontSize
         color: parent.isActive ? root.activeTextColor : root.inactiveTextColor // qmllint disable unqualified
         anchors.centerIn: parent
       }
