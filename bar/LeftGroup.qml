@@ -6,13 +6,9 @@ import ".."
 Item {
   id: root
 
-  required property int outerMarginU
-  required property int innerMarginLR
-  required property int barheight
-
   property real rightBoundary: 0
 
-  implicitHeight: barheight
+  implicitHeight: Theme.barHeight
 
   RowLayout {
     id: innerLayout
@@ -20,7 +16,7 @@ Item {
 
     anchors {
       top: parent.top
-      topMargin: root.outerMarginU
+      topMargin: Theme.vertMargin
       bottom: parent.bottom
     }
 
@@ -28,8 +24,8 @@ Item {
     Border {
       background: "transparent"
       foreground: Theme.base
-      Layout.leftMargin: root.innerMarginLR
-      itemHeight: root.barheight
+      Layout.leftMargin: Theme.horizMargin
+      itemHeight: Theme.barHeight
       reversed: true
     }
 
@@ -39,16 +35,8 @@ Item {
       Layout.fillHeight: true
       implicitWidth: workspaces.implicitWidth
 
-      Behavior on implicitWidth {
-        SpringAnimation {
-          spring: 3
-          damping: 0.2
-        }
-      }
-
       Workspaces {
         id: workspaces
-        barheight: root.barheight
         bgColor: Theme.base
         activeBGColor: Theme.surface0
         inactiveTextColor: Theme.surface2
@@ -58,9 +46,9 @@ Item {
 
     Border {
       foreground: Theme.base
-      background: Theme.mantle
-      itemHeight: root.barheight
-      outerMargin: root.innerMarginLR
+      background: Theme.crust
+      itemHeight: Theme.barHeight
+      outerMargin: Theme.horizMargin
     }
 
     Rectangle {
@@ -70,7 +58,7 @@ Item {
       implicitWidth: media.implicitWidth
       clip: true
 
-      Layout.maximumWidth: Math.max(80, root.rightBoundary - mediaWidget.x - root.innerMarginLR)
+      Layout.maximumWidth: Math.max(80, root.rightBoundary - mediaWidget.x - Theme.horizMargin)
 
       Behavior on implicitWidth {
         SpringAnimation {
@@ -82,17 +70,16 @@ Item {
       Mpris {
         id: media
         width: parent.width
-        barheight: root.barheight
         textColor: Theme.text
         activeBGColor: Theme.surface1
-        bgColor: Theme.mantle
+        bgColor: Theme.crust
       }
     }
 
     Border {
-      foreground: Theme.mantle
+      foreground: Theme.crust
       background: "transparent"
-      itemHeight: root.barheight
+      itemHeight: Theme.barHeight
     }
   }
 }

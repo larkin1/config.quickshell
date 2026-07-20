@@ -7,11 +7,7 @@ Item {
 
   readonly property real contentLeft: leftLayout.x
 
-  required property int outerMarginU
-  required property int innerMarginLR
-  required property int barheight
-
-  implicitHeight: barheight
+  implicitHeight: Theme.barHeight
 
   anchors {
     horizontalCenter: parent.horizontalCenter
@@ -23,7 +19,7 @@ Item {
 
     anchors {
       top: parent.top
-      topMargin: root.outerMarginU
+      topMargin: Theme.vertMargin
       bottom: parent.bottom
       right: centerLayout.left
     }
@@ -31,14 +27,14 @@ Item {
     Border {
       background: "transparent"
       foreground: Theme.base
-      itemHeight: root.barheight
+      itemHeight: Theme.barHeight
       reversed: true
     }
 
     Rectangle {
       color: Theme.base
       Layout.fillHeight: true
-      implicitWidth: mem.width + root.innerMarginLR
+      implicitWidth: mem.width + Theme.horizMargin
       Mem {
         id: mem
         anchors.centerIn: parent
@@ -48,7 +44,7 @@ Item {
     Border {
       foreground: Theme.surface0
       background: Theme.base
-      itemHeight: root.barheight
+      itemHeight: Theme.barHeight
       reversed: true
     }
 
@@ -56,7 +52,7 @@ Item {
     Rectangle {
       color: Theme.surface0
       Layout.fillHeight: true
-      implicitWidth: cpu.width + root.innerMarginLR
+      implicitWidth: cpu.width + Theme.horizMargin
       Cpu {
         id: cpu
         anchors.centerIn: parent
@@ -68,27 +64,26 @@ Item {
   RowLayout {
     id: centerLayout
 
-    height: root.barheight
+    height: Theme.barHeight
     spacing: 0
 
     anchors {
       top: parent.top
-      topMargin: root.outerMarginU
+      topMargin: Theme.vertMargin
       horizontalCenter: root.horizontalCenter
     }
 
     Border {
       background: Theme.surface0
       foreground: "transparent"
-      itemHeight: root.barheight
-      outerMargin: 4
+      itemHeight: Theme.barHeight
       reversed: true
     }
 
     Border {
       background: "transparent"
       foreground: Theme.mauve
-      itemHeight: root.barheight
+      itemHeight: Theme.barHeight
       reversed: true
     }
 
@@ -96,7 +91,7 @@ Item {
       id: text2
       color: Theme.mauve
       Layout.fillHeight: true
-      implicitWidth: text2InnerContent.implicitWidth + root.innerMarginLR
+      implicitWidth: text2InnerContent.implicitWidth + Theme.horizMargin
 
       RowLayout {
         id: text2InnerContent
@@ -116,13 +111,13 @@ Item {
     Border {
       foreground: Theme.mauve
       background: "transparent"
-      itemHeight: root.barheight
+      itemHeight: Theme.barHeight
     }
 
     Border {
       foreground: "transparent"
       background: Theme.surface0
-      itemHeight: root.barheight
+      itemHeight: Theme.barHeight
     }
   }
 
@@ -132,7 +127,7 @@ Item {
 
     anchors {
       top: parent.top
-      topMargin: root.outerMarginU
+      topMargin: Theme.vertMargin
       bottom: parent.bottom
       left: centerLayout.right
     }
@@ -141,7 +136,7 @@ Item {
       id: clockWidget
       color: Theme.surface0
       Layout.fillHeight: true
-      implicitWidth: clock.implicitWidth + root.innerMarginLR
+      implicitWidth: clock.implicitWidth + Theme.horizMargin
 
       Clock {
         id: clock
@@ -152,14 +147,14 @@ Item {
     Border {
       foreground: Theme.surface0
       background: Theme.base
-      itemHeight: root.barheight
+      itemHeight: Theme.barHeight
     }
 
     Rectangle {
       id: dateWidget
       color: Theme.base
       Layout.fillHeight: true
-      implicitWidth: clock.implicitWidth + root.innerMarginLR
+      implicitWidth: clock.implicitWidth + Theme.horizMargin
 
       Clock {
         id: date
@@ -172,7 +167,7 @@ Item {
     Border {
       foreground: Theme.base
       background: "transparent"
-      itemHeight: root.barheight
+      itemHeight: Theme.barHeight
     }
   }
 }

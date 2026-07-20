@@ -5,13 +5,12 @@ import "../.."
 Item {
   id: root
 
-  required property int   barheight
   required property color textColor
   required property color bgColor
   required property color activeBGColor
 
   anchors.verticalCenter: parent.verticalCenter
-  height: barheight
+  height: Theme.barHeight
   implicitWidth: currentPlayer ? mediaWidget.implicitWidth : 0
 
   property var currentPlayer: null
@@ -112,7 +111,7 @@ Item {
     id: mediaWidget
     color: "transparent"
     implicitWidth: mediaText.implicitWidth
-    height: root.barheight
+    height: Theme.barHeight
 
     Text {
       id: mediaText

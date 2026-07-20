@@ -4,7 +4,6 @@ import Quickshell.Hyprland
 import "../.."
 
 Row {
-  required property int barheight
   required property color bgColor
   required property color activeBGColor
   required property color inactiveTextColor
@@ -12,7 +11,7 @@ Row {
 
   id: root
   anchors.verticalCenter: parent.verticalCenter
-  height: barheight
+  height: Theme.barHeight
 
   Repeater {
     id: workspacesRepeater
@@ -29,14 +28,17 @@ Row {
       property bool isActive: workspace.focused
 
       visible: onCurrentMonitor
-      width: isActive ? 50 : 30
       height: parent.height
       color: "transparent"
 
+      Component.onCompleted: {
+        width = Qt.binding(function() { return isActive ? 50 : 30 })
+      }
+
       Behavior on width {
-        SpringAnimation {
-          spring: 2
-          damping: 0.2
+        NumberAnimation {
+          duration: 200
+          easing.type: Easing.InOutQuad
         }
       }
 

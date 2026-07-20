@@ -11,10 +11,6 @@ Variants {
     property var modelData
     screen: modelData
 
-    property int innerMarginLR: 10
-    property int outerMarginU: 10
-    property int barheight: 26
-
     anchors {
       top: true
       left: true
@@ -23,32 +19,23 @@ Variants {
 
     color: "transparent"
 
-    implicitHeight: barheight + outerMarginU
+    implicitHeight: Theme.barHeight + Theme.vertMargin
 
     LeftGroup {
       id: leftGroup
-      innerMarginLR: root.innerMarginLR
-      outerMarginU: root.outerMarginU
-      barheight: root.barheight
-      rightBoundary: middleGroup.x + middleGroup.contentLeft - root.innerMarginLR
+      rightBoundary: middleGroup.x + middleGroup.contentLeft - Theme.horizMargin
     }
 
     Item { Layout.fillWidth: true }
 
     MiddleGroup {
       id: middleGroup
-      innerMarginLR: root.innerMarginLR
-      outerMarginU: root.outerMarginU
-      barheight: root.barheight
     }
 
     Item { Layout.fillWidth: true }
 
     RightGroup {
       id: rightGroup
-      innerMarginLR: root.innerMarginLR
-      outerMarginU: root.outerMarginU
-      barheight: root.barheight
       mainWindow: root
     }
 
