@@ -1,6 +1,4 @@
 import Quickshell
-import Quickshell.Widgets
-import Quickshell.Services.SystemTray
 import QtQuick
 import QtQuick.Layouts
 import ".."
@@ -49,51 +47,15 @@ Item {
     }
 
     Rectangle {
-      color: "orange"
-      implicitWidth: ee.implicitWidth
+      color: Theme.surface0
+      implicitWidth: tray.implicitWidth
       implicitHeight: Theme.barHeight
-      RowLayout {
-        id: ee
-        spacing: Theme.horizMargin / 2
-        Repeater {
-          model: SystemTray.items
-          delegate: Rectangle {
-            implicitWidth: chil.implicitWidth
-            implicitHeight: Theme.barHeight
-            color: "transparent"
-            IconImage {
-              id: chil
-              anchors.centerIn: parent
-              implicitSize: 20
-              mipmap: true
-              source: modelData.icon // qmllint disable unqualified
-            }
-            MouseArea {
-              onClicked: (button) => {
-                menu.visible = true
-                if (button.button === Qt.RightButton) {
-                  menu.visible = true
-                }
-              }
-            }
-
-            PopupWindow {
-              id: menu
-              visible: false
-              anchor.window: QsWindow.window
-              anchor.rect.x: 100
-              anchor.rect.y: 100
-              anchor.rect.width: 100
-              anchor.rect.height: 100
-              Rectangle {
-                anchors.fill: parent
-                color: "green"
-              }
-            }
-          }
-        }
+      Tray {
+        id: tray
+        anchors.centerIn: parent
       }
     }
+
 
     Border {
       background: Theme.surface0

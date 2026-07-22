@@ -1,1 +1,2 @@
+//@ pragma UseQApplication
 Bar { }
