@@ -7,17 +7,17 @@ import "../.."
 
 Item {
   id: root
+  property var window: QsWindow.window
   implicitWidth: tray.implicitWidth + Theme.horizMargin * 2
   implicitHeight: Theme.barHeight
   RowLayout {
     x: Theme.horizMargin/2
     id: tray
-    spacing: Theme.horizMargin / 2
+    spacing: 0
     Repeater {
       model: SystemTray.items
       delegate: Rectangle {
-        id: trangle
-        implicitWidth: icon.implicitWidth
+        implicitWidth: icon.implicitWidth + Theme.horizMargin / 2
         implicitHeight: Theme.barHeight
         color: "transparent"
         IconImage {
@@ -30,31 +30,36 @@ Item {
         }
         MouseArea {
           anchors.fill: parent
-          onClicked: {
-            trayMenu.visible = true;
-            if (modelData.menu) {
-              menu.menu = modelData.menu;
-              console.log(eee.menu)
-              menu.open();
-              // qmllint enable
+          acceptedButtons: Qt.LeftButton | Qt.RightButton
+          cursorShape: Qt.PointingHandCursor
+          onClicked: (mouse) => {
+            if (mouse.button == Qt.RightButton) {
+              // trayMenu.visible = true;
+              if (modelData.menu) {
+                menu.menu = modelData.menu;
+                menu.open();
+              }
+            } else {
+              if (!modelData.onlyMenu) {
+                modelData.activate()
+              } else {
+                // trayMenu.visible = true;
+                if (modelData.menu) {
+                  menu.menu = modelData.menu;
+                  menu.open();
+                }
+              }
             }
+            // qmllint enable
           }
         }
       }
     }
   }
-  PopupWindow {
-    id: trayMenu
-    visible: false
-    anchor.window: QsWindow.window
-    anchor.rect.x: root.x
-    anchor.rect.y: root.y + Theme.barHeight + Theme.vertMargin
-    color: "transparent"
-    QsMenuAnchor {
-      id: menu
-      anchor.window: QsWindow.window
-    }
-    anchor.rect.width: 0
-    anchor.rect.height: 0
+  QsMenuAnchor {
+    id: menu
+    anchor.window: root.window
+    anchor.rect.x: root.window?.width ?? 0
+    anchor.rect.y: root.window?.height ?? 0
   }
 }
