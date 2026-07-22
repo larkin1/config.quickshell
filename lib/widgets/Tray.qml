@@ -8,10 +8,16 @@ import "../.."
 Item {
   id: root
   property var window: QsWindow.window
-  implicitWidth: tray.implicitWidth + Theme.horizMargin * 2
+  implicitWidth: tray.implicitWidth + Theme.horizMargin
   implicitHeight: Theme.barHeight
+  clip: true
+  Behavior on implicitWidth {
+    NumberAnimation {
+      duration: Theme.animationDuration
+      easing: Theme.animationEasing
+    }
+  }
   RowLayout {
-    x: Theme.horizMargin/2
     id: tray
     spacing: 0
     Repeater {
@@ -34,7 +40,6 @@ Item {
           cursorShape: Qt.PointingHandCursor
           onClicked: (mouse) => {
             if (mouse.button == Qt.RightButton) {
-              // trayMenu.visible = true;
               if (modelData.menu) {
                 menu.menu = modelData.menu;
                 menu.open();
@@ -43,7 +48,6 @@ Item {
               if (!modelData.onlyMenu) {
                 modelData.activate()
               } else {
-                // trayMenu.visible = true;
                 if (modelData.menu) {
                   menu.menu = modelData.menu;
                   menu.open();
