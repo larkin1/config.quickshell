@@ -12,6 +12,7 @@ Row {
   id: root
   anchors.verticalCenter: parent.verticalCenter
   height: Theme.barHeight
+  clip: true
 
   Repeater {
     id: workspacesRepeater

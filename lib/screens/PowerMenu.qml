@@ -8,7 +8,57 @@ Item {
   readonly property real widthRatio: 1
   readonly property real heightRatio: 0.2
 
-  PanelWindow {
+  component PowerButton: Rectangle {
+    id: btn
+
+    property string btnText
+    property color baseColor
+    property color hoverColor
+    property int openDelay: 0
+    property bool expanded: false
+
+    color: baseColor
+    implicitWidth: expanded ? lbl.implicitWidth + 200 : 0
+    Layout.fillHeight: true
+
+    HoverHandler {
+      id: btnHover
+    }
+
+    Rectangle {
+      color: btnHover.hovered ? btn.hoverColor : btn.baseColor
+      implicitWidth: parent.width * 0.8
+      implicitHeight: parent.height * 0.8
+      radius: parent.height * 0.5
+      anchors.centerIn: parent
+      Behavior on color {
+        ColorAnimation {
+          duration: 200
+        }
+      }
+    }
+
+    StyledText {
+      id: lbl
+      text: btn.btnText
+      anchors.centerIn: parent
+      font.pixelSize: 40
+      font.weight: 800
+    }
+
+    Behavior on implicitWidth {
+      enabled: !btn.expanded
+      SequentialAnimation {
+        PauseAnimation { duration: btn.openDelay }
+        NumberAnimation {
+          duration: Theme.animationDuration
+          easing.type: Easing.InQuart
+        }
+      }
+    }
+  }
+
+  PanelWindow { //qmllint disable uncreatable-type
     id: windowRoot
 
     visible: root.visible
@@ -21,8 +71,7 @@ Item {
     implicitWidth: screenwidth * root.widthRatio
     implicitHeight: screenheight * root.heightRatio
 
-    margins.bottom: (screenheight - height) / 2
-    // margins.left: (screenwidth - width) / 2
+    margins.bottom: (screenheight - height) / 2 //qmllint disable
 
     anchors {
       bottom: true
@@ -32,8 +81,7 @@ Item {
     onScreenChanged: {
       windowRoot.implicitWidth = windowRoot.screenwidth * root.widthRatio
       windowRoot.implicitHeight = windowRoot.screenheight * root.heightRatio
-      // windowRoot.margins.left = (windowRoot.screenwidth - windowRoot.implicitWidth) / 2
-      windowRoot.margins.bottom = (windowRoot.screenheight - windowRoot.implicitHeight) / 2
+      windowRoot.margins.bottom = (windowRoot.screenheight - windowRoot.implicitHeight) / 2 //qmllint disable
     }
 
     RowLayout {
@@ -47,46 +95,12 @@ Item {
         reversed: true
       }
 
-      Rectangle {
-        color: Theme.surface0
-        implicitWidth: windowRoot.visible ? reboot.implicitWidth + 200 : 0
-        Layout.fillHeight: true
-
-        HoverHandler {
-          id: rebootHover
-        }
-
-        Rectangle {
-          color: rebootHover.hovered ? Theme.surface1 : Theme.surface0
-          implicitWidth: parent.width * 0.8
-          implicitHeight: parent.height * 0.8
-          radius: parent.height * 0.5
-          anchors.centerIn: parent
-          Behavior on color {
-            ColorAnimation {
-              duration: 200
-            }
-          }
-        }
-
-        StyledText {
-          id: reboot
-          text: "Reboot"
-          anchors.centerIn: parent
-          font.pixelSize: 40
-          font.weight: 800
-        }
-
-        Behavior on implicitWidth {
-          enabled: !windowRoot.visible
-          SequentialAnimation {
-            PauseAnimation { duration: 0 }
-            NumberAnimation {
-              duration: 200
-              easing.type: Easing.InQuart
-            }
-          }
-        }
+      PowerButton {
+        btnText: "reboot"
+        baseColor: Theme.surface0
+        hoverColor: Theme.surface1
+        openDelay: 0
+        expanded: windowRoot.visible
       }
 
       Border {
@@ -96,46 +110,12 @@ Item {
         reversed: false
       }
 
-      Rectangle {
-        color: Theme.base
-        implicitWidth: windowRoot.visible ? poweroff.implicitWidth + 200 : 0
-        Layout.fillHeight: true
-
-        HoverHandler {
-          id: poweroffHover
-        }
-
-        Rectangle {
-          color: poweroffHover.hovered ? Theme.surface0 : Theme.base
-          implicitWidth: parent.width * 0.8
-          implicitHeight: parent.height * 0.8
-          radius: parent.height * 0.5
-          anchors.centerIn: parent
-          Behavior on color {
-            ColorAnimation {
-              duration: 200
-            }
-          }
-        }
-
-        StyledText {
-          id: poweroff
-          text: "Poweroff"
-          anchors.centerIn: parent
-          font.pixelSize: 40
-          font.weight: 800
-        }
-
-        Behavior on implicitWidth {
-          enabled: !windowRoot.visible
-          SequentialAnimation {
-            PauseAnimation { duration: 200 }
-            NumberAnimation {
-              duration: 200
-              easing.type: Easing.InQuart
-            }
-          }
-        }
+      PowerButton {
+        btnText: "poweroff"
+        baseColor: Theme.base
+        hoverColor: Theme.surface0
+        openDelay: 250
+        expanded: windowRoot.visible
       }
 
       Border {
@@ -145,46 +125,12 @@ Item {
         reversed: false
       }
 
-      Rectangle {
-        color: Theme.mantle
-        implicitWidth: windowRoot.visible ? sleep.implicitWidth + 200 : 0
-        Layout.fillHeight: true
-
-        HoverHandler {
-          id: sleepHover
-        }
-
-        Rectangle {
-          color: sleepHover.hovered ? Theme.base : Theme.mantle
-          implicitWidth: parent.width * 0.8
-          implicitHeight: parent.height * 0.8
-          radius: parent.height * 0.5
-          anchors.centerIn: parent
-          Behavior on color {
-            ColorAnimation {
-              duration: 200
-            }
-          }
-        }
-
-        StyledText {
-          id: sleep
-          text: "Sleep"
-          anchors.centerIn: parent
-          font.pixelSize: 40
-          font.weight: 800
-        }
-
-        Behavior on implicitWidth {
-          enabled: !windowRoot.visible
-          SequentialAnimation {
-            PauseAnimation { duration: 400 }
-            NumberAnimation {
-              duration: 200
-              easing.type: Easing.InQuart
-            }
-          }
-        }
+      PowerButton {
+        btnText: "sleep"
+        baseColor: Theme.mantle
+        hoverColor: Theme.base
+        openDelay: 500
+        expanded: windowRoot.visible
       }
 
       Border {
@@ -195,4 +141,5 @@ Item {
       }
     }
   }
+
 }
