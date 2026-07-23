@@ -20,6 +20,7 @@ Item {
   RowLayout {
     id: tray
     spacing: 0
+    anchors.centerIn: parent
     Repeater {
       model: SystemTray.items
       delegate: Rectangle {

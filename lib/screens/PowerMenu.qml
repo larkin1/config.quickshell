@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Wayland
 import Quickshell.Hyprland
 import Quickshell.Widgets
 import "../.."
@@ -112,7 +113,12 @@ Item {
 
     visible: root.visible
 
-    color: "transparent"
+    color: Theme.backgroundBlur
+
+    WlrLayershell.namespace: "quickshell-blur" // you need to make a layer-rule in your hyprland config for this to work properly.
+    WlrLayershell.layer: WlrLayer.Top
+
+    exclusionMode: ExclusionMode.Ignore
 
     property string screenwidth: QsWindow.window?.screen.width ?? "" // qmllint disable missing-property
     property string screenheight: QsWindow.window?.screen.height ?? "" // qmllint disable missing-property
@@ -132,7 +138,7 @@ Item {
       id: content
       spacing: 0
       anchors.centerIn: parent
-      implicitHeight: 100
+      implicitHeight: 150
 
       focus: true
       Keys.onPressed: event => {

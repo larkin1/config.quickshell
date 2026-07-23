@@ -56,7 +56,6 @@ Item {
       }
     }
 
-
     Border {
       background: Theme.surface0
       foreground: "transparent"
