@@ -29,7 +29,7 @@ Item {
         IconImage {
           id: icon
           anchors.centerIn: parent
-          implicitSize: 20
+          implicitSize: Theme.iconSize
           mipmap: true
           // qmllint disable unqualified
           source: modelData.icon

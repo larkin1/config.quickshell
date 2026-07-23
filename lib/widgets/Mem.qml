@@ -1,10 +1,12 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell.Io
+import Quickshell.Widgets
 import "../.."
 
 Item {
   id: root
-  implicitWidth: cpuText.implicitWidth
+  implicitWidth: memRow.implicitWidth
 
   property int interval: 1000
 
@@ -32,14 +34,25 @@ Item {
     onTriggered: proc.running = true
   }
 
-  StyledText {
-    id: cpuText
-    text: "󰘚 " + root.memUsage + "%"
+  RowLayout {
+    id: memRow
+    height: Theme.barHeight
     anchors.centerIn: parent
-    // color: Theme.text
-    color: (root.memUsage > 90)? Theme.red : (
-           (root.memUsage > 75)? Theme.peach : (
-           (root.memUsage > 50)? Theme.yellow : Theme.text
-    ))
+
+    IconImage {
+      id: memIcon
+      implicitSize: Theme.iconSize
+      mipmap: true
+      source: Qt.resolvedUrl("../../svg/memory.svg")
+    }
+
+    StyledText {
+      id: memText
+      text: root.memUsage + "%"
+      color: (root.memUsage > 90)? Theme.red : (
+             (root.memUsage > 75)? Theme.peach : (
+             (root.memUsage > 50)? Theme.yellow : Theme.text
+      ))
+    }
   }
 }

@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell.Widgets
 import "../.."
 
 Item {
@@ -14,13 +15,12 @@ Item {
     color: Theme.surface2
     anchors.centerIn: parent
 
-    Image {
+    IconImage {
       id: iconInactive
       anchors.centerIn: parent
-      width: parent.width * 0.55
-      height: width
-      sourceSize: Qt.size(width * 2, height * 2)
-      source: "../../svg/power-button-inactive.svg"
+      implicitSize: Theme.iconSize
+      mipmap: true
+      source: Qt.resolvedUrl("../../svg/power-button-inactive.svg")
       opacity: powerHover.hovered ? 0 : 1
       Behavior on opacity {
         NumberAnimation {
@@ -29,13 +29,12 @@ Item {
       }
     }
 
-    Image {
+    IconImage {
       id: iconActive
       anchors.centerIn: parent
-      width: parent.width * 0.55
-      height: width
-      sourceSize: Qt.size(width * 2, height * 2)
-      source: "../../svg/power-button-active.svg"
+      implicitSize: Theme.iconSize
+      mipmap: true
+      source: Qt.resolvedUrl("../../svg/power-button-active.svg")
       opacity: powerHover.hovered ? 1 : 0
       Behavior on opacity {
         NumberAnimation {

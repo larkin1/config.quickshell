@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Widgets
 import ".."
 
 Item {
@@ -91,18 +92,14 @@ Item {
       id: text2
       color: Theme.mauve
       Layout.fillHeight: true
-      implicitWidth: text2InnerContent.implicitWidth + Theme.horizMargin
+      implicitWidth: nixIcon.implicitWidth + Theme.horizMargin
 
-      RowLayout {
-        id: text2InnerContent
+      IconImage {
+        id: nixIcon
         anchors.centerIn: parent
-        StyledText {
-          renderType: Text.QtRendering
-          text: ""
-          color: Theme.crust
-          Layout.topMargin: 1.5
-          scale: 1.1
-        }
+        implicitSize: Theme.iconSize
+        mipmap: true
+        source: Qt.resolvedUrl("../svg/nix.svg")
       }
     }
 

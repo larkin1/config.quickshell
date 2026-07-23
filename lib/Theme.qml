@@ -42,6 +42,7 @@ QtObject {
   readonly property int horizMargin: 10
   readonly property int vertMargin: 10
   readonly property int barHeight: 26
+  readonly property int iconSize: 18
 
   // Animations
   readonly property int animationDuration: 200

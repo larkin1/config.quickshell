@@ -1,10 +1,12 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell.Io
+import Quickshell.Widgets
 import "../.."
 
 Item {
   id: root
-  implicitWidth: cpuText.implicitWidth
+  implicitWidth: cpuRow.implicitWidth
 
   property int interval: 1000
 
@@ -38,13 +40,25 @@ Item {
     onTriggered: proc.running = true
   }
 
-  StyledText {
-    id: cpuText
-    text: "󰍛 " + root.cpuUsage + "%"
+  RowLayout {
+    id: cpuRow
+    height: Theme.barHeight
     anchors.centerIn: parent
-    color: (root.cpuUsage > 75)? Theme.red : (
-           (root.cpuUsage > 50)? Theme.peach : (
-           (root.cpuUsage > 25)? Theme.yellow : Theme.text
-    ))
+
+    IconImage {
+      id: cpuIcon
+      implicitSize: Theme.iconSize
+      mipmap: true
+      source: Qt.resolvedUrl("../../svg/cpu.svg")
+    }
+
+    StyledText {
+      id: cpuText
+      text: root.cpuUsage + "%"
+      color: (root.cpuUsage > 75)? Theme.red : (
+             (root.cpuUsage > 50)? Theme.peach : (
+             (root.cpuUsage > 25)? Theme.yellow : Theme.text
+      ))
+    }
   }
 }
