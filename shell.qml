@@ -1,4 +1,4 @@
-//@ pragma UseQApplication
+import QtQuick
 
 Bar {
   property var _pm: PowerMenu

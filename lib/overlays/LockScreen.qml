@@ -14,7 +14,6 @@ Item {
   Variants {
     id: vars
     model: Quickshell.screens
-    property bool locked: false
 
     PanelWindow { // qmllint disable uncreatable-type
       id: root
@@ -23,7 +22,7 @@ Item {
       property var modelData
       screen: modelData
 
-      visible: vars.locked
+      visible: controller.locked
 
       // WlrLayershell.namespace: "quickshell-blur" // you need to make a layer-rule in your hyprland config for this to work properly.
       WlrLayershell.layer: WlrLayer.Top
@@ -80,5 +79,3 @@ Item {
     }
   }
 }
-
-

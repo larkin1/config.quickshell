@@ -98,7 +98,7 @@ Item {
       id: power
       Layout.rightMargin: (Theme.horizMargin/1.5)
       onClicked: {
-        LockScreen.visible = true
+        PowerMenu.visible = true
       }
     }
   }

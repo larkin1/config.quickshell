@@ -165,7 +165,7 @@ PanelWindow { //qmllint disable uncreatable-type
 
   onVisibleChanged: {
     if (visible) {
-      poweroff.forceActiveFocus()
+      placeholder.forceActiveFocus()
       grab.active = true;
     }
   }
@@ -188,6 +188,13 @@ PanelWindow { //qmllint disable uncreatable-type
       foreground: Theme.surface0
       itemHeight: parent.height
       reversed: true
+    }
+
+    PowerButton {
+      id: placeholder
+      focusRight: poweroff
+      focusLeft: lock
+      visible: false
     }
 
     PowerButton {
