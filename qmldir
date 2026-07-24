@@ -13,4 +13,4 @@ Cpu lib/widgets/Cpu.qml
 Mem lib/widgets/Mem.qml
 Tray lib/widgets/Tray.qml
 PowerButton lib/widgets/PowerButton.qml
-PowerMenu lib/screens/PowerMenu.qml
+PowerMenu lib/overlays/PowerMenu.qml

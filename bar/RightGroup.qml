@@ -76,6 +76,11 @@ Item {
     PowerButton {
       id: power
       Layout.rightMargin: (Theme.horizMargin/1.5)
+      onClicked: powerMenu.visible = true
+    }
+
+    PowerMenu {
+      id: powerMenu
     }
   }
 }

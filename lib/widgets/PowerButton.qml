@@ -4,6 +4,8 @@ import "../.."
 
 Item {
   id: root
+  signal clicked()
+
   implicitWidth: powerButton.width
   height: Theme.barHeight
 
@@ -48,25 +50,11 @@ Item {
       cursorShape: Qt.PointingHandCursor
     }
 
-    PowerMenu {
-      id: powerMenu
-      visible: false
-    }
-
     MouseArea {
       id: mouse
       anchors.fill: parent
-      onClicked: {
-        powerMenu.visible = !powerMenu.visible
-      }
+      onClicked: root.clicked()
       cursorShape: Qt.PointingHandCursor
-      onWheel: (wheel) => {
-        if (wheel.angleDelta.y < 0) {
-        }
-        if (wheel.angleDelta.y > 0) {
-        }
-        wheel.accepted = true;
-      }
     }
   }
 }
