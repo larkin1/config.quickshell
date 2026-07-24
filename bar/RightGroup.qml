@@ -32,6 +32,15 @@ Item {
       reversed: true
     }
 
+    Rectangle {
+      implicitWidth: outVol.implicitWidth
+      implicitHeight: Theme.barHeight
+      color: Theme.crust
+      OutVol {
+        id: outVol
+      }
+    }
+
     Border {
       foreground: Theme.base
       background: Theme.crust
