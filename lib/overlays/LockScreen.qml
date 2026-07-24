@@ -1,31 +1,31 @@
 pragma Singleton
 import QtQuick
 import Quickshell
-import Quickshell.Services.Pam
+// import Quickshell.Services.Pam
 import Quickshell.Wayland
-import Quickshell.Hyprland
+// import Quickshell.Hyprland
 import Quickshell.Io
 import "../.."
 
-Item {
-  id: controller
+Scope {
+  id: root
   property bool locked: false
 
   Variants {
-    id: vars
+    id: variantHost
     model: Quickshell.screens
 
     PanelWindow { // qmllint disable uncreatable-type
-      id: root
+      id: win
       color: Theme.backgroundBlur
 
       property var modelData
       screen: modelData
 
-      visible: controller.locked
+      visible: LockScreen.locked
 
-      // WlrLayershell.namespace: "quickshell-blur" // you need to make a layer-rule in your hyprland config for this to work properly.
-      WlrLayershell.layer: WlrLayer.Top
+      WlrLayershell.namespace: "quickshell-blur" // you need to make a layer-rule in your hyprland config for this to work properly.
+      WlrLayershell.layer: WlrLayer.Overlay
       exclusionMode: ExclusionMode.Ignore
 
       anchors {
@@ -36,15 +36,33 @@ Item {
       }
 
       mask: Region {
-        item: content
+        item: background
       }
 
       onVisibleChanged: {
         if (visible) {
           content.forceActiveFocus()
-          grab.active = true
-        } else {
-          grab.active = false
+        }
+      }
+
+      focusable: true
+
+      Rectangle {
+        id: background
+        anchors.fill: parent
+        color: "transparent"
+        MouseArea {
+          anchors.fill: parent
+          onClicked: {
+            LockScreen.locked = false
+          }
+        }
+        Keys.onPressed: event => {
+          if (event.key === Qt.Key_Escape) {
+            console.log("ee")
+            LockScreen.locked = false
+            event.accepted = true;
+          }
         }
       }
 
@@ -53,29 +71,34 @@ Item {
         anchors.centerIn: parent
         implicitWidth: 100
         implicitHeight: 100
+        MouseArea {
+          anchors.fill: parent
+        }
         Keys.onPressed: event => {
           if (event.key === Qt.Key_Escape) {
-            controller.locked = false
+            console.log("ee")
+            LockScreen.locked = false
             event.accepted = true;
           }
         }
       }
 
-      HyprlandFocusGrab {
-        id: grab
-        windows: [root]
-      }
 
-      Connections {
-        target: grab
-        function onCleared() {controller.locked = false}
-      }
+      // HyprlandFocusGrab {
+      //   id: grab
+      //   windows: [root]
+      // }
+      //
+      // Connections {
+      //   target: grab
+      //   function onCleared() {LockScreen.locked = false}
+      // }
     }
   }
   IpcHandler {
     target: "lockScreen"
     function activate(): void {
-      controller.locked = true;
+      root.locked = true;
     }
   }
 }
