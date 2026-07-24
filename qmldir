@@ -1,10 +1,10 @@
 singleton Theme lib/Theme.qml
-StyledText lib/defaults/StyledText.qml
 LeftGroup bar/LeftGroup.qml
 RightGroup bar/RightGroup.qml
 MiddleGroup bar/MiddleGroup.qml
 Bar bar/Bar.qml
-Border lib/Border.qml
+StyledText lib/components/StyledText.qml
+Border lib/components/Border.qml
 Workspaces lib/widgets/Workspaces.qml
 Clock lib/widgets/Clock.qml
 Mpris lib/widgets/Mpris.qml
