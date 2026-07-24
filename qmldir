@@ -1,5 +1,6 @@
 singleton Theme lib/Theme.qml
 singleton PowerMenu lib/overlays/PowerMenu.qml
+singleton LockScreen lib/overlays/LockScreen.qml
 LeftGroup bar/LeftGroup.qml
 RightGroup bar/RightGroup.qml
 MiddleGroup bar/MiddleGroup.qml
