@@ -33,11 +33,32 @@ Item {
     }
 
     Rectangle {
+      implicitWidth: (micHover.hovered || outVolHover.hovered) ? mic.implicitWidth : 0
+      implicitHeight: Theme.barHeight
+      color: Theme.crust
+      HoverHandler {
+        id: micHover
+      }
+      Mic {
+        id: mic
+      }
+      Behavior on implicitWidth {
+        NumberAnimation {
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
+        }
+      }
+    }
+
+    Rectangle {
       implicitWidth: outVol.implicitWidth
       implicitHeight: Theme.barHeight
       color: Theme.crust
       OutVol {
         id: outVol
+      }
+      HoverHandler {
+        id: outVolHover
       }
     }
 

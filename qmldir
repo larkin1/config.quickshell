@@ -10,6 +10,7 @@ Workspaces lib/widgets/Workspaces.qml
 Clock lib/widgets/Clock.qml
 Mpris lib/widgets/Mpris.qml
 OutVol lib/widgets/OutVol.qml
+Mic lib/widgets/Mic.qml
 Cpu lib/widgets/Cpu.qml
 Mem lib/widgets/Mem.qml
 Tray lib/widgets/Tray.qml
