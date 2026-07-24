@@ -9,14 +9,11 @@ import "../.."
 
 PanelWindow { //qmllint disable uncreatable-type
   id: root
-
   visible: false
-
   color: Theme.backgroundBlur
 
   WlrLayershell.namespace: "quickshell-blur" // you need to make a layer-rule in your hyprland config for this to work properly.
   WlrLayershell.layer: WlrLayer.Top
-
   exclusionMode: ExclusionMode.Ignore
 
   anchors {
@@ -40,7 +37,6 @@ PanelWindow { //qmllint disable uncreatable-type
   component PowerButton: Rectangle {
     id: btn
 
-    // property string btnText
     property string activeBtnPath
     property string inactiveBtnPath
     property var command
@@ -48,6 +44,8 @@ PanelWindow { //qmllint disable uncreatable-type
     property color hoverColor
     property int openDelay: 0
     property bool expanded: false
+    property Item focusLeft: null
+    property Item focusRight: null
 
     color: baseColor
     implicitWidth: expanded ? height : 0
@@ -62,12 +60,39 @@ PanelWindow { //qmllint disable uncreatable-type
       anchors.fill: parent
       cursorShape: Qt.PointingHandCursor
       onClicked: {
+        btn.run()
+      }
+    }
+
+    function run() {
+      if (btn.command !== undefined && btn.command !== null) {
         Quickshell.execDetached(btn.command)
       }
     }
 
+    Keys.onPressed: event => {
+      switch (event.key) {
+        case Qt.Key_H:
+        case Qt.Key_Left:
+          if (focusLeft) focusLeft.forceActiveFocus();
+          event.accepted = true;
+          break;
+        case Qt.Key_L:
+        case Qt.Key_Right:
+          if (focusRight) focusRight.forceActiveFocus();
+          event.accepted = true;
+          break;
+        case Qt.Key_Return:
+        case Qt.Key_Enter:
+        case Qt.Key_Space:
+          run();
+          event.accepted = true;
+          break;
+      }
+    }
+
     Rectangle {
-      color: btnHover.hovered ? btn.hoverColor : btn.baseColor
+      color: (btnHover.hovered || btn.activeFocus) ? btn.hoverColor : btn.baseColor
       implicitWidth: parent.width * 0.8
       implicitHeight: parent.height * 0.8
       radius: parent.height * 0.2
@@ -85,7 +110,7 @@ PanelWindow { //qmllint disable uncreatable-type
       implicitSize: btn.height * 0.5
       mipmap: true
       source: Qt.resolvedUrl(btn.inactiveBtnPath)
-      opacity: btnHover.hovered ? 0 : 1
+      opacity: (btnHover.hovered || btn.activeFocus) ? 0 : 1
       Behavior on opacity {
         NumberAnimation {
           duration: Theme.colorAnimationDuration
@@ -99,7 +124,7 @@ PanelWindow { //qmllint disable uncreatable-type
       implicitSize: btn.height * 0.5
       mipmap: true
       source: Qt.resolvedUrl(btn.activeBtnPath)
-      opacity: btnHover.hovered ? 1 : 0
+      opacity: (btnHover.hovered || btn.activeFocus) ? 1 : 0
       Behavior on opacity {
         NumberAnimation {
           duration: Theme.colorAnimationDuration
@@ -137,13 +162,19 @@ PanelWindow { //qmllint disable uncreatable-type
     }
   }
 
+  onVisibleChanged: {
+    if (visible) {
+      poweroff.forceActiveFocus()
+      grab.active = true;
+    }
+  }
+
   RowLayout {
     id: content
     spacing: 0
     anchors.centerIn: parent
     implicitHeight: 150
 
-    focus: true
     Keys.onPressed: event => {
       if (event.key === Qt.Key_Escape) {
         root.visible = false;
@@ -167,6 +198,8 @@ PanelWindow { //qmllint disable uncreatable-type
       hoverColor: Theme.surface1
       openDelay: 0
       expanded: root.visible
+      focusLeft: lock
+      focusRight: reboot
     }
 
     Border {
@@ -185,6 +218,8 @@ PanelWindow { //qmllint disable uncreatable-type
       hoverColor: Theme.surface0
       openDelay: 250
       expanded: root.visible
+      focusLeft: poweroff
+      focusRight: sleep
     }
 
     Border {
@@ -203,6 +238,8 @@ PanelWindow { //qmllint disable uncreatable-type
       hoverColor: Theme.base
       openDelay: 500
       expanded: root.visible
+      focusLeft: reboot
+      focusRight: lock
     }
 
     Border {
@@ -220,6 +257,8 @@ PanelWindow { //qmllint disable uncreatable-type
       hoverColor: Theme.mantle
       openDelay: 750
       expanded: root.visible
+      focusLeft: sleep
+      focusRight: poweroff
     }
 
     Border {
@@ -234,7 +273,6 @@ PanelWindow { //qmllint disable uncreatable-type
     id: grab
     windows: [root]
   }
-  onVisibleChanged: if (visible) grab.active = true;
 
   Connections {
     target: grab
