@@ -1,4 +1,5 @@
 singleton Theme lib/Theme.qml
+singleton PowerMenu lib/overlays/PowerMenu.qml
 LeftGroup bar/LeftGroup.qml
 RightGroup bar/RightGroup.qml
 MiddleGroup bar/MiddleGroup.qml
@@ -13,4 +14,3 @@ Cpu lib/widgets/Cpu.qml
 Mem lib/widgets/Mem.qml
 Tray lib/widgets/Tray.qml
 PowerButton lib/widgets/PowerButton.qml
-PowerMenu lib/overlays/PowerMenu.qml

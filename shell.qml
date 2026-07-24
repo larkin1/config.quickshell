@@ -1,2 +1,5 @@
 //@ pragma UseQApplication
-Bar { }
+
+Bar {
+  property var _pm: PowerMenu
+}
