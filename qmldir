@@ -16,3 +16,4 @@ Cpu lib/widgets/Cpu.qml
 Mem lib/widgets/Mem.qml
 Tray lib/widgets/Tray.qml
 PowerButton lib/widgets/PowerButton.qml
+PasswordField lib/widgets/PasswordField.qml

@@ -1,104 +1,93 @@
 pragma Singleton
 import QtQuick
 import Quickshell
-// import Quickshell.Services.Pam
+import Quickshell.Services.Pam
 import Quickshell.Wayland
-// import Quickshell.Hyprland
 import Quickshell.Io
 import "../.."
 
 Scope {
   id: root
-  property bool locked: false
 
-  Variants {
-    id: variantHost
-    model: Quickshell.screens
+  function lock() {
+    pam.start()
+    lock.locked = true
+    password = ""
+  }
+  function unlock() {
+    lock.locked = false
+  }
+  function submit(pw) {
+    if (!pam.active) {
+      pam.start()
+    }
+    authFailed = false
+    pam.respond(pw)
+  }
 
-    PanelWindow { // qmllint disable uncreatable-type
-      id: win
-      color: Theme.backgroundBlur
+  property string password: ""
+  property bool authFailed: false
+  property bool authenticating: false
 
-      property var modelData
-      screen: modelData
+  WlSessionLock {
+    id: lock
+    locked: false
 
-      visible: LockScreen.locked
-
-      WlrLayershell.namespace: "quickshell-blur" // you need to make a layer-rule in your hyprland config for this to work properly.
-      WlrLayershell.layer: WlrLayer.Overlay
-      exclusionMode: ExclusionMode.Ignore
-
-      anchors {
-        top: true
-        bottom: true
-        left: true
-        right: true
-      }
-
-      mask: Region {
-        item: background
-      }
-
-      onVisibleChanged: {
-        if (visible) {
-          content.forceActiveFocus()
-        }
-      }
-
-      focusable: true
+    WlSessionLockSurface {
+      color: Theme.crust
 
       Rectangle {
-        id: background
-        anchors.fill: parent
+        id: inputs
+
         color: "transparent"
-        MouseArea {
-          anchors.fill: parent
-          onClicked: {
-            LockScreen.locked = false
-          }
-        }
-        Keys.onPressed: event => {
-          if (event.key === Qt.Key_Escape) {
-            console.log("ee")
-            LockScreen.locked = false
-            event.accepted = true;
-          }
-        }
-      }
-
-      Rectangle {
-        id: content
-        anchors.centerIn: parent
-        implicitWidth: 100
         implicitHeight: 100
-        MouseArea {
-          anchors.fill: parent
-        }
-        Keys.onPressed: event => {
-          if (event.key === Qt.Key_Escape) {
-            console.log("ee")
-            LockScreen.locked = false
-            event.accepted = true;
+        implicitWidth: 200
+
+        anchors.centerIn: parent
+
+        PasswordField {
+          anchors.centerIn: parent
+          id: passwordField
+          text: LockScreen.password
+          onTextEdited: {LockScreen.password = text}
+          error: LockScreen.authFailed
+          authenticating: LockScreen.authenticating
+
+          onAccepted: {
+            LockScreen.authenticating = true
+            LockScreen.submit(text)
+          }
+
+          Timer {
+            interval: 50
+            running: true
+            onTriggered: passwordField.forceActiveFocus()
           }
         }
       }
-
-
-      // HyprlandFocusGrab {
-      //   id: grab
-      //   windows: [root]
-      // }
-      //
-      // Connections {
-      //   target: grab
-      //   function onCleared() {LockScreen.locked = false}
-      // }
     }
   }
+
+  PamContext {
+    id: pam
+    config: "login"
+    onCompleted: result => {
+      if (result === PamResult.Success) {
+        root.unlock()
+        root.authenticating = false
+      } else {
+        pam.start()
+        root.password = ""
+        root.authFailed = true
+        root.authenticating = false
+      }
+    }
+  }
+
   IpcHandler {
     target: "lockScreen"
-    function activate(): void {
-      root.locked = true;
+    function lock(): void {
+      root.lock()
     }
   }
 }

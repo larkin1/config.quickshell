@@ -38,6 +38,8 @@ PanelWindow { //qmllint disable uncreatable-type
   component PowerButton: Rectangle {
     id: btn
 
+    signal clicked()
+
     property string activeBtnPath
     property string inactiveBtnPath
     property var command
@@ -66,6 +68,7 @@ PanelWindow { //qmllint disable uncreatable-type
     }
 
     function run() {
+      btn.clicked()
       if (btn.command !== undefined && btn.command !== null) {
         Quickshell.execDetached(btn.command)
       }
@@ -267,6 +270,10 @@ PanelWindow { //qmllint disable uncreatable-type
       expanded: root.visible
       focusLeft: sleep
       focusRight: poweroff
+
+      onClicked: {
+        LockScreen.lock()
+      }
     }
 
     Border {
