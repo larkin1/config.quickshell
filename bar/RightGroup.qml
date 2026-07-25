@@ -30,35 +30,43 @@ Item {
       foreground: Theme.crust
       itemHeight: Theme.barHeight
       reversed: true
+      HoverHandler {
+        id: audioHoverInit
+      }
     }
 
     Rectangle {
-      implicitWidth: (micHover.hovered || outVolHover.hovered) ? mic.implicitWidth : 0
+      implicitWidth: (audioHoverInit.hovered || audioHover.hovered) ? audio.implicitWidth : 0
       implicitHeight: Theme.barHeight
       color: Theme.crust
+      clip: true
+
+      RowLayout {
+        id: audio
+        anchors.centerIn: parent
+        opacity: (audioHoverInit.hovered || audioHover.hovered) ? 1 : 0
+        Mic {
+          id: mic
+        }
+        OutVol {
+          id: outVol
+        }
+        Behavior on opacity {
+          NumberAnimation {
+            duration: Theme.animationDuration
+          }
+        }
+      }
+
       HoverHandler {
-        id: micHover
+        id: audioHover
       }
-      Mic {
-        id: mic
-      }
+
       Behavior on implicitWidth {
         NumberAnimation {
           duration: Theme.animationDuration
           easing: Theme.animationEasing
         }
-      }
-    }
-
-    Rectangle {
-      implicitWidth: outVol.implicitWidth
-      implicitHeight: Theme.barHeight
-      color: Theme.crust
-      OutVol {
-        id: outVol
-      }
-      HoverHandler {
-        id: outVolHover
       }
     }
 
@@ -74,15 +82,36 @@ Item {
       foreground: Theme.surface0
       itemHeight: Theme.barHeight
       reversed: true
+      HoverHandler { id: trayHoverInit }
     }
 
     Rectangle {
+      id: trayRect
+      clip: true
       color: Theme.surface0
-      implicitWidth: tray.implicitWidth
+      implicitWidth: (trayHoverInit.hovered || trayHover.hovered ) ? tray.implicitWidth : 0
       implicitHeight: Theme.barHeight
+
       Tray {
         id: tray
         anchors.centerIn: parent
+        opacity: (trayHoverInit.hovered || trayHover.hovered ) ? 1 : 0
+        Behavior on opacity {
+          NumberAnimation {
+            duration: Theme.animationDuration
+          }
+        }
+      }
+
+      HoverHandler {
+        id: trayHover
+      }
+
+      Behavior on implicitWidth {
+        NumberAnimation {
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
+        }
       }
     }
 
