@@ -35,8 +35,7 @@ QtObject {
   readonly property color backgroundBlur: Qt.alpha(mantle, 0.7)
 
   // Fonts
-  // Note: most of this config assumes a monospace font. Elements will likely break if a non-monospace font is used.
-  readonly property string font: "JetBrainsMono Nerd Font"
+  readonly property string font: "JetBrainsMonoNL Nerd Font"
   readonly property int fontSize: 14
   readonly property int fontWeight: 650
 
