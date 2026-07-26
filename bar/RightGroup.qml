@@ -36,6 +36,8 @@ Item {
     }
 
     Rectangle {
+      // TODO: Make this popout when a change happend (sink changes or volume changes)
+
       implicitWidth: (audioHoverInit.hovered || audioHover.hovered) ? audio.implicitWidth : 0
       implicitHeight: Theme.barHeight
       color: Theme.crust
@@ -86,6 +88,8 @@ Item {
     }
 
     Rectangle {
+      // TODO: Make this popout when a change happend (Item is removed or added)
+
       id: trayRect
       clip: true
       color: Theme.surface0
