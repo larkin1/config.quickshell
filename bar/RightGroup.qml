@@ -65,14 +65,14 @@ Item {
           id: mic
           onChanged: {
             audioRect.change = true
-            audioChangeWaiter.start()
+            audioChangeWaiter.restart()
           }
         }
         OutVol {
           id: outVol
           onChanged: {
             audioRect.change = true
-            audioChangeWaiter.start()
+            audioChangeWaiter.restart()
           }
         }
         Behavior on opacity {
@@ -154,7 +154,7 @@ Item {
           ? 1 : 0
         onChanged: {
           trayRect.change = true
-          trayChangeWaiter.start()
+          trayChangeWaiter.restart()
         }
         Behavior on opacity {
           SequentialAnimation {
