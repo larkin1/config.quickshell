@@ -54,8 +54,13 @@ Item {
           id: outVol
         }
         Behavior on opacity {
-          NumberAnimation {
-            duration: Theme.animationDuration
+          SequentialAnimation {
+            PauseAnimation {
+              duration: audio.opacity == 1 ? Theme.collapseTimeout : 0
+            }
+            NumberAnimation {
+              duration: Theme.animationDuration
+            }
           }
         }
       }
@@ -65,9 +70,14 @@ Item {
       }
 
       Behavior on implicitWidth {
-        NumberAnimation {
-          duration: Theme.animationDuration
-          easing: Theme.animationEasing
+        SequentialAnimation {
+          PauseAnimation {
+            duration: audio.opacity == 1 ? Theme.collapseTimeout : 0
+          }
+          NumberAnimation {
+            duration: Theme.animationDuration
+            easing: Theme.animationEasing
+          }
         }
       }
     }
@@ -101,8 +111,13 @@ Item {
         anchors.centerIn: parent
         opacity: (trayHoverInit.hovered || trayHover.hovered ) ? 1 : 0
         Behavior on opacity {
-          NumberAnimation {
-            duration: Theme.animationDuration
+          SequentialAnimation {
+            PauseAnimation {
+              duration: tray.opacity == 1 ? Theme.collapseTimeout : 0
+            }
+            NumberAnimation {
+              duration: Theme.animationDuration
+            }
           }
         }
       }
@@ -112,9 +127,13 @@ Item {
       }
 
       Behavior on implicitWidth {
-        NumberAnimation {
-          duration: Theme.animationDuration
-          easing: Theme.animationEasing
+        SequentialAnimation {
+          PauseAnimation {
+            duration: tray.opacity == 1 ? Theme.collapseTimeout : 0
+          }
+          NumberAnimation {
+            duration: Theme.animationDuration
+          }
         }
       }
     }
