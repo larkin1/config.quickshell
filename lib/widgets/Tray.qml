@@ -7,22 +7,19 @@ import "../.."
 
 Item {
   id: root
+  signal changed()
   property var window: QsWindow.window
   implicitWidth: tray.implicitWidth + Theme.horizMargin
   implicitHeight: Theme.barHeight
   clip: true
-  Behavior on implicitWidth {
-    NumberAnimation {
-      duration: Theme.animationDuration
-      easing: Theme.animationEasing
-    }
-  }
   RowLayout {
     id: tray
     spacing: 0
     anchors.centerIn: parent
     Repeater {
       model: SystemTray.items
+      onItemAdded: {root.changed()}
+      onItemRemoved: {root.changed()}
       delegate: Rectangle {
         implicitWidth: icon.implicitWidth + Theme.horizMargin / 2
         implicitHeight: Theme.barHeight

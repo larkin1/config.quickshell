@@ -41,14 +41,16 @@ Item {
       property bool change: false
 
       Timer {
-        id: changeWaiter
+        id: audioChangeWaiter
         interval: Theme.collapseTimeout
         onTriggered: {
           audioRect.change = false
         }
       }
 
-      implicitWidth: (audioHoverInit.hovered || audioHover.hovered || audioRect.change) ? audio.implicitWidth : 0
+      implicitWidth:
+        (audioHoverInit.hovered || audioHover.hovered || audioRect.change)
+        ? audio.implicitWidth : 0
       implicitHeight: Theme.barHeight
       color: Theme.crust
       clip: true
@@ -56,25 +58,29 @@ Item {
       RowLayout {
         id: audio
         anchors.centerIn: parent
-        opacity: (audioHoverInit.hovered || audioHover.hovered || audioRect.change) ? 1 : 0
+        opacity:
+          (audioHoverInit.hovered || audioHover.hovered || audioRect.change)
+          ? 1 : 0
         Mic {
           id: mic
           onChanged: {
             audioRect.change = true
-            changeWaiter.start()
+            audioChangeWaiter.start()
           }
         }
         OutVol {
           id: outVol
           onChanged: {
             audioRect.change = true
-            changeWaiter.start()
+            audioChangeWaiter.start()
           }
         }
         Behavior on opacity {
           SequentialAnimation {
             PauseAnimation {
-              duration: audio.opacity == 1 ? Theme.collapseTimeout : 0
+              duration:
+                (audioHoverInit.hovered || audioHover.hovered)
+                ? Theme.collapseTimeout : 0
             }
             NumberAnimation {
               duration: Theme.animationDuration
@@ -90,7 +96,9 @@ Item {
       Behavior on implicitWidth {
         SequentialAnimation {
           PauseAnimation {
-            duration: audio.opacity == 1 ? Theme.collapseTimeout : 0
+            duration:
+                (audioHoverInit.hovered || audioHover.hovered)
+                ? Theme.collapseTimeout : 0
           }
           NumberAnimation {
             duration: Theme.animationDuration
@@ -116,22 +124,44 @@ Item {
     }
 
     Rectangle {
-      // TODO: Make this popout when a change happend (Item is removed or added)
-
       id: trayRect
+
       clip: true
       color: Theme.surface0
-      implicitWidth: (trayHoverInit.hovered || trayHover.hovered ) ? tray.implicitWidth : 0
       implicitHeight: Theme.barHeight
+      implicitWidth:
+        (trayHoverInit.hovered || trayHover.hovered || trayRect.change)
+        ? tray.implicitWidth : 0
+
+      HoverHandler {
+        id: trayHover
+      }
+
+      property bool change: false
+
+      Timer {
+        id: trayChangeWaiter
+        interval: Theme.collapseTimeout
+        onTriggered: {
+          trayRect.change = false
+        }
+      }
 
       Tray {
         id: tray
-        anchors.centerIn: parent
-        opacity: (trayHoverInit.hovered || trayHover.hovered ) ? 1 : 0
+        opacity:
+          (trayHoverInit.hovered || trayHover.hovered || trayRect.change)
+          ? 1 : 0
+        onChanged: {
+          trayRect.change = true
+          trayChangeWaiter.start()
+        }
         Behavior on opacity {
           SequentialAnimation {
             PauseAnimation {
-              duration: tray.opacity == 1 ? Theme.collapseTimeout : 0
+              duration:
+                (trayHoverInit.hovered || trayHover.hovered)
+                ? Theme.collapseTimeout : 0
             }
             NumberAnimation {
               duration: Theme.animationDuration
@@ -140,14 +170,12 @@ Item {
         }
       }
 
-      HoverHandler {
-        id: trayHover
-      }
-
       Behavior on implicitWidth {
         SequentialAnimation {
           PauseAnimation {
-            duration: tray.opacity == 1 ? Theme.collapseTimeout : 0
+            duration:
+              (trayHoverInit.hovered || trayHover.hovered)
+              ? Theme.collapseTimeout : 0
           }
           NumberAnimation {
             duration: Theme.animationDuration
