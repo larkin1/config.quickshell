@@ -27,7 +27,7 @@ Item {
 
     Border {
       background: "transparent"
-      foreground: Theme.crust
+      foreground: Theme.mantle
       itemHeight: Theme.barHeight
       reversed: true
       HoverHandler {
@@ -52,7 +52,7 @@ Item {
         (audioHoverInit.hovered || audioHover.hovered || audioRect.change)
         ? audio.implicitWidth : 0
       implicitHeight: Theme.barHeight
-      color: Theme.crust
+      color: Theme.mantle
       clip: true
 
       RowLayout {
@@ -110,7 +110,7 @@ Item {
 
     Border {
       foreground: Theme.base
-      background: Theme.crust
+      background: Theme.mantle
       itemHeight: Theme.barHeight
       reversed: true
     }

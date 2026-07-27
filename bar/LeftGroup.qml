@@ -46,7 +46,7 @@ Item {
 
     Border {
       foreground: Theme.base
-      background: Theme.crust
+      background: Theme.mantle
       itemHeight: Theme.barHeight
       outerMargin: Theme.horizMargin
     }
@@ -72,12 +72,12 @@ Item {
         width: parent.width
         textColor: Theme.text
         activeBGColor: Theme.surface1
-        bgColor: Theme.crust
+        bgColor: Theme.mantle
       }
     }
 
     Border {
-      foreground: Theme.crust
+      foreground: Theme.mantle
       background: "transparent"
       itemHeight: Theme.barHeight
     }
