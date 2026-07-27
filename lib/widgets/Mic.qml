@@ -8,6 +8,8 @@ Item {
   implicitWidth: micIcon.implicitWidth + Theme.horizMargin
   implicitHeight: Theme.barHeight
 
+  signal changed()
+
   readonly property var source: Pipewire.defaultAudioSource
 
   PwObjectTracker {
@@ -21,6 +23,7 @@ Item {
     anchors.centerIn: parent
     mipmap: true
     source: root.source?.audio.muted ? Qt.resolvedUrl("../../svg/mic-inactive.svg") : Qt.resolvedUrl("../../svg/mic-active.svg")
+    onSourceChanged: { root.changed() }
   }
 
   MouseArea {

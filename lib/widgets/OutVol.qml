@@ -9,6 +9,8 @@ Item {
   implicitWidth: vollayout.implicitWidth + Theme.horizMargin
   implicitHeight: Theme.barHeight
 
+  signal changed()
+
   readonly property var sink: Pipewire.defaultAudioSink
 
   function sinkIconType(node) {
@@ -56,11 +58,13 @@ Item {
       implicitSize: Theme.fontSize
       mipmap: true
       source: Qt.resolvedUrl(root.sinkIconType(root.sink))
+      onSourceChanged: { root.changed() }
     }
     StyledText {
       id: vol
       text: (root.sink && root.sink.audio) ? Math.round(root.sink.audio.volume * 100) + "%" : "-%"
       color: root.sink?.audio.muted ? Theme.surface2 : Theme.text
+      onTextChanged: { root.changed() }
     }
   }
 

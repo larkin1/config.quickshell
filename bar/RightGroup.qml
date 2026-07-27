@@ -36,9 +36,19 @@ Item {
     }
 
     Rectangle {
-      // TODO: Make this popout when a change happend (sink changes or volume changes)
+      id: audioRect
 
-      implicitWidth: (audioHoverInit.hovered || audioHover.hovered) ? audio.implicitWidth : 0
+      property bool change: false
+
+      Timer {
+        id: changeWaiter
+        interval: Theme.collapseTimeout
+        onTriggered: {
+          audioRect.change = false
+        }
+      }
+
+      implicitWidth: (audioHoverInit.hovered || audioHover.hovered || audioRect.change) ? audio.implicitWidth : 0
       implicitHeight: Theme.barHeight
       color: Theme.crust
       clip: true
@@ -46,12 +56,20 @@ Item {
       RowLayout {
         id: audio
         anchors.centerIn: parent
-        opacity: (audioHoverInit.hovered || audioHover.hovered) ? 1 : 0
+        opacity: (audioHoverInit.hovered || audioHover.hovered || audioRect.change) ? 1 : 0
         Mic {
           id: mic
+          onChanged: {
+            audioRect.change = true
+            changeWaiter.start()
+          }
         }
         OutVol {
           id: outVol
+          onChanged: {
+            audioRect.change = true
+            changeWaiter.start()
+          }
         }
         Behavior on opacity {
           SequentialAnimation {
