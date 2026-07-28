@@ -1,12 +1,13 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Widgets
 import ".."
 
 Item {
   id: root
 
   readonly property real contentLeft: leftLayout.x
+
+  property bool multiButtonExpanded: multiButton.expanded
 
   implicitHeight: Theme.barHeight
 
@@ -88,19 +89,8 @@ Item {
       reversed: true
     }
 
-    Rectangle {
-      id: text2
-      color: Theme.mauve
-      Layout.fillHeight: true
-      implicitWidth: nixIcon.implicitWidth + Theme.horizMargin
-
-      IconImage {
-        id: nixIcon
-        anchors.centerIn: parent
-        implicitSize: Theme.iconSize
-        mipmap: true
-        source: Qt.resolvedUrl("../svg/nix.svg")
-      }
+    MultiButton {
+      id: multiButton
     }
 
     Border {

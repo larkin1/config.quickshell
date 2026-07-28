@@ -6,7 +6,7 @@ import ".."
 Variants {
   model: Quickshell.screens
 
-  PanelWindow {
+  PanelWindow { // qmllint disable uncreatable-type
     id: root
     property var modelData
     screen: modelData
@@ -24,6 +24,14 @@ Variants {
     LeftGroup {
       id: leftGroup
       rightBoundary: middleGroup.x + middleGroup.contentLeft - Theme.horizMargin
+
+      opacity: middleGroup.multiButtonExpanded ? 0 : 1
+      Behavior on opacity {
+        NumberAnimation {
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
+        }
+      }
     }
 
     Item { Layout.fillWidth: true }
@@ -36,8 +44,14 @@ Variants {
 
     RightGroup {
       id: rightGroup
-      mainWindow: root
-    }
 
+      opacity: middleGroup.multiButtonExpanded ? 0 : 1
+      Behavior on opacity {
+        NumberAnimation {
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
+        }
+      }
+    }
   }
 }

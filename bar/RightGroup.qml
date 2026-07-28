@@ -1,12 +1,9 @@
-import Quickshell
 import QtQuick
 import QtQuick.Layouts
 import ".."
 
 Item {
   id: root
-
-  required property PanelWindow mainWindow
 
   implicitHeight: Theme.barHeight
 
