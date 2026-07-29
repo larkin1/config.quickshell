@@ -7,17 +7,18 @@ Item {
   required property bool activated
   anchors.centerIn: parent
 
+  property int segmentWidth: 25
+  implicitHeight: 20
+
   property real p: activated ? 1 : 0
 
   Behavior on p {
     NumberAnimation { duration: Theme.animationDuration; easing: Easing.OutQuad }
   }
 
-  implicitHeight: 20
-
-  readonly property real leftW:   p <= 0.5 ? p * 10 : 5 + (p - 0.5) * 30
-  readonly property real middleW: p <= 0.5 ? p * 20 : (1 - p) * 20
-  readonly property real rightW:  p <= 0.5 ? 20 - p * 30 : (1 - p) * 10
+  readonly property real leftW:   p <= 0.5 ? p * (segmentWidth/2) : (segmentWidth/4) + (p - 0.5) * (segmentWidth*1.5)
+  readonly property real middleW: p <= 0.5 ? p * segmentWidth : (1 - p) * segmentWidth
+  readonly property real rightW:  p <= 0.5 ? segmentWidth - p * (segmentWidth*1.5) : (1 - p) * (segmentWidth/2)
 
   RowLayout {
     spacing: 0

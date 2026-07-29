@@ -1,12 +1,14 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
-import Quickshell.Wayland
 import "../.."
 
 Item {
   id: root
   property var window: QsWindow.window
   property alias hovered: windowHover.hovered
+
+  signal closed()
 
   implicitWidth: parent.width
   x: parent.x
@@ -21,7 +23,6 @@ Item {
     id: window
 
     visible: root.visible
-    // color: implicitHeight <= 1 ? "transparent" : Theme.mantle
     color: "transparent"
 
     anchor.item: root
@@ -31,13 +32,21 @@ Item {
     implicitWidth: root.width
     implicitHeight: 1
 
+    grabFocus: true
+
+    onVisibleChanged: {
+      if (!visible) {
+        root.closed()
+      }
+    }
+
     Rectangle {
       anchors.fill: parent
       color: Theme.backgroundBlur
       bottomLeftRadius: 10
       bottomRightRadius: 10
     }
-    Switch {
+    Toggle {
       id: toggle
       activated: true
       anchors.centerIn: parent
@@ -48,6 +57,9 @@ Item {
       onClicked: {
         toggle.activated = !toggle.activated
       }
+    }
+
+    ColumnLayout {
     }
 
     HoverHandler {

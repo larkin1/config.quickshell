@@ -18,7 +18,7 @@ Item {
     }
   }
 
-  NotificationCenter {
+  MultiCenter {
     id: noCent
     anchors.fill: parent
     onHoveredChanged: {
@@ -27,6 +27,9 @@ Item {
       } else {
         root.delayedCollapse()
       }
+    }
+    onClosed: {
+      root.collapse()
     }
   }
 
