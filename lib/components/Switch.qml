@@ -25,43 +25,43 @@ Item {
 
     Border {
       itemHeight: root.height
-      foreground: Theme.surface0
+      foreground: Theme.mantle
       background: "transparent"
       reversed: true
     }
     Rectangle {
       id: left
-      color: Theme.surface0
+      color: Theme.mantle
       implicitWidth: root.leftW
       implicitHeight: root.height
     }
     Border {
       itemHeight: root.height
       foreground: Theme.surface0
-      background: Theme.overlay0
-      reversed: false
+      background: Theme.mantle
+      reversed: true
     }
     Rectangle {
       id: middle
-      color: Theme.overlay0
+      color: Theme.surface0
       implicitWidth: root.middleW
       implicitHeight: root.height
     }
     Border {
       itemHeight: root.height
-      foreground: Theme.overlay0
-      background: Theme.text
-      reversed: false
+      foreground: Theme.surface1
+      background: Theme.surface0
+      reversed: true
     }
     Rectangle {
       id: right
-      color: Theme.text
+      color: Theme.surface1
       implicitWidth: root.rightW
       implicitHeight: root.height
     }
     Border {
       itemHeight: root.height
-      foreground: Theme.text
+      foreground: Theme.surface1
       background: "transparent"
       reversed: false
     }

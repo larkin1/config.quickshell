@@ -32,30 +32,23 @@ Item {
     implicitHeight: 1
 
     Rectangle {
-      implicitWidth: 100
-      implicitHeight: 100
-      anchors.centerIn: parent
-      Switch {
-        id: toggle
-        activated: true
-        anchors.centerIn: parent
-      }
-    }
-
-    MouseArea {
-      anchors.fill: parent
-      onClicked: {
-        console.log("test")
-        toggle.activated = !toggle.activated
-      }
-    }
-    Rectangle {
       anchors.fill: parent
       color: Theme.backgroundBlur
       bottomLeftRadius: 10
       bottomRightRadius: 10
     }
-    // WlrLayershell.namespace: "quickshell-blur" // you need to make a layer-rule in your hyprland config for this to work properly.
+    Switch {
+      id: toggle
+      activated: true
+      anchors.centerIn: parent
+    }
+
+    MouseArea {
+      anchors.fill: parent
+      onClicked: {
+        toggle.activated = !toggle.activated
+      }
+    }
 
     HoverHandler {
       id: windowHover
