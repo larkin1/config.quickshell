@@ -14,12 +14,26 @@ Item {
     interval: Theme.collapseTimeout * 0.5
     onTriggered: {
       root.expanded = false
+      noCent.visible = false
+    }
+  }
+
+  NotificationCenter {
+    id: noCent
+    anchors.fill: parent
+    onHoveredChanged: {
+      if (hovered) {
+        root.expand()
+      } else {
+        root.delayedCollapse()
+      }
     }
   }
 
   function expand() {
     root.expanded = true
     collapseTimer.stop()
+    noCent.visible = true
   }
 
   function delayedCollapse() {
@@ -29,6 +43,7 @@ Item {
   function collapse() {
     collapseTimer.stop()
     root.expanded = false
+    noCent.visible = false
   }
 
   implicitWidth: rect.implicitWidth
@@ -40,7 +55,7 @@ Item {
     anchors.fill:  parent
     color: root.background
     implicitWidth: root.expanded
-      ? 1000
+      ? 500
       : nixIcon.implicitWidth + Theme.horizMargin
 
     IconImage {
@@ -53,9 +68,11 @@ Item {
   }
 
   Behavior on implicitWidth {
-    NumberAnimation {
-      duration: Theme.animationDuration
-      easing: Theme.animationEasing
+    SequentialAnimation {
+      NumberAnimation {
+        duration: Theme.animationDuration
+        easing: Theme.animationEasing
+      }
     }
   }
 
