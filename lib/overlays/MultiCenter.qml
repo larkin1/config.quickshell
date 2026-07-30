@@ -19,7 +19,7 @@ Item {
     if (open) {
       openAnim.start()
     } else {
-      window.implicitHeight = 1
+      window.implicitHeight = root.height
     }
   }
 
@@ -41,7 +41,7 @@ Item {
     anchor.rect.x: root.x
     anchor.rect.y: 0
     implicitWidth: root.width
-    implicitHeight: 1
+    implicitHeight: root.height
 
     grabFocus: true
 
@@ -90,8 +90,8 @@ Item {
         target: window
         property: "implicitHeight"
         duration: Theme.animationDuration
-        from: 1
-        to: 600
+        from: root.height
+        to: root.height + 600
       }
       PropertyAnimation {
         target: content
