@@ -4,25 +4,24 @@ import "../.."
 
 Item {
   id: root
-  property var window: QsWindow.window
-  property alias hovered: windowHover.hovered
 
+  implicitWidth: parent.width
+  x: parent.x
+  visible: open
+
+  signal closed()
+
+  property var window: QsWindow.window
+  property bool hovered: windowHover.hovered
   property bool open: false
 
   onOpenChanged: {
     if (open) {
       openAnim.start()
     } else {
-      root.visible = false
+      window.implicitHeight = 1
     }
   }
-
-  signal closed()
-
-  implicitWidth: parent.width
-  x: parent.x
-
-  visible: false
 
   onVisibleChanged: {
     if (!visible) {
@@ -34,34 +33,35 @@ Item {
     id: window
 
     visible: root.visible
-    color: "green"
+    color: "transparent"
 
     anchor.item: root
 
     anchor.rect.x: root.x
-    anchor.rect.y: root.height
+    anchor.rect.y: 0
     implicitWidth: root.width
     implicitHeight: 1
 
     grabFocus: true
 
     Rectangle {
+      anchors.topMargin: root.height
       anchors.fill: parent
       color: Theme.backgroundBlur
       bottomLeftRadius: 10
       bottomRightRadius: 10
-    }
 
-    Toggle {
-      id: toggle
-      activated: true
-      anchors.centerIn: parent
-    }
+      Toggle {
+        id: toggle
+        activated: true
+        anchors.centerIn: parent
+      }
 
-    MouseArea {
-      anchors.fill: parent
-      onClicked: {
-        toggle.activated = !toggle.activated
+      MouseArea {
+        anchors.fill: parent
+        onClicked: {
+          toggle.activated = !toggle.activated
+        }
       }
     }
 
@@ -74,11 +74,11 @@ Item {
       PauseAnimation {
         duration: Theme.animationDuration
       }
-      PropertyAction {
-        target: root
-        property: "visible"
-        value: true
-      }
+      // PropertyAction {
+      //   target: root
+      //   property: "visible"
+      //   value: true
+      // }
       PropertyAnimation {
         target: window
         property: "implicitHeight"

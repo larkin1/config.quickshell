@@ -10,21 +10,27 @@ Item {
 
   property color background: Theme.mauve
   property bool expanded: false
+  property bool hovered: mainHover.hovered || noCent.hovered
+
+  onHoveredChanged: {
+    if (hovered) {
+      root.expand()
+    } else {
+      root.delayedCollapse()
+    }
+  }
 
   function expand() {
-    // console.log("expand")
     root.expanded = true
     collapseTimer.stop()
   }
 
   function collapse() {
-    // console.log("collapse")
     root.expanded = false
     collapseTimer.stop()
   }
 
   function delayedCollapse() {
-    // console.log("timerstart")
     collapseTimer.restart()
   }
 
@@ -32,7 +38,6 @@ Item {
     id: collapseTimer
     interval: Theme.collapseTimeout * 0.5
     onTriggered: {
-      // console.log("timercomp")
       root.expanded = false
     }
   }
@@ -41,15 +46,7 @@ Item {
     id: noCent
     anchors.fill: parent
     open: root.expanded
-    onHoveredChanged: {
-      if (hovered) {
-        root.expand()
-      } else {
-        root.delayedCollapse()
-      }
-    }
     onClosed: {
-      // console.log("forceclose")
       root.collapse()
     }
   }
@@ -73,16 +70,6 @@ Item {
 
     HoverHandler {
       id: mainHover
-      onHoveredChanged: {
-        console.log("ee")
-        if (hovered) {
-          // console.log("mainexp")
-          root.expand()
-        } else {
-          // console.log("maincol")
-          root.delayedCollapse()
-        }
-      }
     }
   }
 
