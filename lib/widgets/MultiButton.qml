@@ -11,6 +11,7 @@ Item {
   property color background: Theme.cyclingColor
   property bool expanded: false
   property bool hovered: mainHover.hovered || noCent.hovered
+  property int expandedWidth: 500
 
   onHoveredChanged: {
     if (hovered) {
@@ -49,6 +50,7 @@ Item {
     onClosed: {
       root.collapse()
     }
+    expandedWidth: root.expandedWidth
   }
 
   Rectangle {
@@ -57,7 +59,7 @@ Item {
     anchors.fill:  parent
     color: root.background
     implicitWidth: root.expanded
-      ? 500
+      ? root.expandedWidth
       : nixIcon.implicitWidth + Theme.horizMargin
 
     IconImage {

@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import "../.."
 
@@ -15,6 +16,8 @@ Item {
   property bool hovered: windowHover.hovered
   property bool open: false
 
+  required property int expandedWidth
+
   onOpenChanged: {
     if (open) {
       openAnim.start()
@@ -27,6 +30,15 @@ Item {
     id: window
 
     visible: root.visible
+    grabFocus: true
+    color: "transparent"
+    anchor {
+      item: root
+      rect.x: root.x
+      rect.y: 0
+    }
+    implicitWidth: root.width
+    implicitHeight: root.height
 
     onVisibleChanged: {
       if (!visible && root.open) {
@@ -34,47 +46,94 @@ Item {
       }
     }
 
-    color: "transparent"
-
-    anchor.item: root
-
-    anchor.rect.x: root.x
-    anchor.rect.y: 0
-    implicitWidth: root.width
-    implicitHeight: root.height
-
-    grabFocus: true
-
     Rectangle {
+      id: background
       anchors.topMargin: root.height
       anchors.fill: parent
       color: Theme.backgroundBlur
-      bottomLeftRadius: 10
-      bottomRightRadius: 10
+      bottomLeftRadius: Theme.vertMargin
+      bottomRightRadius: Theme.vertMargin
 
       Rectangle {
         id: content
         color: "transparent"
         anchors.fill: parent
 
-        Toggle {
-          id: toggle
-          activated: true
+        GridLayout {
+          id: buttonGrid
+          columns: 2
+          rowSpacing: Theme.vertMargin
+          columnSpacing: Theme.horizMargin
+          implicitWidth: childrenRect.width
           anchors.centerIn: parent
-        }
 
-        MouseArea {
-          anchors.fill: parent
-          onClicked: {
-            toggle.activated = !toggle.activated
+          property var buttons: [
+            {activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
+            {activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
+            {activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
+            {activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
+          ]
+
+          Repeater {
+            model: buttonGrid.buttons
+
+            Rectangle {
+              id: button
+              required property var modelData
+
+              Layout.alignment: Qt.AlignHCenter
+              implicitHeight: implicitWidth / 3 // each border is 1/2 height, so 3 means the middle rect will be square
+              implicitWidth: (root.expandedWidth / 2) - Theme.horizMargin*2 // qmllint disable unqualified
+              color: "transparent"
+              HoverHandler { id: buttonHover }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                  button.modelData.action()
+                }
+              }
+
+              Border {
+                id: borderL
+                foreground: Theme.surface0
+                background: "transparent"
+                itemHeight: parent.height
+                reversed: true
+              }
+              Border {
+                x: borderL.width
+                foreground: Theme.surface1
+                background: Theme.surface0
+                itemHeight: parent.height
+                reversed: true
+              }
+              Rectangle {
+                x: borderL.width * 2
+                color: Theme.surface1
+                implicitWidth: parent.width - borderL.width*4
+                implicitHeight: parent.height
+              }
+              Border {
+                anchors.right: parent.right
+                anchors.rightMargin: borderL.width
+                foreground: Theme.surface1
+                background: Theme.surface0
+                itemHeight: parent.height
+              }
+              Border {
+                anchors.right: parent.right
+                foreground: Theme.surface0
+                background: "transparent"
+                itemHeight: parent.height
+              }
+            }
           }
         }
       }
     }
 
-    HoverHandler {
-      id: windowHover
-    }
+    HoverHandler { id: windowHover }
 
     SequentialAnimation {
       id: openAnim
@@ -83,15 +142,13 @@ Item {
         property: "opacity"
         value: 0
       }
-      PauseAnimation {
-        duration: Theme.animationDuration
-      }
+      PauseAnimation { duration: Theme.animationDuration }
       PropertyAnimation {
         target: window
         property: "implicitHeight"
         duration: Theme.animationDuration
         from: root.height
-        to: root.height + 600
+        to: root.height + buttonGrid.implicitHeight + (Theme.vertMargin * 3)
       }
       PropertyAnimation {
         target: content
