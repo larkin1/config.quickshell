@@ -40,7 +40,7 @@ Item {
         bgColor: Theme.base
         activeBGColor: Theme.surface0
         inactiveTextColor: Theme.surface2
-        activeTextColor: Theme.text
+        activeTextColor: Theme.cyclingColor
       }
     }
 
