@@ -23,16 +23,17 @@ Item {
     }
   }
 
-  onVisibleChanged: {
-    if (!visible) {
-      closed()
-    }
-  }
-
   PopupWindow {
     id: window
 
     visible: root.visible
+
+    onVisibleChanged: {
+      if (!visible && root.open) {
+        root.closed()
+      }
+    }
+
     color: "transparent"
 
     anchor.item: root
@@ -51,16 +52,22 @@ Item {
       bottomLeftRadius: 10
       bottomRightRadius: 10
 
-      Toggle {
-        id: toggle
-        activated: true
-        anchors.centerIn: parent
-      }
-
-      MouseArea {
+      Rectangle {
+        id: content
+        color: "transparent"
         anchors.fill: parent
-        onClicked: {
-          toggle.activated = !toggle.activated
+
+        Toggle {
+          id: toggle
+          activated: true
+          anchors.centerIn: parent
+        }
+
+        MouseArea {
+          anchors.fill: parent
+          onClicked: {
+            toggle.activated = !toggle.activated
+          }
         }
       }
     }
@@ -71,20 +78,27 @@ Item {
 
     SequentialAnimation {
       id: openAnim
+      PropertyAction {
+        target: content
+        property: "opacity"
+        value: 0
+      }
       PauseAnimation {
         duration: Theme.animationDuration
       }
-      // PropertyAction {
-      //   target: root
-      //   property: "visible"
-      //   value: true
-      // }
       PropertyAnimation {
         target: window
         property: "implicitHeight"
         duration: Theme.animationDuration
         from: 1
         to: 600
+      }
+      PropertyAnimation {
+        target: content
+        property: "opacity"
+        duration: Theme.animationDuration
+        from: 0
+        to: 1
       }
     }
   }
