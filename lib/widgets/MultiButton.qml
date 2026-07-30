@@ -8,7 +8,7 @@ Item {
   implicitWidth: rect.implicitWidth
   implicitHeight: Theme.barHeight
 
-  property color background: Theme.mauve
+  property color background: Theme.cyclingColor
   property bool expanded: false
   property bool hovered: mainHover.hovered || noCent.hovered
 

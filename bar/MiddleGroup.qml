@@ -60,7 +60,6 @@ Item {
         anchors.centerIn: parent
       }
     }
-
   }
 
   RowLayout {
@@ -84,7 +83,7 @@ Item {
 
     Border {
       background: "transparent"
-      foreground: Theme.mauve
+      foreground: Theme.cyclingColor
       itemHeight: Theme.barHeight
       reversed: true
     }
@@ -94,7 +93,7 @@ Item {
     }
 
     Border {
-      foreground: Theme.mauve
+      foreground: Theme.cyclingColor
       background: "transparent"
       itemHeight: Theme.barHeight
     }

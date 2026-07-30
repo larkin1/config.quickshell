@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick
 
 QtObject {
+  id: root
   // Base
   readonly property color crust:    "#11111b"
   readonly property color mantle:   "#181825"
@@ -33,6 +34,20 @@ QtObject {
   readonly property color lavender:  "#b4befe"
 
   readonly property color backgroundBlur: Qt.alpha(mantle, 0.7)
+
+  property color cyclingColor: mauve
+  SequentialAnimation on cyclingColor {
+    id: colorCycleAnim
+    property int dur: 2000
+    loops: Animation.Infinite
+    running: true
+    ColorAnimation { from: root.mauve;   to: root.blue;   duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.blue;    to: root.green;  duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.green;   to: root.peach;  duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.peach;   to: root.red;    duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.red;     to: root.pink;   duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.pink;    to: root.mauve;  duration: colorCycleAnim.dur }
+  }
 
   // Fonts
   readonly property string font: "JetBrainsMonoNL Nerd Font"
