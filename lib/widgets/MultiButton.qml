@@ -9,41 +9,38 @@ Item {
   implicitHeight: Theme.barHeight
 
   property color background: Theme.mauve
-
   property bool expanded: false
 
   function expand() {
-    console.log("expand")
-    noCent.visible = true
+    // console.log("expand")
     root.expanded = true
     collapseTimer.stop()
   }
 
-  function delayedCollapse() {
-    console.log("timerstart")
-    collapseTimer.restart()
+  function collapse() {
+    // console.log("collapse")
+    root.expanded = false
+    collapseTimer.stop()
   }
 
-  function collapse() {
-    console.log("collapse")
-    root.expanded = false
-    noCent.visible = false
-    collapseTimer.stop()
+  function delayedCollapse() {
+    // console.log("timerstart")
+    collapseTimer.restart()
   }
 
   Timer {
     id: collapseTimer
     interval: Theme.collapseTimeout * 0.5
     onTriggered: {
-      console.log("timercomp")
+      // console.log("timercomp")
       root.expanded = false
-      noCent.visible = false
     }
   }
 
   MultiCenter {
     id: noCent
     anchors.fill: parent
+    open: root.expanded
     onHoveredChanged: {
       if (hovered) {
         root.expand()
@@ -52,6 +49,7 @@ Item {
       }
     }
     onClosed: {
+      // console.log("forceclose")
       root.collapse()
     }
   }
@@ -72,28 +70,26 @@ Item {
       mipmap: true
       source: Qt.resolvedUrl("../../svg/nix.svg")
     }
-  }
 
-  HoverHandler {
-    id: mainHover
-    onHoveredChanged: {
-      if (hovered) {
-        console.log("mainexp")
-        root.expand()
-        collapseTimer.stop()
-      } else {
-        console.log("maincol")
-        root.delayedCollapse()
+    HoverHandler {
+      id: mainHover
+      onHoveredChanged: {
+        console.log("ee")
+        if (hovered) {
+          // console.log("mainexp")
+          root.expand()
+        } else {
+          // console.log("maincol")
+          root.delayedCollapse()
+        }
       }
     }
   }
 
   Behavior on implicitWidth {
-    SequentialAnimation {
-      NumberAnimation {
-        duration: Theme.animationDuration
-        easing: Theme.animationEasing
-      }
+    NumberAnimation {
+      duration: Theme.animationDuration
+      easing: Theme.animationEasing
     }
   }
 }
