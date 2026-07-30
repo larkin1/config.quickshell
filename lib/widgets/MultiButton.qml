@@ -5,14 +5,37 @@ import "../.."
 Item {
   id: root
 
+  implicitWidth: rect.implicitWidth
+  implicitHeight: Theme.barHeight
+
   property color background: Theme.mauve
 
   property bool expanded: false
+
+  function expand() {
+    console.log("expand")
+    noCent.visible = true
+    root.expanded = true
+    collapseTimer.stop()
+  }
+
+  function delayedCollapse() {
+    console.log("timerstart")
+    collapseTimer.restart()
+  }
+
+  function collapse() {
+    console.log("collapse")
+    root.expanded = false
+    noCent.visible = false
+    collapseTimer.stop()
+  }
 
   Timer {
     id: collapseTimer
     interval: Theme.collapseTimeout * 0.5
     onTriggered: {
+      console.log("timercomp")
       root.expanded = false
       noCent.visible = false
     }
@@ -33,25 +56,6 @@ Item {
     }
   }
 
-  function expand() {
-    root.expanded = true
-    collapseTimer.stop()
-    noCent.visible = true
-  }
-
-  function delayedCollapse() {
-    collapseTimer.restart()
-  }
-
-  function collapse() {
-    collapseTimer.stop()
-    root.expanded = false
-    noCent.visible = false
-  }
-
-  implicitWidth: rect.implicitWidth
-  implicitHeight: Theme.barHeight
-
   Rectangle {
     id: rect
     anchors.centerIn: parent
@@ -70,22 +74,25 @@ Item {
     }
   }
 
+  HoverHandler {
+    id: mainHover
+    onHoveredChanged: {
+      if (hovered) {
+        console.log("mainexp")
+        root.expand()
+        collapseTimer.stop()
+      } else {
+        console.log("maincol")
+        root.delayedCollapse()
+      }
+    }
+  }
+
   Behavior on implicitWidth {
     SequentialAnimation {
       NumberAnimation {
         duration: Theme.animationDuration
         easing: Theme.animationEasing
-      }
-    }
-  }
-
-  HoverHandler {
-    id: mainHover
-    onHoveredChanged: {
-      if (hovered) {
-        root.expand()
-      } else {
-        root.delayedCollapse()
       }
     }
   }

@@ -46,20 +46,17 @@ Item {
       bottomLeftRadius: 10
       bottomRightRadius: 10
     }
-    Toggle {
-      id: toggle
-      activated: true
-      anchors.centerIn: parent
-    }
+    // Toggle {
+    //   id: toggle
+    //   activated: true
+    //   anchors.centerIn: parent
+    // }
 
     MouseArea {
       anchors.fill: parent
       onClicked: {
-        toggle.activated = !toggle.activated
+        // toggle.activated = !toggle.activated
       }
-    }
-
-    ColumnLayout {
     }
 
     HoverHandler {
