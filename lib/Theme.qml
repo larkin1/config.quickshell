@@ -38,15 +38,22 @@ QtObject {
   property color cyclingColor: mauve
   SequentialAnimation on cyclingColor {
     id: colorCycleAnim
-    property int dur: 2000
     loops: Animation.Infinite
     running: true
-    ColorAnimation { from: root.mauve;   to: root.blue;   duration: colorCycleAnim.dur }
-    ColorAnimation { from: root.blue;    to: root.green;  duration: colorCycleAnim.dur }
-    ColorAnimation { from: root.green;   to: root.peach;  duration: colorCycleAnim.dur }
-    ColorAnimation { from: root.peach;   to: root.red;    duration: colorCycleAnim.dur }
-    ColorAnimation { from: root.red;     to: root.pink;   duration: colorCycleAnim.dur }
-    ColorAnimation { from: root.pink;    to: root.mauve;  duration: colorCycleAnim.dur }
+
+    property int dur: 4000
+
+    ColorAnimation { from: root.mauve;     to: root.lavender;  duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.lavender;  to: root.blue;      duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.blue;      to: root.sapphire;  duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.sapphire;  to: root.teal;      duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.teal;      to: root.green;     duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.green;     to: root.yellow;    duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.yellow;    to: root.peach;     duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.peach;     to: root.red;       duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.red;       to: root.maroon;    duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.maroon;    to: root.pink;      duration: colorCycleAnim.dur }
+    ColorAnimation { from: root.pink;      to: root.mauve;     duration: colorCycleAnim.dur }
   }
 
   // Fonts
