@@ -7,8 +7,6 @@ Item {
 
   readonly property real contentLeft: leftLayout.x
 
-  property bool multiButtonExpanded: multiButton.expanded
-
   implicitHeight: Theme.barHeight
 
   anchors {

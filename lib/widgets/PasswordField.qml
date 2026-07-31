@@ -52,10 +52,7 @@ Item {
 
       Rectangle {
         anchors.fill: parent
-        // radius: height * 0.25
         color: Theme.surface0
-        // border.width: 1
-        // border.color: root.error ? Theme.red : (input.activeFocus ? Theme.lavender : Theme.surface1) 
 
         Behavior on border.color {
           ColorAnimation {
@@ -90,7 +87,6 @@ Item {
         anchors.centerIn: parent
         text: root.authenticating ? "Authenticating..." : (input.text.length === 0 ? root.placeholder : "*".repeat(input.text.length))
         font.pixelSize: root.height * 0.3
-        // color: input.text.length === 0 ? Theme.overlay0 : Theme.text
         color: (input.text.length === 0 ? (root.error ? Theme.red : Theme.overlay0) : Theme.text)
       }
 

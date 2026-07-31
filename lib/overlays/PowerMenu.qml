@@ -2,7 +2,7 @@ pragma Singleton
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Quickshell.Io
+// import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import Quickshell.Widgets
@@ -10,7 +10,7 @@ import "../.."
 
 PanelWindow { //qmllint disable uncreatable-type
   id: root
-  visible: false
+  visible: ShellUI.powerOpen
   color: Theme.backgroundBlur
 
   WlrLayershell.namespace: "quickshell-blur" // you need to make a layer-rule in your hyprland config for this to work properly.
@@ -28,12 +28,7 @@ PanelWindow { //qmllint disable uncreatable-type
     item: content
   }
 
-  IpcHandler {
-    target: "powerMenu"
-    function toggle(): void {
-      root.visible = !root.visible;
-    }
-  }
+  function onCleared() { ShellUI.close() }
 
   component PowerButton: Rectangle {
     id: btn
@@ -181,7 +176,7 @@ PanelWindow { //qmllint disable uncreatable-type
 
     Keys.onPressed: event => {
       if (event.key === Qt.Key_Escape) {
-        root.visible = false;
+        ShellUI.close()
         event.accepted = true;
       }
     }
@@ -207,7 +202,7 @@ PanelWindow { //qmllint disable uncreatable-type
       baseColor: Theme.surface0
       hoverColor: Theme.surface1
       openDelay: 0
-      expanded: root.visible
+      expanded: ShellUI.powerOpen
       focusLeft: lock
       focusRight: reboot
     }
@@ -226,7 +221,7 @@ PanelWindow { //qmllint disable uncreatable-type
       baseColor: Theme.base
       hoverColor: Theme.surface0
       openDelay: 250
-      expanded: root.visible
+      expanded: ShellUI.powerOpen
       focusLeft: poweroff
       focusRight: sleep
     }
@@ -245,7 +240,7 @@ PanelWindow { //qmllint disable uncreatable-type
       baseColor: Theme.mantle
       hoverColor: Theme.base
       openDelay: 500
-      expanded: root.visible
+      expanded: ShellUI.powerOpen
       focusLeft: reboot
       focusRight: lock
     }
@@ -263,7 +258,7 @@ PanelWindow { //qmllint disable uncreatable-type
       baseColor: Theme.crust
       hoverColor: Theme.mantle
       openDelay: 750
-      expanded: root.visible
+      expanded: ShellUI.powerOpen
       focusLeft: sleep
       focusRight: poweroff
 
@@ -286,6 +281,6 @@ PanelWindow { //qmllint disable uncreatable-type
 
   Connections {
     target: grab
-    function onCleared() {root.visible = false}
+    function onCleared() { ShellUI.close() }
   }
 }

@@ -8,8 +8,10 @@ Variants {
 
   PanelWindow { // qmllint disable uncreatable-type
     id: root
-    property var modelData
+
     screen: modelData
+    color: "transparent"
+    implicitHeight: Theme.barHeight + Theme.vertMargin
 
     anchors {
       top: true
@@ -17,15 +19,13 @@ Variants {
       right: true
     }
 
-    color: "transparent"
-
-    implicitHeight: Theme.barHeight + Theme.vertMargin
+    property var modelData
 
     LeftGroup {
       id: leftGroup
       rightBoundary: middleGroup.x + middleGroup.contentLeft - Theme.horizMargin
 
-      opacity: middleGroup.multiButtonExpanded ? 0 : 1
+      opacity: ShellUI.multiOpen ? 0 : 1
       Behavior on opacity {
         NumberAnimation {
           duration: Theme.animationDuration
@@ -45,7 +45,7 @@ Variants {
     RightGroup {
       id: rightGroup
 
-      opacity: middleGroup.multiButtonExpanded ? 0 : 1
+      opacity: ShellUI.multiOpen ? 0 : 1
       Behavior on opacity {
         NumberAnimation {
           duration: Theme.animationDuration

@@ -9,48 +9,19 @@ Item {
   implicitHeight: Theme.barHeight
 
   property color background: Theme.cyclingColor
-  property bool expanded: false
-  property bool hovered: mainHover.hovered || noCent.hovered
   property int expandedWidth: 500
-
-  onHoveredChanged: {
-    if (hovered) {
-      root.expand()
-    } else {
-      root.delayedCollapse()
-    }
-  }
-
-  function expand() {
-    root.expanded = true
-    collapseTimer.stop()
-  }
-
-  function collapse() {
-    root.expanded = false
-    collapseTimer.stop()
-  }
-
-  function delayedCollapse() {
-    collapseTimer.restart()
-  }
-
-  Timer {
-    id: collapseTimer
-    interval: Theme.collapseTimeout * 0.5
-    onTriggered: {
-      root.expanded = false
-    }
-  }
 
   MultiCenter {
     id: noCent
     anchors.fill: parent
-    open: root.expanded
-    onClosed: {
-      root.collapse()
-    }
     expandedWidth: root.expandedWidth
+  }
+
+  MouseArea {
+    anchors.fill: parent
+    onClicked: {
+      ShellUI.toggleMulti()
+    }
   }
 
   Rectangle {
@@ -58,7 +29,7 @@ Item {
     anchors.centerIn: parent
     anchors.fill:  parent
     color: root.background
-    implicitWidth: root.expanded
+    implicitWidth: ShellUI.multiOpen
       ? root.expandedWidth
       : nixIcon.implicitWidth + Theme.horizMargin
 
@@ -68,10 +39,6 @@ Item {
       implicitSize: Theme.iconSize
       mipmap: true
       source: Qt.resolvedUrl("../../svg/nix.svg")
-    }
-
-    HoverHandler {
-      id: mainHover
     }
   }
 

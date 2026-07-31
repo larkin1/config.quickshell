@@ -1,3 +1,4 @@
+singleton ShellUI lib/ShellUI.qml
 singleton Theme lib/Theme.qml
 singleton PowerMenu lib/overlays/PowerMenu.qml
 singleton LockScreen lib/overlays/LockScreen.qml
