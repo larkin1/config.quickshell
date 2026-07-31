@@ -30,7 +30,7 @@ PanelWindow { //qmllint disable uncreatable-type
 
   onVisibleChanged: {
     if (visible) {
-      placeholder.forceActiveFocus()
+      poweroff.forceActiveFocus()
       grab.active = true;
     }
   }
@@ -52,13 +52,6 @@ PanelWindow { //qmllint disable uncreatable-type
       background: "transparent"
       foreground: Theme.surface0
       reversed: true
-    }
-
-    IconButton {
-      id: placeholder
-      focusRight: poweroff
-      focusLeft: lock
-      visible: false
     }
 
     IconButton {
