@@ -59,6 +59,52 @@ Item {
         color: "transparent"
         anchors.fill: parent
 
+        property int curRow: 0
+        property int curCol: 0
+
+        property var buttons: [
+          {row: 0, col: 0, activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
+          {row: 0, col: 1, activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
+          {row: 1, col: 0, activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
+          {row: 1, col: 1, activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
+        ]
+
+        function findDelegate(row, col) {
+          var maxRow = 0, maxCol = 0
+          for (var i = 0; i < buttons.length; i++) {
+            if (buttons[i].row > maxRow) maxRow = buttons[i].row
+            if (buttons[i].col > maxCol) maxCol = buttons[i].col
+          }
+
+          var tr = Math.max(0, Math.min(row, maxRow))
+          var tc = Math.max(0, Math.min(col, maxCol))
+
+          for (var j = 0; j < buttonRepeater.count; j++) {
+            var d = buttonRepeater.itemAt(j)
+            if (!d) continue
+            if (d.cellRow === tr && d.cellCol == tc) {
+              return d
+            }
+          }
+
+          for (var k = 0; k < buttonRepeater.count; k++) {
+            var dd = buttonRepeater.itemAt(k)
+            if (!dd) continue
+            if (dd.cellRow === tr && dd.cellCol >= tc) return dd
+          }
+
+          return null
+        }
+
+        function moveFocus(dr, dc) {
+          var target = findDelegate(curRow + dr, curCol + dc)
+          if (target) {
+            curRow = target.cellRow
+            curCol = target.cellCol
+            target.forceActiveFocus()
+          }
+        }
+
         GridLayout {
           id: buttonGrid
           columns: 2
@@ -67,19 +113,37 @@ Item {
           implicitWidth: childrenRect.width
           anchors.centerIn: parent
 
-          property var buttons: [
-            {activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
-            {activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
-            {activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
-            {activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
-          ]
 
           Repeater {
-            model: buttonGrid.buttons
+            id: buttonRepeater
+            model: content.buttons
 
             Rectangle {
               id: button
               required property var modelData
+              property int cellRow: modelData.row
+              property int cellCol: modelData.col
+
+              Layout.row: modelData.row
+              Layout.column: modelData.col
+
+              onFocusChanged: {
+                if (focus) {
+                  content.curRow = cellRow
+                  content.curCol = cellCol
+                }
+              }
+
+              Keys.onPressed: function(event) {
+                console.log("event.text")
+                switch (event.text) {
+                  case "h": moveFocus(0, -1); break
+                  case "j": moveFocus(1,  0); break
+                  case "k": moveFocus(-1, 0); break
+                  case "l": moveFocus(0,  1); break
+                }
+                if (["h", "j", "k", "l"].includes(event.text)) event.accepted = true
+              }
 
               Layout.alignment: Qt.AlignHCenter
               implicitHeight: implicitWidth / 3 // each border is 1/2 height, so 3 means the middle rect will be square
