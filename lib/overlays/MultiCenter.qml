@@ -79,7 +79,7 @@ Item {
         property int curCol: 0
 
         property var buttons: [
-          {row: 0, col: 0, activeIcon: "", inactiveIcon: "", action: () => {console.log("test0")}},
+          {row: 0, col: 0, activeIcon: "../../svg/power-button-active.svg", inactiveIcon: "../../svg/power-button-inactive.svg", action: () => { PowerMenu.visible = true }},
           {row: 0, col: 1, activeIcon: "", inactiveIcon: "", action: () => {console.log("test1")}},
           {row: 1, col: 0, activeIcon: "", inactiveIcon: "", action: () => {console.log("test2")}},
           {row: 1, col: 1, activeIcon: "", inactiveIcon: "", action: () => {console.log("test3")}},
@@ -176,13 +176,15 @@ Item {
 
                   case Qt.Key_Space:
                   case Qt.Key_Return:
-                  case Qt.Key_Enter:
-                    modelData.action(); break
-                }
-                if (["h", "j", "k", "l"].includes(event.text)) event.accepted = true
-              }
+                    modelData.action(); console.log("ee"); break
 
+                  default:
+                    console.log("ee"); return
+                }
+                event.accepted = true
+              }
               // qmllint enable unqualified
+
 
               Layout.alignment: Qt.AlignHCenter
               implicitHeight: implicitWidth / 3 // each border is 1/2 height, so 3 means the middle rect will be square
@@ -215,12 +217,37 @@ Item {
                 implicitWidth: parent.width - borderL.width*4
                 implicitHeight: parent.height
                 Rectangle {
-                  color: button.focus ? Theme.surface2 : "transparent"
+                  color: button.focus || buttonHover.hovered ? Theme.surface2 : "transparent"
                   implicitHeight: parent.height * 0.85
                   implicitWidth: parent.width * 0.85
                   radius: height * 0.2
                   anchors.centerIn: parent
                   IconImage {
+                    id: iconInactive
+                    anchors.centerIn: parent
+                    implicitSize: parent.implicitHeight * 0.8
+                    mipmap: true
+                    source: Qt.resolvedUrl(modelData.activeIcon) // qmllint disable unqualified
+                    opacity: button.focus || buttonHover.hovered ? 1 : 0
+                    Behavior on opacity {
+                      NumberAnimation {
+                        duration: Theme.colorAnimationDuration
+                      }
+                    }
+                  }
+
+                  IconImage {
+                    id: iconActive
+                    anchors.centerIn: parent
+                    implicitSize: parent.implicitHeight * 0.8
+                    mipmap: true
+                    source: Qt.resolvedUrl(modelData.inactiveIcon) // qmllint disable unqualified
+                    opacity: button.focus || buttonHover.hovered ? 0 : 1
+                    Behavior on opacity {
+                      NumberAnimation {
+                        duration: Theme.colorAnimationDuration
+                      }
+                    }
                   }
                 }
               }
