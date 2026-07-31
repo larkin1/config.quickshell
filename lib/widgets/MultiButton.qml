@@ -20,7 +20,6 @@ Item {
   property int expandedWidth: 500
 
   MultiCenter {
-    id: noCent
     anchors.fill: parent
     expandedWidth: root.expandedWidth
   }

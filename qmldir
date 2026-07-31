@@ -21,3 +21,4 @@ Tray lib/widgets/Tray.qml
 PowerButton lib/widgets/PowerButton.qml
 PasswordField lib/widgets/PasswordField.qml
 MultiButton lib/widgets/MultiButton.qml
+IconButton lib/widgets/IconButton.qml

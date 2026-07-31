@@ -21,11 +21,13 @@ Item {
         window.visible = false
         openAnim.start()
         grab.active = true;
-        background.forceActiveFocus()
+        button.forceActiveFocus()
       }
     } else {
+      openAnim.stop()
       window.visible = false
       window.implicitHeight = 1
+      grab.active = false
     }
   }
 
@@ -47,6 +49,18 @@ Item {
       bottomRightRadius: Theme.vertMargin
       Keys.onEscapePressed: {
         ShellUI.close()
+      }
+      IconButton {
+        id: button
+        anchors.centerIn: parent
+        implicitHeight: 100
+        activeBtnPath: "../../svg/sleep-active.svg"
+        inactiveBtnPath: "../../svg/sleep-inactive.svg"
+        // command: ["systemctl", "suspend"]
+        expanded: window.visible
+        openDelay: Theme.animationDuration
+        openAnimation: true
+        onClicked: { console.log("test") }
       }
     }
   }
@@ -72,7 +86,6 @@ Item {
     id: grab
     windows: [window]
   }
-
   Connections {
     target: grab
     function onCleared() { ShellUI.close() }

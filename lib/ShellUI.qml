@@ -4,16 +4,10 @@ import Quickshell.Io
 
 Item {
   id: ui
-  enum Mode {
-    None,
-    MultiCenter,
-    PowerMenu
-  }
 
   property string mode: "none"
 
   readonly property bool anyOverlay: mode !== "none"
-
   readonly property bool multiOpen: mode === "multi"
   readonly property bool powerOpen: mode === "power"
 
