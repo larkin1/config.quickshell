@@ -54,13 +54,12 @@ Item {
         id: button
         anchors.centerIn: parent
         implicitHeight: 100
-        activeBtnPath: "../../svg/sleep-active.svg"
-        inactiveBtnPath: "../../svg/sleep-inactive.svg"
-        // command: ["systemctl", "suspend"]
+        activeBtnPath: "../../svg/power-button-active.svg"
+        inactiveBtnPath: "../../svg/power-button-inactive.svg"
         expanded: window.visible
         openDelay: Theme.animationDuration
         openAnimation: true
-        onClicked: { console.log("test") }
+        onClicked: { ShellUI.openPower() }
       }
     }
   }
