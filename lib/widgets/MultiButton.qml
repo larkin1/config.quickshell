@@ -1,5 +1,7 @@
 import QtQuick
+import Quickshell
 import Quickshell.Widgets
+import Quickshell.Hyprland
 import "../.."
 
 Item {
@@ -7,6 +9,12 @@ Item {
 
   implicitWidth: rect.implicitWidth
   implicitHeight: Theme.barHeight
+
+  readonly property bool onFocusedScreen:
+    Hyprland.focusedMonitor?.name ===
+    QsWindow.window?.screen.name // qmllint disable missing-property
+
+  readonly property bool open: ShellUI.multiOpen && onFocusedScreen
 
   property color background: Theme.cyclingColor
   property int expandedWidth: 500
@@ -29,7 +37,7 @@ Item {
     anchors.centerIn: parent
     anchors.fill:  parent
     color: root.background
-    implicitWidth: ShellUI.multiOpen
+    implicitWidth: root.open
       ? root.expandedWidth
       : nixIcon.implicitWidth + Theme.horizMargin
 

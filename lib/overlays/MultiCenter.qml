@@ -7,7 +7,6 @@ Item {
   id: root
 
   implicitWidth: parent.width
-  x: parent.x
   visible: open
 
   required property int expandedWidth
@@ -19,11 +18,13 @@ Item {
   onOpenChanged: {
     if (open) {
       if (Hyprland.focusedMonitor) {
+        window.visible = false
         openAnim.start()
         grab.active = true;
         background.forceActiveFocus()
       }
     } else {
+      window.visible = false
       window.implicitHeight = 1
     }
   }
@@ -31,11 +32,11 @@ Item {
   PopupWindow {
     id: window
 
-    visible: root.open
+    visible: false
     color: "transparent"
-    implicitWidth: root.width
+    implicitWidth: root.expandedWidth
     anchor.item: root
-    anchor.rect.x: root.x
+    anchor.rect.x: 0
     anchor.rect.y: root.height
 
     Rectangle {
@@ -46,7 +47,6 @@ Item {
       bottomRightRadius: Theme.vertMargin
       Keys.onEscapePressed: {
         ShellUI.close()
-        console.log("test")
       }
     }
   }
@@ -54,6 +54,11 @@ Item {
   SequentialAnimation {
     id: openAnim
     PauseAnimation { duration: Theme.animationDuration }
+    PropertyAction {
+      target: window
+      property: "visible"
+      value: true
+    }
     PropertyAnimation {
       target: window
       property: "implicitHeight"

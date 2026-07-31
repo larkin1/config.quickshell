@@ -1,6 +1,7 @@
-import Quickshell
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
+import Quickshell.Hyprland
 import ".."
 
 Variants {
@@ -21,11 +22,15 @@ Variants {
 
     property var modelData
 
+    readonly property bool onFocusedScreen:
+      Hyprland.focusedMonitor?.name ===
+      modelData.name
+
     LeftGroup {
       id: leftGroup
       rightBoundary: middleGroup.x + middleGroup.contentLeft - Theme.horizMargin
 
-      opacity: ShellUI.multiOpen ? 0 : 1
+      opacity: ShellUI.multiOpen && root.onFocusedScreen ? 0 : 1
       Behavior on opacity {
         NumberAnimation {
           duration: Theme.animationDuration
@@ -45,7 +50,7 @@ Variants {
     RightGroup {
       id: rightGroup
 
-      opacity: ShellUI.multiOpen ? 0 : 1
+      opacity: ShellUI.multiOpen && root.onFocusedScreen ? 0 : 1
       Behavior on opacity {
         NumberAnimation {
           duration: Theme.animationDuration
