@@ -25,8 +25,8 @@ Item {
       background: "transparent"
       foreground: Theme.base
       Layout.leftMargin: Theme.horizMargin
-      itemHeight: Theme.barHeight
       reversed: true
+      implicitHeight: Theme.barHeight
     }
 
     Rectangle { // Workspaces
@@ -47,8 +47,8 @@ Item {
     Border {
       foreground: Theme.base
       background: Theme.mantle
-      itemHeight: Theme.barHeight
       outerMargin: Theme.horizMargin
+      implicitHeight: Theme.barHeight
     }
 
     Rectangle {
@@ -79,7 +79,7 @@ Item {
     Border {
       foreground: Theme.mantle
       background: "transparent"
-      itemHeight: Theme.barHeight
+      implicitHeight: Theme.barHeight
     }
   }
 }

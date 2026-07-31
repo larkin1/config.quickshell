@@ -3,15 +3,15 @@ import QtQuick.Shapes
 
 Item {
   id: root
+
   required property color foreground
   required property color background
-  required property int itemHeight
   property bool reversed: false
   property int outerMargin: 0
   property int arrowWidth: Math.round(root.height / 2)
   property int midY: Math.round(root.height / 2)
 
-  implicitHeight: itemHeight
+  implicitHeight: parent.height
   implicitWidth: arrowWidth + outerMargin
 
   function mx(x) { return reversed ? root.implicitWidth - x : x }

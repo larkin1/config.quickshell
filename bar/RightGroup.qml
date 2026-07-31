@@ -25,8 +25,8 @@ Item {
     Border {
       background: "transparent"
       foreground: Theme.mantle
-      itemHeight: Theme.barHeight
       reversed: true
+      implicitHeight: Theme.barHeight
       HoverHandler {
         id: audioHoverInit
       }
@@ -108,15 +108,15 @@ Item {
     Border {
       foreground: Theme.base
       background: Theme.mantle
-      itemHeight: Theme.barHeight
       reversed: true
+      implicitHeight: Theme.barHeight
     }
 
     Border {
       background: Theme.base
       foreground: Theme.surface0
-      itemHeight: Theme.barHeight
       reversed: true
+      implicitHeight: Theme.barHeight
       HoverHandler { id: trayHoverInit }
     }
 
@@ -185,8 +185,8 @@ Item {
       background: Theme.surface0
       foreground: "transparent"
       Layout.rightMargin: Theme.horizMargin * 0.2
-      itemHeight: Theme.barHeight
       reversed: true
+      implicitHeight: Theme.barHeight
     }
 
     PowerButton {

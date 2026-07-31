@@ -29,7 +29,7 @@ Item {
     Border {
       background: "transparent"
       foreground: Theme.base
-      itemHeight: Theme.barHeight
+      implicitHeight: Theme.barHeight
       reversed: true
     }
 
@@ -46,8 +46,8 @@ Item {
     Border {
       foreground: Theme.surface0
       background: Theme.base
-      itemHeight: Theme.barHeight
       reversed: true
+      implicitHeight: Theme.barHeight
     }
 
 
@@ -65,7 +65,7 @@ Item {
   RowLayout {
     id: centerLayout
 
-    height: Theme.barHeight
+    implicitHeight: Theme.barHeight
     spacing: 0
 
     anchors {
@@ -77,14 +77,12 @@ Item {
     Border {
       background: Theme.surface0
       foreground: "transparent"
-      itemHeight: Theme.barHeight
       reversed: true
     }
 
     Border {
       background: "transparent"
       foreground: Theme.cyclingColor
-      itemHeight: Theme.barHeight
       reversed: true
     }
 
@@ -95,13 +93,11 @@ Item {
     Border {
       foreground: Theme.cyclingColor
       background: "transparent"
-      itemHeight: Theme.barHeight
     }
 
     Border {
       foreground: "transparent"
       background: Theme.surface0
-      itemHeight: Theme.barHeight
     }
   }
 
@@ -131,7 +127,7 @@ Item {
     Border {
       foreground: Theme.surface0
       background: Theme.base
-      itemHeight: Theme.barHeight
+      implicitHeight: Theme.barHeight
     }
 
     Rectangle {
@@ -151,7 +147,7 @@ Item {
     Border {
       foreground: Theme.base
       background: "transparent"
-      itemHeight: Theme.barHeight
+      implicitHeight: Theme.barHeight
     }
   }
 }

@@ -189,7 +189,6 @@ PanelWindow { //qmllint disable uncreatable-type
     Border {
       background: "transparent"
       foreground: Theme.surface0
-      itemHeight: parent.height
       reversed: true
     }
 
@@ -216,7 +215,6 @@ PanelWindow { //qmllint disable uncreatable-type
     Border {
       foreground: Theme.surface0
       background: Theme.base
-      itemHeight: parent.height
       reversed: false
     }
 
@@ -236,7 +234,6 @@ PanelWindow { //qmllint disable uncreatable-type
     Border {
       foreground: Theme.base
       background: Theme.mantle
-      itemHeight: parent.height
       reversed: false
     }
 
@@ -256,7 +253,6 @@ PanelWindow { //qmllint disable uncreatable-type
     Border {
       foreground: Theme.mantle
       background: Theme.crust
-      itemHeight: parent.height
       reversed: false
     }
 
@@ -279,7 +275,6 @@ PanelWindow { //qmllint disable uncreatable-type
     Border {
       foreground: Theme.crust
       background: "transparent"
-      itemHeight: parent.height
       reversed: false
     }
   }

@@ -30,21 +30,18 @@ Item {
     Border {
       foreground: Theme.mantle
       background: "transparent"
-      itemHeight: root.height
       reversed: true
     }
 
     Border {
       foreground: Theme.base
       background: Theme.mantle
-      itemHeight: root.height
       reversed: true
     }
 
     Border {
       foreground: Theme.surface0
       background: Theme.base
-      itemHeight: root.height
       reversed: true
     }
 
@@ -107,19 +104,16 @@ Item {
     Border {
       foreground: Theme.surface0
       background: Theme.base
-      itemHeight: root.height
     }
 
     Border {
       foreground: Theme.base
       background: Theme.mantle
-      itemHeight: root.height
     }
 
     Border {
       foreground: Theme.mantle
       background: "transparent"
-      itemHeight: root.height
     }
   }
 }

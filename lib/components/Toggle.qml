@@ -25,7 +25,6 @@ Item {
     anchors.centerIn: parent
 
     Border {
-      itemHeight: root.height
       foreground: Theme.mantle
       background: "transparent"
       reversed: true
@@ -37,7 +36,6 @@ Item {
       implicitHeight: root.height
     }
     Border {
-      itemHeight: root.height
       foreground: Theme.surface0
       background: Theme.mantle
       reversed: true
@@ -49,7 +47,6 @@ Item {
       implicitHeight: root.height
     }
     Border {
-      itemHeight: root.height
       foreground: Theme.surface1
       background: Theme.surface0
       reversed: true
@@ -61,7 +58,6 @@ Item {
       implicitHeight: root.height
     }
     Border {
-      itemHeight: root.height
       foreground: Theme.surface1
       background: "transparent"
       reversed: false

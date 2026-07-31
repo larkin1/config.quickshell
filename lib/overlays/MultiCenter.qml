@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Widgets
 import "../.."
 
 Item {
@@ -11,6 +12,10 @@ Item {
   visible: open
 
   signal closed()
+
+  onClosed: {
+    content.opacity = 0
+  }
 
   property var window: QsWindow.window
   property bool hovered: windowHover.hovered
@@ -31,6 +36,7 @@ Item {
 
     visible: root.visible
     grabFocus: true
+
     color: "transparent"
     anchor {
       item: root
@@ -43,6 +49,9 @@ Item {
     onVisibleChanged: {
       if (!visible && root.open) {
         root.closed()
+      }
+      if (visible) {
+        content.forceActiveFocus()
       }
     }
 
@@ -59,14 +68,21 @@ Item {
         color: "transparent"
         anchors.fill: parent
 
+        onFocusChanged: {
+          if (focus) {
+            var target = findDelegate(curRow, curCol)
+            target.forceActiveFocus()
+          }
+        }
+
         property int curRow: 0
         property int curCol: 0
 
         property var buttons: [
-          {row: 0, col: 0, activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
-          {row: 0, col: 1, activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
-          {row: 1, col: 0, activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
-          {row: 1, col: 1, activeIcon: "", inactiveIcon: "", action: () => {console.log("sdflkjsdl")}},
+          {row: 0, col: 0, activeIcon: "", inactiveIcon: "", action: () => {console.log("test0")}},
+          {row: 0, col: 1, activeIcon: "", inactiveIcon: "", action: () => {console.log("test1")}},
+          {row: 1, col: 0, activeIcon: "", inactiveIcon: "", action: () => {console.log("test2")}},
+          {row: 1, col: 1, activeIcon: "", inactiveIcon: "", action: () => {console.log("test3")}},
         ]
 
         function findDelegate(row, col) {
@@ -79,6 +95,7 @@ Item {
           var tr = Math.max(0, Math.min(row, maxRow))
           var tc = Math.max(0, Math.min(col, maxCol))
 
+          // qmllint disable missing-property
           for (var j = 0; j < buttonRepeater.count; j++) {
             var d = buttonRepeater.itemAt(j)
             if (!d) continue
@@ -92,6 +109,7 @@ Item {
             if (!dd) continue
             if (dd.cellRow === tr && dd.cellCol >= tc) return dd
           }
+          // qmllint enable missing-property
 
           return null
         }
@@ -127,6 +145,7 @@ Item {
               Layout.row: modelData.row
               Layout.column: modelData.col
 
+              // qmllint disable unqualified
               onFocusChanged: {
                 if (focus) {
                   content.curRow = cellRow
@@ -135,15 +154,35 @@ Item {
               }
 
               Keys.onPressed: function(event) {
-                console.log("event.text")
-                switch (event.text) {
-                  case "h": moveFocus(0, -1); break
-                  case "j": moveFocus(1,  0); break
-                  case "k": moveFocus(-1, 0); break
-                  case "l": moveFocus(0,  1); break
+                switch (event.key) {
+                  // navigation
+                  case Qt.Key_H:
+                  case Qt.Key_Left:
+                    content.moveFocus(0, -1); break
+                  case Qt.Key_J:
+                  case Qt.Key_Down:
+                    content.moveFocus(1,  0); break
+                  case Qt.Key_K:
+                  case Qt.Key_Up:
+                    content.moveFocus(-1, 0); break
+                  case Qt.Key_L:
+                  case Qt.Key_Right:
+                    content.moveFocus(0,  1); break
+
+                  // actions
+                  case Qt.Key_Escape:
+                  case Qt.Key_Q:
+                    root.closed(); break
+
+                  case Qt.Key_Space:
+                  case Qt.Key_Return:
+                  case Qt.Key_Enter:
+                    modelData.action(); break
                 }
                 if (["h", "j", "k", "l"].includes(event.text)) event.accepted = true
               }
+
+              // qmllint enable unqualified
 
               Layout.alignment: Qt.AlignHCenter
               implicitHeight: implicitWidth / 3 // each border is 1/2 height, so 3 means the middle rect will be square
@@ -162,14 +201,12 @@ Item {
                 id: borderL
                 foreground: Theme.surface0
                 background: "transparent"
-                itemHeight: parent.height
                 reversed: true
               }
               Border {
                 x: borderL.width
                 foreground: Theme.surface1
                 background: Theme.surface0
-                itemHeight: parent.height
                 reversed: true
               }
               Rectangle {
@@ -177,19 +214,26 @@ Item {
                 color: Theme.surface1
                 implicitWidth: parent.width - borderL.width*4
                 implicitHeight: parent.height
+                Rectangle {
+                  color: button.focus ? Theme.surface2 : "transparent"
+                  implicitHeight: parent.height * 0.85
+                  implicitWidth: parent.width * 0.85
+                  radius: height * 0.2
+                  anchors.centerIn: parent
+                  IconImage {
+                  }
+                }
               }
               Border {
                 anchors.right: parent.right
                 anchors.rightMargin: borderL.width
                 foreground: Theme.surface1
                 background: Theme.surface0
-                itemHeight: parent.height
               }
               Border {
                 anchors.right: parent.right
                 foreground: Theme.surface0
                 background: "transparent"
-                itemHeight: parent.height
               }
             }
           }
