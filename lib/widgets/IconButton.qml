@@ -26,6 +26,12 @@ Item {
   property bool openAnimation: true
   property var openAnimationEasing: Easing.InQuart
 
+  onClicked: {
+    if (root.command !== undefined && root.command !== null) {
+      Quickshell.execDetached(root.command)
+    }
+  }
+
   onExpandedChanged: {
     if (expanded) {
       if (openAnimation) {
@@ -65,16 +71,9 @@ Item {
       case Qt.Key_Return:
       case Qt.Key_Enter:
       case Qt.Key_Space:
-        run();
+        clicked();
         event.accepted = true;
         break;
-    }
-  }
-
-  function run() {
-    root.clicked()
-    if (root.command !== undefined && root.command !== null) {
-      Quickshell.execDetached(root.command)
     }
   }
 
@@ -94,7 +93,7 @@ Item {
       anchors.fill: parent
       cursorShape: Qt.PointingHandCursor
       onClicked: {
-        root.run()
+        root.clicked()
       }
     }
 
