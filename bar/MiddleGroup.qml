@@ -114,7 +114,7 @@ Item {
       id: clockWidget
       color: Theme.surface0
       Layout.fillHeight: true
-      implicitWidth: clock.implicitWidth + Theme.horizMargin
+      implicitWidth: clock.implicitWidth
 
       Clock {
         id: clock
@@ -132,12 +132,13 @@ Item {
       id: dateWidget
       color: Theme.base
       Layout.fillHeight: true
-      implicitWidth: clock.implicitWidth + Theme.horizMargin
+      implicitWidth: date.implicitWidth
 
       Clock {
         id: date
         anchors.centerIn: parent
         timeStr: "MM-dd"
+        altTimeStr: "MMMM, yyyy"
         interval: 1000 * 60
       }
     }
