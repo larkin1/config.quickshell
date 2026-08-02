@@ -112,6 +112,16 @@ Item {
       implicitHeight: Theme.barHeight
     }
 
+    Rectangle {
+      id: battRect
+      color: Theme.base
+      implicitHeight: Theme.barHeight
+      implicitWidth: batt.implicitWidth
+      Battery {
+        id: batt
+      }
+    }
+
     Border {
       background: Theme.base
       foreground: Theme.surface0
