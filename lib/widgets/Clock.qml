@@ -10,8 +10,15 @@ Item {
 
   implicitWidth: clockText.implicitWidth + Theme.horizMargin
   implicitHeight: Theme.barHeight
+  
+  clip: true
 
-  HoverHandler { id: hover }
+  HoverHandler {
+    id: hover
+    onHoveredChanged: {
+      clockText.text = Qt.formatDateTime(new Date(), (hovered ? root.altTimeStr : root.timeStr))
+    }
+  }
 
   StyledText {
     id: clockText
