@@ -61,7 +61,9 @@ Item {
         id: audioCloseTimer
         interval: Theme.collapseTimeout
         onTriggered: {
-          audioClose.start()
+          if (!audioHover.hovered) {
+            audioClose.start()
+          }
         }
       }
 
@@ -176,7 +178,9 @@ Item {
         id: trayChangeWaiter
         interval: Theme.collapseTimeout
         onTriggered: {
-          trayClose.start()
+          if (!trayHover.hovered) {
+            trayClose.start()
+          }
         }
       }
 
