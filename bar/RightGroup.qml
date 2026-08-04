@@ -29,78 +29,93 @@ Item {
       implicitHeight: Theme.barHeight
       HoverHandler {
         id: audioHoverInit
+        onHoveredChanged: {
+          if (hovered) {
+            audioCloseTimer.stop()
+            audioOpen.start()
+          }
+        }
       }
     }
 
     Rectangle {
       id: audioRect
 
-      property bool change: false
-
-      Timer {
-        id: audioChangeWaiter
-        interval: Theme.collapseTimeout
-        onTriggered: {
-          audioRect.change = false
-        }
-      }
-
-      implicitWidth:
-        (audioHoverInit.hovered || audioHover.hovered || audioRect.change)
-        ? audio.implicitWidth : 0
+      implicitWidth: 0
       implicitHeight: Theme.barHeight
       color: Theme.mantle
       clip: true
 
+      HoverHandler {
+        id: audioHover
+        onHoveredChanged: {
+          if (hovered) {
+            audioCloseTimer.stop()
+          } else {
+            audioCloseTimer.restart()
+          }
+        }
+      }
+
+      Timer {
+        id: audioCloseTimer
+        interval: Theme.collapseTimeout
+        onTriggered: {
+          audioClose.start()
+        }
+      }
+
       RowLayout {
         id: audio
         anchors.centerIn: parent
-        opacity:
-          (audioHoverInit.hovered || audioHover.hovered || audioRect.change)
-          ? 1 : 0
         Mic {
           id: mic
           onChanged: {
-            audioRect.change = true
-            audioChangeWaiter.restart()
+            audioOpen.start()
+            audioCloseTimer.restart()
           }
         }
         OutVol {
           id: outVol
           onChanged: {
-            audioRect.change = true
-            audioChangeWaiter.restart()
-          }
-        }
-        Behavior on opacity {
-          SequentialAnimation {
-            PauseAnimation {
-              duration:
-                (audioHoverInit.hovered || audioHover.hovered)
-                ? Theme.collapseTimeout : 0
-            }
-            NumberAnimation {
-              duration: Theme.animationDuration
-            }
+            audioOpen.start()
+            audioCloseTimer.restart()
           }
         }
       }
 
-      HoverHandler {
-        id: audioHover
+      SequentialAnimation {
+        id: audioOpen
+        PropertyAnimation {
+          target: audioRect
+          property: "implicitWidth"
+          to: audio.implicitWidth
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
+        }
+        PropertyAnimation {
+          target: audio
+          property: "opacity"
+          to: 1
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
+        }
       }
-
-      Behavior on implicitWidth {
-        SequentialAnimation {
-          PauseAnimation {
-            duration:
-                (audioHoverInit.hovered || audioHover.hovered)
-                ? Theme.collapseTimeout : 0
-          }
-          NumberAnimation {
-            duration: Theme.animationDuration
-            easing: Theme.animationEasing
-          }
+      SequentialAnimation {
+        id: audioClose
+        PropertyAnimation {
+          target: audio
+          property: "opacity"
+          to: 0
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
+        }
+        PropertyAnimation {
+          target: audioRect
+          property: "implicitWidth"
+          to: 0
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
         }
       }
     }
@@ -127,7 +142,15 @@ Item {
       foreground: Theme.surface0
       reversed: true
       implicitHeight: Theme.barHeight
-      HoverHandler { id: trayHoverInit }
+      HoverHandler {
+        id: trayHoverInit
+        onHoveredChanged: {
+          if (hovered) {
+            trayChangeWaiter.stop()
+            trayOpen.start()
+          }
+        }
+      }
     }
 
     Rectangle {
@@ -136,57 +159,67 @@ Item {
       clip: true
       color: Theme.surface0
       implicitHeight: Theme.barHeight
-      implicitWidth:
-        (trayHoverInit.hovered || trayHover.hovered || trayRect.change)
-        ? tray.implicitWidth : 0
+      implicitWidth: 0
 
       HoverHandler {
         id: trayHover
+        onHoveredChanged: {
+          if (hovered) {
+            trayChangeWaiter.stop()
+          } else {
+            trayChangeWaiter.start()
+          }
+        }
       }
-
-      property bool change: false
 
       Timer {
         id: trayChangeWaiter
         interval: Theme.collapseTimeout
         onTriggered: {
-          trayRect.change = false
+          trayClose.start()
         }
       }
 
       Tray {
         id: tray
-        opacity:
-          (trayHoverInit.hovered || trayHover.hovered || trayRect.change)
-          ? 1 : 0
         onChanged: {
-          trayRect.change = true
+          trayOpen.start()
           trayChangeWaiter.restart()
-        }
-        Behavior on opacity {
-          SequentialAnimation {
-            PauseAnimation {
-              duration:
-                (trayHoverInit.hovered || trayHover.hovered)
-                ? Theme.collapseTimeout : 0
-            }
-            NumberAnimation {
-              duration: Theme.animationDuration
-            }
-          }
         }
       }
 
-      Behavior on implicitWidth {
-        SequentialAnimation {
-          PauseAnimation {
-            duration:
-              (trayHoverInit.hovered || trayHover.hovered)
-              ? Theme.collapseTimeout : 0
-          }
-          NumberAnimation {
-            duration: Theme.animationDuration
-          }
+      SequentialAnimation {
+        id: trayOpen
+        PropertyAnimation {
+          target: trayRect
+          property: "implicitWidth"
+          to: tray.implicitWidth
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
+        }
+        PropertyAnimation {
+          target: tray
+          property: "opacity"
+          to: 1
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
+        }
+      }
+      SequentialAnimation {
+        id: trayClose
+        PropertyAnimation {
+          target: tray
+          property: "opacity"
+          to: 0
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
+        }
+        PropertyAnimation {
+          target: trayRect
+          property: "implicitWidth"
+          to: 0
+          duration: Theme.animationDuration
+          easing: Theme.animationEasing
         }
       }
     }
