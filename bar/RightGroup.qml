@@ -33,6 +33,8 @@ Item {
           if (hovered) {
             audioCloseTimer.stop()
             audioOpen.start()
+          } else {
+            audioCloseTimer.restart()
           }
         }
       }
@@ -148,8 +150,10 @@ Item {
         id: trayHoverInit
         onHoveredChanged: {
           if (hovered) {
-            trayChangeWaiter.stop()
+            trayCloseTimer.stop()
             trayOpen.start()
+          } else {
+            trayCloseTimer.restart()
           }
         }
       }
@@ -167,15 +171,15 @@ Item {
         id: trayHover
         onHoveredChanged: {
           if (hovered) {
-            trayChangeWaiter.stop()
+            trayCloseTimer.stop()
           } else {
-            trayChangeWaiter.start()
+            trayCloseTimer.start()
           }
         }
       }
 
       Timer {
-        id: trayChangeWaiter
+        id: trayCloseTimer
         interval: Theme.collapseTimeout
         onTriggered: {
           if (!trayHover.hovered) {
@@ -188,7 +192,7 @@ Item {
         id: tray
         onChanged: {
           trayOpen.start()
-          trayChangeWaiter.restart()
+          trayCloseTimer.restart()
         }
       }
 
