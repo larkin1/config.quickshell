@@ -22,6 +22,7 @@ Item {
         openAnim.start()
         grab.active = true;
         button.forceActiveFocus()
+        screens.close()
       }
     } else {
       openAnim.stop()
@@ -64,9 +65,8 @@ Item {
         expanded: window.visible
         openDelay: Theme.animationDuration
         openAnimation: true
-        // onClicked: { ShellUI.openPower() }
+        visible: screens.uiState == ""
         onClicked: {
-          button.visible = false
           screens.openTest()
         }
       }
