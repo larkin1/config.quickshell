@@ -2,7 +2,6 @@ singleton ShellUI lib/ShellUI.qml
 singleton Theme lib/Theme.qml
 singleton PowerMenu lib/overlays/PowerMenu.qml
 singleton LockScreen lib/overlays/LockScreen.qml
-MultiCenter lib/overlays/MultiCenter.qml
 LeftGroup bar/LeftGroup.qml
 RightGroup bar/RightGroup.qml
 MiddleGroup bar/MiddleGroup.qml
@@ -23,3 +22,6 @@ PasswordField lib/widgets/PasswordField.qml
 MultiButton lib/widgets/MultiButton.qml
 IconButton lib/widgets/IconButton.qml
 Battery lib/widgets/Battery.qml
+MultiCenter lib/multiCenter/MultiCenter.qml
+MultiUI lib/multiCenter/MultiUI.qml
+TestMenu lib/multiCenter/TestMenu.qml

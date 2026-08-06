@@ -50,6 +50,11 @@ Item {
       Keys.onEscapePressed: {
         ShellUI.close()
       }
+
+      MultiUI {
+        id: screens
+      }
+
       IconButton {
         id: button
         anchors.centerIn: parent
@@ -59,7 +64,11 @@ Item {
         expanded: window.visible
         openDelay: Theme.animationDuration
         openAnimation: true
-        onClicked: { ShellUI.openPower() }
+        // onClicked: { ShellUI.openPower() }
+        onClicked: {
+          button.visible = false
+          screens.openTest()
+        }
       }
     }
   }
