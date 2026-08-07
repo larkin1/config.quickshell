@@ -9,6 +9,7 @@ Item {
 
   property int segmentWidth: 25
   implicitHeight: 20
+  implicitWidth: content.implicitWidth
 
   property real p: activated ? 1 : 0
 
@@ -21,6 +22,7 @@ Item {
   readonly property real rightW:  p <= 0.5 ? segmentWidth - p * (segmentWidth*1.5) : (1 - p) * (segmentWidth/2)
 
   RowLayout {
+    id: content
     spacing: 0
     anchors.centerIn: parent
 

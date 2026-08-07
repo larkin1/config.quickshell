@@ -1,15 +1,19 @@
 // import Quickshell
 import QtQuick
-// import "../.."
+import "../.."
 
 Item {
   id: root
   anchors.fill: parent
 
-  Rectangle {
-    anchors.centerIn: parent
-    color: "white"
-    implicitWidth: 100
-    implicitHeight: 100
+  Toggle {
+    activated: false
+    MouseArea {
+      anchors.fill: parent
+      onClicked: {
+        parent.activated = !parent.activated
+      }
+      cursorShape: Qt.PointingHandCursor
+    }
   }
 }
