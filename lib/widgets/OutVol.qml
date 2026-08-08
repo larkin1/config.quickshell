@@ -21,9 +21,9 @@ Item {
 
       if (factory.includes("bluez5") || name.startsWith("bluez_output.")) {
         if ( node.audio.muted ) {
-          return "../../svg/bt-inactive.svg";
+          return "../../svg/bt-off.svg";
         } else {
-          return "../../svg/bt-active.svg";
+          return "../../svg/bt-on.svg";
         }
       }
 

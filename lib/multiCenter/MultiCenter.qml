@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
 import "../.."
@@ -21,7 +22,7 @@ Item {
         window.visible = false
         openAnim.start()
         grab.active = true;
-        button.forceActiveFocus()
+        buttons.forceActiveFocus()
         screens.close()
       }
     } else {
@@ -56,18 +57,65 @@ Item {
         id: screens
       }
 
-      IconButton {
-        id: button
+      GridLayout {
+        id: buttons
+
         anchors.centerIn: parent
-        implicitHeight: 100
-        activeBtnPath: "../../svg/power-button-active.svg"
-        inactiveBtnPath: "../../svg/power-button-inactive.svg"
-        expanded: window.visible
-        openDelay: Theme.animationDuration
-        openAnimation: true
-        visible: screens.uiState == ""
-        onClicked: {
-          screens.openTest()
+        rowSpacing: 10
+        columnSpacing: 10
+
+        rows: 3
+        columns: 3
+
+        Keys.onPressed: event => {
+          switch (event.key) {
+            case Qt.Key_H:
+            case Qt.Key_Left:
+              button.forceActiveFocus(); break
+            case Qt.Key_J:
+            case Qt.Key_Down:
+              button.forceActiveFocus(); break
+            case Qt.Key_K:
+            case Qt.Key_Up:
+              button.forceActiveFocus(); break
+            case Qt.Key_L:
+            case Qt.Key_Left:
+              button.forceActiveFocus(); break
+            case Qt.Key_B:
+              button.clicked(); break
+          }
+        }
+
+        IconButton {
+          id: button
+          Layout.column: 0
+          Layout.row: 0
+          implicitHeight: 100
+          activeBtnPath: "../../svg/power-button-active.svg"
+          inactiveBtnPath: "../../svg/power-button-inactive.svg"
+          openAnimation: false
+          visible: screens.uiState == ""
+          onClicked: {
+            screens.openTest()
+          }
+
+          focusRight: bluetoothButton
+        }
+
+        IconButton {
+          id: bluetoothButton
+          Layout.column: 1
+          Layout.row: 0
+          implicitHeight: 100
+          activeBtnPath: "../../svg/bt-active.svg"
+          inactiveBtnPath: "../../svg/bt-inactive.svg"
+          openAnimation: false
+          visible: screens.uiState == ""
+          onClicked: {
+            screens.openTest()
+          }
+
+          focusLeft: button
         }
       }
     }
@@ -81,12 +129,23 @@ Item {
       property: "visible"
       value: true
     }
+    PropertyAction {
+      target: buttons
+      property: "opacity"
+      value: 0
+    }
     PropertyAnimation {
       target: window
       property: "implicitHeight"
       duration: Theme.animationDuration
       from: root.height
       to: 500
+    }
+    PropertyAnimation {
+      target: buttons
+      property: "opacity"
+      duration: Theme.animationDuration
+      to: 1
     }
   }
 
