@@ -71,23 +71,23 @@ Item {
           switch (event.key) {
             case Qt.Key_H:
             case Qt.Key_Left:
-              button.forceActiveFocus(); break
+              powerButton.forceActiveFocus(); break
             case Qt.Key_J:
             case Qt.Key_Down:
-              button.forceActiveFocus(); break
+              powerButton.forceActiveFocus(); break
             case Qt.Key_K:
             case Qt.Key_Up:
-              button.forceActiveFocus(); break
+              powerButton.forceActiveFocus(); break
             case Qt.Key_L:
             case Qt.Key_Left:
-              button.forceActiveFocus(); break
+              powerButton.forceActiveFocus(); break
             case Qt.Key_B:
-              button.clicked(); break
+              powerButton.clicked(); break
           }
         }
 
         IconButton {
-          id: button
+          id: powerButton
           Layout.column: 0
           Layout.row: 0
           implicitHeight: 100
@@ -96,7 +96,7 @@ Item {
           openAnimation: false
           visible: screens.uiState == ""
           onClicked: {
-            screens.openTest()
+            ShellUI.openPower()
           }
 
           focusRight: bluetoothButton
@@ -115,7 +115,7 @@ Item {
             screens.openTest()
           }
 
-          focusLeft: button
+          focusLeft: powerButton
         }
       }
     }

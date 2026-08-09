@@ -4,10 +4,26 @@ import "../.."
 
 Item {
   id: root
-  required property bool activated
+  property bool activated: false
   anchors.centerIn: parent
 
-  property int segmentWidth: 25
+  property string onText: ""
+  property string offText: ""
+
+  property int segmentSize: 0
+
+  signal clicked()
+
+  onClicked: activated = !activated
+
+  property int segmentWidth: {
+    if (segmentSize > 0) {
+      return segmentSize
+    } else {
+      return Math.max(onTextItem.implicitWidth, offTextItem.implicitWidth)
+    }
+  }
+
   implicitHeight: 20
   implicitWidth: content.implicitWidth
 
@@ -20,6 +36,11 @@ Item {
   readonly property real leftW:   p <= 0.5 ? p * (segmentWidth/2) : (segmentWidth/4) + (p - 0.5) * (segmentWidth*1.5)
   readonly property real middleW: p <= 0.5 ? p * segmentWidth : (1 - p) * segmentWidth
   readonly property real rightW:  p <= 0.5 ? segmentWidth - p * (segmentWidth*1.5) : (1 - p) * (segmentWidth/2)
+
+  MouseArea {
+    onClicked: root.clicked()
+    anchors.fill: parent
+  }
 
   RowLayout {
     id: content
@@ -36,6 +57,12 @@ Item {
       color: Theme.mantle
       implicitWidth: root.leftW
       implicitHeight: root.height
+      clip: true
+      StyledText {
+        id: onTextItem
+        visible: parent.width
+        text: root.onText
+      }
     }
     Border {
       foreground: Theme.surface0
@@ -58,6 +85,12 @@ Item {
       color: Theme.surface1
       implicitWidth: root.rightW
       implicitHeight: root.height
+      clip: true
+      StyledText {
+        id: offTextItem
+        visible: parent.width
+        text: root.offText
+      }
     }
     Border {
       foreground: Theme.surface1
