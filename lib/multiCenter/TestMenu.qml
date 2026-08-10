@@ -1,5 +1,5 @@
-import Quickshell.Io
-import Quickshell.Widgets
+// import Quickshell.Io
+// import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 import "../.."
@@ -7,6 +7,12 @@ import "../.."
 Item {
   id: root
   anchors.fill: parent
+  
+  onVisibleChanged: {
+    if (visible) {
+      content.forceActiveFocus()
+    }
+  }
 
   ColumnLayout {
     id: content
@@ -15,14 +21,44 @@ Item {
     anchors.centerIn: parent
     spacing: Theme.vertMargin
 
+    Keys.onPressed: event => {
+      switch (event.key) {
+        case Qt.Key_H:
+        case Qt.Key_Left:
+          power.forceActiveFocus()
+          event.accepted = true;
+          break;
+        case Qt.Key_L:
+        case Qt.Key_Right:
+          power.forceActiveFocus()
+          event.accepted = true;
+          break;
+        case Qt.Key_J:
+        case Qt.Key_Down:
+          power.forceActiveFocus()
+          event.accepted = true;
+          break;
+        case Qt.Key_K:
+        case Qt.Key_Up:
+          power.forceActiveFocus()
+          event.accepted = true;
+          break;
+        case Qt.Key_Return:
+        case Qt.Key_Enter:
+        case Qt.Key_Space:
+          power.clicked();
+          power.forceActiveFocus()
+          event.accepted = true;
+          break;
+      }
+    }
+
     Rectangle {
       id: actionsBar
       implicitHeight: (root.height - (Theme.vertMargin*2)) / 13
       implicitWidth: parent.width
       color: "orange"
       RowLayout {
-        // implicitHeight: parent.height
-        // implicitWidth: parent.width
         anchors.fill: parent
         Rectangle {
 
@@ -33,6 +69,7 @@ Item {
           Layout.alignment: Qt.AlignRight
 
           Toggle {
+            id: power
             activated: true
             onText: "on"
             offText: "off"
@@ -46,8 +83,6 @@ Item {
           implicitHeight: parent.height
           implicitWidth: parent.width / 5
           color: "green"
-
-          // Layout.alignment: Qt.AlignRight
 
           StyledText {
             anchors.centerIn: parent
@@ -66,15 +101,4 @@ Item {
       // }
     }
   }
-
-  // Toggle {
-  //   activated: false
-  //   MouseArea {
-  //     anchors.fill: parent
-  //     onClicked: {
-  //       parent.activated = !parent.activated
-  //     }
-  //     cursorShape: Qt.PointingHandCursor
-  //   }
-  // }
 }

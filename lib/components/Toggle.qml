@@ -10,6 +10,50 @@ Item {
   property string onText: ""
   property string offText: ""
 
+  property Item focusLeft: null
+  property Item focusRight: null
+  property Item focusUp: null
+  property Item focusDown: null
+
+  property color color1: (root.focus || hover.hovered) ? Theme.surface0 : Theme.mantle
+  property color color2: (root.focus || hover.hovered) ? Theme.surface1 : Theme.surface0
+  property color color3: (root.focus || hover.hovered) ? Theme.overlay0 : Theme.surface1
+
+  HoverHandler {
+    id: hover
+  }
+
+  Keys.onPressed: event => {
+    switch (event.key) {
+      case Qt.Key_H:
+      case Qt.Key_Left:
+        if (root.focusLeft) root.focusLeft.forceActiveFocus();
+        event.accepted = true;
+        break;
+      case Qt.Key_L:
+      case Qt.Key_Right:
+        if (root.focusRight) root.focusRight.forceActiveFocus();
+        event.accepted = true;
+        break;
+      case Qt.Key_J:
+      case Qt.Key_Down:
+        if (root.focusDown) root.focusDown.forceActiveFocus();
+        event.accepted = true;
+        break;
+      case Qt.Key_K:
+      case Qt.Key_Up:
+        if (root.focusUp) root.focusUp.forceActiveFocus();
+        event.accepted = true;
+        break;
+      case Qt.Key_Return:
+      case Qt.Key_Enter:
+      case Qt.Key_Space:
+        clicked();
+        event.accepted = true;
+        break;
+    }
+  }
+
   property int segmentSize: 0
 
   signal clicked()
@@ -48,13 +92,13 @@ Item {
     anchors.centerIn: parent
 
     Border {
-      foreground: Theme.mantle
+      foreground: root.color1
       background: "transparent"
       reversed: true
     }
     Rectangle {
       id: left
-      color: Theme.mantle
+      color: root.color1
       implicitWidth: root.leftW
       implicitHeight: root.height
       clip: true
@@ -65,24 +109,24 @@ Item {
       }
     }
     Border {
-      foreground: Theme.surface0
-      background: Theme.mantle
+      foreground: root.color2
+      background: root.color1
       reversed: true
     }
     Rectangle {
       id: middle
-      color: Theme.surface0
+      color: root.color2
       implicitWidth: root.middleW
       implicitHeight: root.height
     }
     Border {
-      foreground: Theme.surface1
-      background: Theme.surface0
+      foreground: root.color3
+      background: root.color2
       reversed: true
     }
     Rectangle {
       id: right
-      color: Theme.surface1
+      color: root.color3
       implicitWidth: root.rightW
       implicitHeight: root.height
       clip: true
@@ -93,7 +137,7 @@ Item {
       }
     }
     Border {
-      foreground: Theme.surface1
+      foreground: root.color3
       background: "transparent"
       reversed: false
     }
