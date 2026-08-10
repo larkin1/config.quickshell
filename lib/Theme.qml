@@ -71,5 +71,5 @@ QtObject {
   readonly property int animationDuration: 200
   readonly property int collapseTimeout: 2500
   readonly property int colorAnimationDuration: 200
-  readonly property var animationEasing: Easing.InOutQuad
+  readonly property var animationEasing: Easing.OutQuad
 }

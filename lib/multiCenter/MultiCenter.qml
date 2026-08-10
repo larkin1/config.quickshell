@@ -28,7 +28,7 @@ Item {
     } else {
       openAnim.stop()
       window.visible = false
-      window.implicitHeight = 1
+      background.implicitHeight = 1
       grab.active = false
     }
   }
@@ -39,16 +39,20 @@ Item {
     visible: false
     color: "transparent"
     implicitWidth: root.expandedWidth
+    implicitHeight: 500
     anchor.item: root
     anchor.rect.x: 0
     anchor.rect.y: root.height
 
     Rectangle {
       id: background
-      anchors.fill: parent
+      implicitWidth: parent.width
+      anchors.top: parent.top
+
       color: Theme.backgroundBlur
       bottomLeftRadius: Theme.vertMargin
       bottomRightRadius: Theme.vertMargin
+
       Keys.onEscapePressed: {
         ShellUI.close()
       }
@@ -135,7 +139,7 @@ Item {
       value: 0
     }
     PropertyAnimation {
-      target: window
+      target: background
       property: "implicitHeight"
       duration: Theme.animationDuration
       from: root.height
