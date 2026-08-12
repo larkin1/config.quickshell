@@ -85,8 +85,11 @@ Item {
             case Qt.Key_L:
             case Qt.Key_Left:
               powerButton.forceActiveFocus(); break
-            case Qt.Key_B:
+
+            case Qt.Key_P:
               powerButton.clicked(); break
+            case Qt.Key_B:
+              bluetoothButton.clicked(); break
           }
         }
 

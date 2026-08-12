@@ -138,7 +138,7 @@ Item {
         id: date
         anchors.centerIn: parent
         timeStr: "MM-dd"
-        altTimeStr: "MMMM, yyyy"
+        altTimeStr: "dddd d MMMM, yyyy"
         interval: 1000 * 60
       }
     }
