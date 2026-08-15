@@ -24,4 +24,4 @@ IconButton lib/widgets/IconButton.qml
 Battery lib/widgets/Battery.qml
 MultiCenter lib/multiCenter/MultiCenter.qml
 MultiUI lib/multiCenter/MultiUI.qml
-TestMenu lib/multiCenter/TestMenu.qml
+BluetoothMenu lib/multiCenter/BluetoothMenu.qml

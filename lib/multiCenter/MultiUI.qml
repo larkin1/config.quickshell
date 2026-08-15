@@ -14,12 +14,12 @@ Item {
     uiState = ""
   }
 
-  function openTest() {
-    uiState = "test"
+  function openBluetooth() {
+    uiState = "bluetooth"
   }
 
-  TestMenu {
+  BluetoothMenu {
     id: test
-    visible: root.uiState == "test"
+    visible: root.uiState == "bluetooth"
   }
 }

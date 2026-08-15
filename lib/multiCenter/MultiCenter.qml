@@ -122,7 +122,7 @@ Item {
           openAnimation: false
           visible: screens.uiState == ""
           onClicked: {
-            screens.openTest()
+            screens.openBluetooth()
           }
 
           focusLeft: powerButton
