@@ -53,8 +53,16 @@ Item {
       bottomLeftRadius: Theme.vertMargin
       bottomRightRadius: Theme.vertMargin
 
-      Keys.onEscapePressed: {
-        ShellUI.close()
+      // Keys.onEscapePressed: {
+      //   ShellUI.close()
+      // }
+      Keys.onPressed: event => {
+        switch (event.key) {
+          case Qt.Key_Escape:
+            ShellUI.close();
+            event.accepted = true;
+            console.log("closed menu via keybind")
+        }
       }
 
       MultiUI {
@@ -85,7 +93,6 @@ Item {
             case Qt.Key_L:
             case Qt.Key_Left:
               powerButton.forceActiveFocus(); break
-
             case Qt.Key_P:
               powerButton.clicked(); break
             case Qt.Key_B:

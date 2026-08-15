@@ -5,7 +5,7 @@ import "../.."
 Item {
   id: root
   property bool activated: false
-  anchors.centerIn: parent
+  // anchors.centerIn: parent
 
   property string onText: ""
   property string offText: ""
