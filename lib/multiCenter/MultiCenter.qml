@@ -53,15 +53,11 @@ Item {
       bottomLeftRadius: Theme.vertMargin
       bottomRightRadius: Theme.vertMargin
 
-      // Keys.onEscapePressed: {
-      //   ShellUI.close()
-      // }
       Keys.onPressed: event => {
         switch (event.key) {
           case Qt.Key_Escape:
             ShellUI.close();
             event.accepted = true;
-            console.log("closed menu via keybind")
         }
       }
 
