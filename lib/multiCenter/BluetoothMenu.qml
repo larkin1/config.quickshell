@@ -171,6 +171,7 @@ Item {
           activeBtnPath: "../../svg/reboot-active.svg"
           inactiveBtnPath: "../../svg/reboot-inactive.svg"
           openAnimation: false
+
           onClicked: {
             Bluetooth.defaultAdapter.discovering = true // qmllint disable unresolved-type
             scanTimeout.restart()
@@ -266,21 +267,34 @@ Item {
                 IconButton {
                   Layout.alignment: Qt.AlignRight
                   implicitHeight: deviceRow.height
-                  activeBtnPath: deviceRow.modelData.trusted ? "../../svg/shield-check-active.svg" : "../../svg/shield-cross-active.svg"
-                  inactiveBtnPath: deviceRow.modelData.trusted ? "../../svg/shield-check-inactive.svg" : "../../svg/shield-cross-inactive.svg"
+                  activeBtnPath: deviceRow.removalMode ? "../../svg/check-active.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check-active.svg" : "../../svg/shield-cross-active.svg"
+                  inactiveBtnPath: deviceRow.removalMode ? "../../svg/check-inactive.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check-inactive.svg" : "../../svg/shield-cross-inactive.svg"
                   openAnimation: false
+
                   onClicked: {
-                    deviceRow.trustToggle()
+                    if (deviceRow.removalMode) {
+                      deviceRow.remove() // qmllint disable missing-property
+                      root.menuState = 0
+                    } else {
+                      deviceRow.trustToggle()
+                    }
                   }
                 }
 
                 IconButton {
                   implicitHeight: deviceRow.height
-                  activeBtnPath: "../../svg/trash-active.svg"
-                  inactiveBtnPath: "../../svg/trash-inactive.svg"
+                  activeBtnPath: deviceRow.removalMode ? "../../svg/cross-active.svg" : "../../svg/trash-active.svg"
+                  inactiveBtnPath: deviceRow.removalMode ? "../../svg/cross-inactive.svg" : "../../svg/trash-inactive.svg"
                   openAnimation: false
+
                   onClicked: {
-                    deviceRow.remove()
+                    if (deviceRow.removalMode) {
+                      root.menuState = 0
+                    } else {
+                      root.devicesSelectedIdx = deviceRow.index
+                      root.menuState = 1
+                      // deviceRow.remove()
+                    }
                   }
                 }
               }

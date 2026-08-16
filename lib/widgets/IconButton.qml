@@ -25,6 +25,7 @@ Item {
   property Item focusDown: null
   property bool openAnimation: true
   property var openAnimationEasing: Easing.InQuart
+  readonly property bool hovered: btnHover.hovered
 
   onClicked: {
     if (root.command !== undefined && root.command !== null) {
