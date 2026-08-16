@@ -224,9 +224,7 @@ Item {
               function toggle() {
                 if (!modelData.paired) {
                   modelData.pair()
-                }
-
-                if (connected) {
+                } else if (connected) {
                   modelData.disconnect()
                 } else {
                   modelData.connect()
@@ -259,7 +257,7 @@ Item {
                 StyledText {
                   id: deviceText
                   text: deviceRow.removalMode ? "Really remove device?" : deviceRow.modelData.name
-                  color: deviceRow.modelData.connected ? Theme.cyclingColor : Theme.text
+                  color: deviceRow.modelData.paired ? deviceRow.modelData.connected ? Theme.cyclingColor : Theme.text : Theme.overlay0
                 }
 
                 Rectangle { Layout.fillWidth: true }
