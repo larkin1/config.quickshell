@@ -223,7 +223,8 @@ Item {
 
               function toggle() {
                 if (!modelData.paired) {
-                  modelData.pair()
+                  deviceRow.modelData.pair()
+                  // pairPoll.start()
                 } else if (connected) {
                   modelData.disconnect()
                 } else {
@@ -238,6 +239,26 @@ Item {
               function trustToggle() {
                 modelData.trusted = !modelData.trusted
               }
+
+              // Timer {
+              //   id: pairPoll
+              //   interval: 500
+              //   running: false
+              //   onTriggered: {
+              //     if (deviceRow.modelData.pairing) {
+              //       pairPoll.restart()
+              //       return;
+              //     } else {
+              //       if (!deviceRow.modelData.connected && !deviceRow.modelData.paired) {
+              //         deviceRow.modelData.connect()
+              //         pairPoll.restart()
+              //       } else {
+              //         console.log("finished pairing")
+              //       }
+              //     }
+              //     pairPoll.stop()
+              //   }
+              // }
 
               MouseArea {
                 anchors.fill: parent
@@ -272,7 +293,7 @@ Item {
                   onClicked: {
                     if (deviceRow.removalMode) {
                       deviceRow.remove() // qmllint disable missing-property
-                      root.menuState = 0
+                      root.menuState = 0 // qmllint disable unqualified
                     } else {
                       deviceRow.trustToggle()
                     }
@@ -287,11 +308,10 @@ Item {
 
                   onClicked: {
                     if (deviceRow.removalMode) {
-                      root.menuState = 0
+                      root.menuState = 0 // qmllint disable unqualified
                     } else {
-                      root.devicesSelectedIdx = deviceRow.index
-                      root.menuState = 1
-                      // deviceRow.remove()
+                      root.devicesSelectedIdx = deviceRow.index // qmllint disable unqualified
+                      root.menuState = 1 // qmllint disable unqualified
                     }
                   }
                 }
