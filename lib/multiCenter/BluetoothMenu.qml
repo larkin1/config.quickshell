@@ -7,48 +7,64 @@ import "../.."
 Item {
   id: root
   anchors.fill: parent
-  
+
+
+  // -- State management --
+
+  // selected item in the devices list
+  property int devicesSelectedIdx: 0
+
+  // zone selection. chooses which element has "focus"
+  readonly property int headerZone: 0
+  readonly property int listZone: 1
+  property int currentZone: 0
+
+  // state selection. changes states such as whether the user is being prompted to remove an item.
+  readonly property int noState: 0
+  readonly property int removeState: 1
+  property int menuState: 0
+
+  onCurrentZoneChanged: { menuState = noState }
+  onDevicesSelectedIdxChanged: { menuState = noState }
+
   onVisibleChanged: {
     if (visible) {
       devicesSelectedIdx = 0
-      currentZone = 1
+      currentZone = listZone
       root.forceActiveFocus()
     }
   }
 
+
+  // -- Bluetooth management --
   property var devices: Bluetooth.defaultAdapter?.devices; // qmllint disable unresolved-type
-  property int devicesSelectedIdx: 0
-  property int currentZone: 0 // 0 = header/top bar; 1 = item list
-  property int menuState: 0 // 0 = none; 1 = removal confirmation
 
-  onCurrentZoneChanged: { menuState = 0 }
-  onDevicesSelectedIdxChanged: { menuState = 0 }
-
+  // Keyboard Shortcuts
   Keys.onPressed: event => {
     switch (event.key) {
       case Qt.Key_H:
       case Qt.Key_Left:
-        if (currentZone === 0) {
-          currentZone = 1;
+        if (currentZone === headerZone) {
+          currentZone = listZone;
           event.accepted = true;
         } else {
-          currentZone -= 1;
+          currentZone -= 1; // move to the prev zone
           event.accepted = true;
         }
         break;
       case Qt.Key_L:
       case Qt.Key_Right:
-        if (currentZone === 1) {
-          currentZone = 0;
+        if (currentZone === 0) {
+          currentZone = headerZone;
           event.accepted = true;
         } else {
-          currentZone += 1;
+          currentZone += 1; // move to next zone
           event.accepted = true;
         }
         break;
       case Qt.Key_J:
       case Qt.Key_Down:
-        if (currentZone === 1) {
+        if (currentZone === listZone) {
           if (devicesSelectedIdx < deviceRepeater.count - 1) {
             devicesSelectedIdx += 1
           }
@@ -57,7 +73,7 @@ Item {
         break;
       case Qt.Key_K:
       case Qt.Key_Up:
-        if (currentZone === 1) {
+        if (currentZone === listZone) {
           if (devicesSelectedIdx !== 0) {
             devicesSelectedIdx -= 1
           }
@@ -68,29 +84,29 @@ Item {
       case Qt.Key_D:
       case Qt.Key_X:
       case Qt.Key_Delete:
-        if (currentZone === 1) {
-          menuState = 1
+        if (currentZone === listZone) {
+          menuState = removeState
           event.accepted = true;
         }
         break;
 
       case Qt.Key_Y:
-        if (menuState === 1) {
+        if (menuState === removeState) {
           deviceRepeater.itemAt(devicesSelectedIdx).remove() // qmllint disable missing-property
-          menuState = 0
+          menuState = noState
           event.accepted = true;
         }
         break;
 
       case Qt.Key_N:
-        if (menuState === 1) {
-          menuState = 0
+        if (menuState === removeState) {
+          menuState = noState
           event.accepted = true;
         }
         break;
 
       case Qt.Key_T:
-        if (currentZone === 1) {
+        if (currentZone === listZone) {
           deviceRepeater.itemAt(devicesSelectedIdx).trustToggle() // qmllint disable missing-property
           event.accepted = true;
         }
@@ -109,15 +125,15 @@ Item {
       case Qt.Key_Return:
       case Qt.Key_Enter:
       case Qt.Key_Space:
-        if (currentZone === 1) {
+        if (currentZone === listZone) {
           deviceRepeater.itemAt(devicesSelectedIdx).toggle() // qmllint disable missing-property
           event.accepted = true;
         }
         break;
 
       case Qt.Key_Escape:
-        if (menuState === 1) {
-          menuState = 0
+        if (menuState !== noState) {
+          menuState = noState
           event.accepted = true;
         }
         break;
@@ -216,15 +232,14 @@ Item {
               required property int index
               required property var modelData
 
-              property bool focused: (root.currentZone === 1 && root.devicesSelectedIdx === index) // qmllint disable unqualified
-              property bool removalMode: (root.menuState === 1 && root.devicesSelectedIdx === index) // qmllint disable unqualified
+              property bool focused: (root.currentZone === root.listZone && root.devicesSelectedIdx === index) // qmllint disable unqualified
+              property bool removalMode: (root.menuState === root.removeState && root.devicesSelectedIdx === index) // qmllint disable unqualified
               property bool connected: modelData.connected
               property string name: modelData.name
 
               function toggle() {
                 if (!modelData.paired) {
                   deviceRow.modelData.pair()
-                  // pairPoll.start()
                 } else if (connected) {
                   modelData.disconnect()
                 } else {
@@ -239,26 +254,6 @@ Item {
               function trustToggle() {
                 modelData.trusted = !modelData.trusted
               }
-
-              // Timer {
-              //   id: pairPoll
-              //   interval: 500
-              //   running: false
-              //   onTriggered: {
-              //     if (deviceRow.modelData.pairing) {
-              //       pairPoll.restart()
-              //       return;
-              //     } else {
-              //       if (!deviceRow.modelData.connected && !deviceRow.modelData.paired) {
-              //         deviceRow.modelData.connect()
-              //         pairPoll.restart()
-              //       } else {
-              //         console.log("finished pairing")
-              //       }
-              //     }
-              //     pairPoll.stop()
-              //   }
-              // }
 
               MouseArea {
                 anchors.fill: parent
@@ -293,7 +288,7 @@ Item {
                   onClicked: {
                     if (deviceRow.removalMode) {
                       deviceRow.remove() // qmllint disable missing-property
-                      root.menuState = 0 // qmllint disable unqualified
+                      root.menuState = noState // qmllint disable unqualified
                     } else {
                       deviceRow.trustToggle()
                     }
@@ -308,10 +303,10 @@ Item {
 
                   onClicked: {
                     if (deviceRow.removalMode) {
-                      root.menuState = 0 // qmllint disable unqualified
+                      root.menuState = noState // qmllint disable unqualified
                     } else {
                       root.devicesSelectedIdx = deviceRow.index // qmllint disable unqualified
-                      root.menuState = 1 // qmllint disable unqualified
+                      root.menuState = removeState // qmllint disable unqualified
                     }
                   }
                 }
