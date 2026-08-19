@@ -40,96 +40,9 @@ Item {
   property var devices: Bluetooth.defaultAdapter?.devices; // qmllint disable unresolved-type
 
   // Keyboard Shortcuts
-  Keys.onPressed: event => {
+
+  function handleCommonKeys(event) {
     switch (event.key) {
-      case Qt.Key_H:
-      case Qt.Key_Left:
-        if (currentZone === headerZone) {
-          currentZone = listZone;
-          event.accepted = true;
-        } else {
-          currentZone -= 1; // move to the prev zone
-          event.accepted = true;
-        }
-        break;
-      case Qt.Key_L:
-      case Qt.Key_Right:
-        if (currentZone === 0) {
-          currentZone = headerZone;
-          event.accepted = true;
-        } else {
-          currentZone += 1; // move to next zone
-          event.accepted = true;
-        }
-        break;
-      case Qt.Key_J:
-      case Qt.Key_Down:
-        if (currentZone === listZone) {
-          if (devicesSelectedIdx < deviceRepeater.count - 1) {
-            devicesSelectedIdx += 1
-          }
-          event.accepted = true;
-        }
-        break;
-      case Qt.Key_K:
-      case Qt.Key_Up:
-        if (currentZone === listZone) {
-          if (devicesSelectedIdx !== 0) {
-            devicesSelectedIdx -= 1
-          }
-          event.accepted = true;
-        }
-        break;
-
-      case Qt.Key_D:
-      case Qt.Key_X:
-      case Qt.Key_Delete:
-        if (currentZone === listZone) {
-          menuState = removeState
-          event.accepted = true;
-        }
-        break;
-
-      case Qt.Key_Y:
-        if (menuState === removeState) {
-          deviceRepeater.itemAt(devicesSelectedIdx).remove() // qmllint disable missing-property
-          menuState = noState
-          event.accepted = true;
-        }
-        break;
-
-      case Qt.Key_N:
-        if (menuState === removeState) {
-          menuState = noState
-          event.accepted = true;
-        }
-        break;
-
-      case Qt.Key_T:
-        if (currentZone === listZone) {
-          deviceRepeater.itemAt(devicesSelectedIdx).trustToggle() // qmllint disable missing-property
-          event.accepted = true;
-        }
-        break;
-
-      case Qt.Key_P:
-        Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled // qmllint disable unresolved-type
-        event.accepted = true;
-        break;
-
-      case Qt.Key_S:
-        Bluetooth.defaultAdapter.discovering = true // qmllint disable unresolved-type
-        scanTimeout.restart()
-        break;
-
-      case Qt.Key_Return:
-      case Qt.Key_Enter:
-      case Qt.Key_Space:
-        if (currentZone === listZone) {
-          deviceRepeater.itemAt(devicesSelectedIdx).toggle() // qmllint disable missing-property
-          event.accepted = true;
-        }
-        break;
 
       case Qt.Key_Escape:
         if (menuState !== noState) {
@@ -137,7 +50,81 @@ Item {
           event.accepted = true;
         }
         break;
+
+      case Qt.Key_Slash:
+        break;
+
+      case Qt.Key_P:
+        Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled // qmllint disable unresolved-type
+        event.accepted = true; break;
+
+      case Qt.Key_S:
+        Bluetooth.defaultAdapter.discovering = true // qmllint disable unresolved-type
+        scanTimeout.restart()
+        event.accepted = true; break;
     }
+  }
+
+  function handleHeaderKeys(event) {
+    switch (event.key) {
+
+      case Qt.Key_H:
+      case Qt.Key_Left:
+        currentZone = listZone;
+        event.accepted = true; break;
+      case Qt.Key_L:
+      case Qt.Key_Right:
+        currentZone += 1
+        event.accepted = true; break;
+    }
+  }
+
+  function handleListKeys(event) {
+    switch (event.key) {
+
+      case Qt.Key_H:
+      case Qt.Key_Left:
+        currentZone -= 1
+        event.accepted = true; break;
+      case Qt.Key_L:
+      case Qt.Key_Right:
+        currentZone = headerZone;
+        event.accepted = true; break;
+
+      case Qt.Key_J:
+      case Qt.Key_Down:
+        if (devicesSelectedIdx < deviceRepeater.count - 1) devicesSelectedIdx += 1
+        event.accepted = true; break;
+      case Qt.Key_K:
+      case Qt.Key_Up:
+        if (devicesSelectedIdx !== 0) devicesSelectedIdx -= 1
+        event.accepted = true; break;
+
+      case Qt.Key_D:
+      case Qt.Key_X:
+      case Qt.Key_Delete:
+        menuState = removeState
+        event.accepted = true; break;
+
+      case Qt.Key_Y:
+        deviceRepeater.itemAt(devicesSelectedIdx).remove() // qmllint disable missing-property
+        menuState = noState
+        event.accepted = true; break;
+
+      case Qt.Key_N:
+        menuState = noState
+        event.accepted = true; break;
+
+      case Qt.Key_T:
+        deviceRepeater.itemAt(devicesSelectedIdx).trustToggle() // qmllint disable missing-property
+        event.accepted = true; break;
+    }
+  }
+
+  Keys.onPressed: event => {
+    handleCommonKeys(event);
+    if (currentZone === headerZone) handleHeaderKeys(event);
+    else if (currentZone === listZone) handleListKeys(event);
   }
 
   Timer {
