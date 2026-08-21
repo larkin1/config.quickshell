@@ -41,6 +41,7 @@ Item {
 
   // Keyboard Shortcuts
 
+  // shortcuts used between all focus zones
   function handleCommonKeys(event) {
     switch (event.key) {
 
@@ -65,6 +66,7 @@ Item {
     }
   }
 
+  // shortcuts used in the header zone
   function handleHeaderKeys(event) {
     switch (event.key) {
 
@@ -79,6 +81,7 @@ Item {
     }
   }
 
+  // shortcuts used while list items are active
   function handleListKeys(event) {
     switch (event.key) {
 
