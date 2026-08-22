@@ -8,15 +8,14 @@ Item {
   id: root
   anchors.fill: parent
 
-
   // -- State management --
-
   // selected item in the devices list
   property int devicesSelectedIdx: 0
 
   // zone selection. chooses which element has "focus"
   readonly property int headerZone: 0
   readonly property int listZone: 1
+  readonly property int searchZone: 2
   property int currentZone: 0
 
   // state selection. changes states such as whether the user is being prompted to remove an item.
@@ -24,7 +23,6 @@ Item {
   readonly property int removeState: 1
   property int menuState: 0
 
-  onCurrentZoneChanged: { menuState = noState }
   onDevicesSelectedIdxChanged: { menuState = noState }
 
   onVisibleChanged: {
@@ -35,11 +33,21 @@ Item {
     }
   }
 
-
   // -- Bluetooth management --
   property var devices: Bluetooth.defaultAdapter?.devices; // qmllint disable unresolved-type
 
-  // Keyboard Shortcuts
+  // -- Keyboard Shortcuts --
+  
+  // event handlers
+  onCurrentZoneChanged: {
+    menuState = noState
+    if (currentZone === searchZone) {
+      searchBox.forceActiveFocus()
+      searchBox.clear()
+    } else {
+      root.forceActiveFocus()
+    }
+  }
 
   // shortcuts used between all focus zones
   function handleCommonKeys(event) {
@@ -53,6 +61,7 @@ Item {
         break;
 
       case Qt.Key_Slash:
+        currentZone = searchZone;
         break;
 
       case Qt.Key_P:
@@ -140,12 +149,10 @@ Item {
   }
 
   ColumnLayout {
-    id: content
     implicitWidth: parent.width - (Theme.horizMargin*2)
     implicitHeight: parent.height - (Theme.vertMargin*2)
     anchors.centerIn: parent
     spacing: Theme.vertMargin
-
 
     Rectangle {
       id: actionsBar
@@ -160,7 +167,6 @@ Item {
         anchors.rightMargin: Theme.horizMargin
 
         Toggle {
-          id: power
           Layout.alignment: Qt.AlignRight
           activated: Bluetooth.defaultAdapter?.enabled // qmllint disable unresolved-type
           onText: "on"
@@ -204,6 +210,17 @@ Item {
         ColumnLayout {
           id: devicesLayout
           implicitWidth: parent.width
+
+          Rectangle {
+            implicitWidth: parent.width
+            implicitHeight: 50
+            color: "transparent"
+            TextArea {
+              id: searchBox
+              anchors.fill: parent
+              anchors.margins: 10
+            }
+          }
 
           Repeater {
             id: deviceRepeater
