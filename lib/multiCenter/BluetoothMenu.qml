@@ -211,14 +211,34 @@ Item {
           id: devicesLayout
           implicitWidth: parent.width
 
-          Rectangle {
+          TextField {
+            id: searchBox
             implicitWidth: parent.width
-            implicitHeight: 50
-            color: "transparent"
-            TextArea {
-              id: searchBox
+            horizontalAlignment: TextField.AlignHCenter
+
+            color: Theme.text
+            font.family: Theme.font
+            font.pixelSize: Theme.fontSize
+            font.weight: Theme.fontWeight
+
+            background: Rectangle {
               anchors.fill: parent
-              anchors.margins: 10
+              color: searchBox.activeFocus ? Theme.surface2 : Theme.surface0
+              radius: Theme.vertMargin
+            }
+
+            onAccepted: {
+              root.forceActiveFocus();
+              root.currentZone = root.listZone
+            }
+
+            Keys.onPressed: event => {
+              switch (event.key) {
+                case Qt.Key_Escape:
+                  root.forceActiveFocus();
+                  event.accepted = true;
+                  break;
+              }
             }
           }
 
