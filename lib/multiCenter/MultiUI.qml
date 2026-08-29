@@ -18,8 +18,17 @@ Item {
     uiState = "bluetooth"
   }
 
+  function openAudio() {
+    uiState = "audio"
+  }
+
   BluetoothMenu {
-    id: test
+    id: bluetooth
     visible: root.uiState == "bluetooth"
+  }
+
+  AudioMenu {
+    id: audio
+    visible: root.uiState == "audio"
   }
 }

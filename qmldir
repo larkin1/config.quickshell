@@ -25,3 +25,4 @@ Battery lib/widgets/Battery.qml
 MultiCenter lib/multiCenter/MultiCenter.qml
 MultiUI lib/multiCenter/MultiUI.qml
 BluetoothMenu lib/multiCenter/BluetoothMenu.qml
+AudioMenu lib/multiCenter/AudioMenu.qml

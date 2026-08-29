@@ -74,6 +74,7 @@ Item {
 
         rows: 3
         columns: 3
+        readonly property int buttonHeight: 100
 
         Keys.onPressed: event => {
           switch (event.key) {
@@ -100,7 +101,7 @@ Item {
           id: powerButton
           Layout.column: 0
           Layout.row: 0
-          implicitHeight: 100
+          implicitHeight: parent.buttonHeight
           activeBtnPath: "../../svg/power-button-active.svg"
           inactiveBtnPath: "../../svg/power-button-inactive.svg"
           openAnimation: false
@@ -108,7 +109,6 @@ Item {
           onClicked: {
             ShellUI.openPower()
           }
-
           focusRight: bluetoothButton
         }
 
@@ -116,7 +116,7 @@ Item {
           id: bluetoothButton
           Layout.column: 1
           Layout.row: 0
-          implicitHeight: 100
+          implicitHeight: parent.buttonHeight
           activeBtnPath: "../../svg/bt-active.svg"
           inactiveBtnPath: "../../svg/bt-inactive.svg"
           openAnimation: false
@@ -124,8 +124,23 @@ Item {
           onClicked: {
             screens.openBluetooth()
           }
-
           focusLeft: powerButton
+          focusRight: audioButton
+        }
+
+        IconButton {
+          id: audioButton
+          Layout.column: 2
+          Layout.row: 0
+          implicitHeight: parent.buttonHeight
+          activeBtnPath: "../../svg/speaker-active.svg"
+          inactiveBtnPath: "../../svg/speaker-inactive.svg"
+          openAnimation: false
+          visible: screens.uiState == ""
+          onClicked: {
+            screens.openAudio()
+          }
+          focusLeft: bluetoothButton
         }
       }
     }
