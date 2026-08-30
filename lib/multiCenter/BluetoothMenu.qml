@@ -1,4 +1,5 @@
 import Quickshell.Bluetooth
+import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
@@ -11,6 +12,11 @@ Item {
   // -- State management --
   // selected item in the devices list
   property int devicesSelectedIdx: 0
+
+  Process {
+    running: true
+    command: ["bluetoothctl", "--agent", "NoInputNoOutput"]
+  }
 
   // zone selection. chooses which element has "focus"
   readonly property int headerZone: 0
@@ -270,12 +276,20 @@ Item {
               property string name: modelData.name
 
               function toggle() {
-                if (!modelData.paired) {
-                  deviceRow.modelData.pair()
-                } else if (connected) {
-                  modelData.disconnect()
-                } else {
-                  modelData.connect()
+                const d = modelData
+                if (d.state === BluetoothDeviceState.Connecting
+                  || d.state === BluetoothDeviceState.Disconnecting
+                  || d.pairing)
+                  return
+
+                if (d.connected) {
+                  d.disconnect()
+                }
+                else if (d.paired) {
+                  d.connect()
+                }
+                else {
+                  d.pair()
                 }
               }
 

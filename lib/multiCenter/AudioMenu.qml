@@ -1,9 +1,14 @@
 import QtQuick
+import Quickshell.Services.Pipewire
 import "../.."
 
 Item {
   id: root
   anchors.fill: parent
+
+  property var outputDevices: {
+    return [];
+  }
 
   property int currentZone: 0
   readonly property int defaultZone: 0
