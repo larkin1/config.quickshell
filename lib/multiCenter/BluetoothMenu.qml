@@ -118,6 +118,11 @@ Item {
         menuState = removeState
         event.accepted = true; break;
 
+      case Qt.Key_Return:
+      case Qt.Key_Space:
+        deviceRepeater.itemAt(devicesSelectedIdx).toggle() // qmllint disable missing-property
+        event.accepted = true; break;
+
       case Qt.Key_Y:
         deviceRepeater.itemAt(devicesSelectedIdx).remove() // qmllint disable missing-property
         menuState = noState
