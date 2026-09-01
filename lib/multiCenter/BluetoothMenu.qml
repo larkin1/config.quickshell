@@ -179,7 +179,7 @@ Item {
 
         Toggle {
           Layout.alignment: Qt.AlignRight
-          activated: Bluetooth.defaultAdapter?.enabled // qmllint disable unresolved-type
+          activated: Bluetooth.defaultAdapter ? Bluetooth.defaultAdapter.enabled : false // qmllint disable unresolved-type
           onText: "on"
           offText: "off"
           onActivatedChanged: {
@@ -316,6 +316,7 @@ Item {
                 anchors.rightMargin: Theme.horizMargin
                 anchors.fill: parent
                 spacing: 0
+
                 StyledText {
                   id: deviceText
                   text: deviceRow.removalMode ? "Really remove device?" : deviceRow.modelData.name

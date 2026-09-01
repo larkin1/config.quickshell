@@ -13,7 +13,7 @@ most of the icons used in this bar are from [Dazzle Line Icons](https://www.svgr
          - [ ] refine shortcuts
          - [ ] make it obvious what the shortcuts are somewhere
      - [ ] make audio menu
-         - [ ] add devices section
+         - [x] add devices section
          - [ ] add controls to devices (volume, mute, select)
          - [ ] add keyboard shortcuts
          - [ ] prettify

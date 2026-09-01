@@ -45,7 +45,6 @@ Item {
   }
 
   PwObjectTracker {
-    id: obj
     objects: root.sink ? [ root.sink ] : []
   }
 
