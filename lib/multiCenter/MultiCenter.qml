@@ -94,6 +94,8 @@ Item {
               powerButton.clicked(); break
             case Qt.Key_B:
               bluetoothButton.clicked(); break
+            case Qt.Key_A:
+              audioButton.clicked(); break
           }
         }
 
