@@ -7,23 +7,10 @@ Item {
   id: root
   anchors.fill: parent
 
-  property var outputDevices: getSinks()
+  property var outputDevices: Pipewire.nodes.values.filter(item => item.isSink && !item.isStream);
 
   PwObjectTracker { // required to allow all objects to have audio data
     objects: root.outputDevices ? root.outputDevices : []
-  }
-
-  function getSinks() {
-    let nodes = Pipewire.nodes.values
-    return nodes.filter(item => item.isSink && !item.isStream);
-  }
-
-  Timer {
-    id: updateSinks
-    interval: 100
-    triggeredOnStart: true
-    onTriggered: root.outputDevices = root.getSinks()
-    running: root.visible
   }
 
   property int currentZone: 0
