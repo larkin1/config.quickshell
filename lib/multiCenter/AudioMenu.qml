@@ -7,11 +7,13 @@ Item {
   id: root
   anchors.fill: parent
 
-  property var outputDevices: Pipewire.nodes.values.filter(item => item.isSink && !item.isStream);
+  property var outputDevices: Pipewire.nodes.values.filter(item => item.isSink && !item.isStream)
 
   PwObjectTracker { // required to allow all objects to have audio data
     objects: root.outputDevices ? root.outputDevices : []
   }
+
+  property bool allMuted: outputDevices.length > 0 && outputDevices.every(n => n.audio?.muted ?? false)
 
   property int currentZone: 0
   readonly property int defaultZone: 0
@@ -56,11 +58,38 @@ Item {
     implicitHeight: parent.height - (Theme.vertMargin*2)
     anchors.centerIn: parent
     color: Theme.base
+
     ColumnLayout {
       width: parent.width
+
       Item {
         implicitHeight: Theme.vertMargin
       }
+
+      Rectangle {
+        id: header
+        radius: Theme.vertMargin
+        color: Theme.crust
+        Layout.leftMargin: Theme.horizMargin
+        implicitWidth: parent.width - Theme.horizMargin*2
+        implicitHeight: 40
+
+        RowLayout {
+          IconButton {
+            implicitHeight: header.height
+            activeBtnPath: root.allMuted ? "../../svg/vol-off-active" : "../../svg/vol-max-active.svg"
+            inactiveBtnPath: root.allMuted ? "../../svg/vol-off-inactive.svg" : "../../svg/vol-max.svg"
+            openAnimation: false
+            Layout.alignment: Qt.AlignRight
+
+            onClicked: {
+              const mute = !root.allMuted
+              for (const i of root.outputDevices) i.audio.muted = mute
+            }
+          }
+        }
+      }
+
       Repeater {
         model: root.outputDevices
         implicitWidth: parent.width
