@@ -169,7 +169,7 @@ Item {
       id: actionsBar
       implicitHeight: (root.height - (Theme.vertMargin*2)) / 13
       implicitWidth: parent.width
-      color: Theme.backgroundBlur
+      color: Theme.mantle
       radius: Theme.vertMargin
 
       RowLayout {
@@ -207,7 +207,7 @@ Item {
       id: devices
       implicitHeight: (root.height - (Theme.vertMargin*2)) - actionsBar.implicitHeight - parent.spacing
       implicitWidth: parent.width
-      color: Theme.base
+      color: Theme.mantle
       radius: Theme.vertMargin
 
       ScrollView {
@@ -262,7 +262,7 @@ Item {
               id: deviceRow
               radius: Theme.vertMargin
 
-              color: removalMode ? Theme.red : focused || deviceRowHover.hovered ? Theme.surface2 : Theme.surface0
+              color: removalMode ? Theme.red : focused || deviceRowHover.hovered ? Theme.surface1 : Theme.surface0
 
               implicitWidth: parent.width
               implicitHeight: deviceText.implicitHeight*2

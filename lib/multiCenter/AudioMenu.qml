@@ -57,7 +57,8 @@ Item {
     implicitWidth: parent.width - (Theme.horizMargin*2)
     implicitHeight: parent.height - (Theme.vertMargin*2)
     anchors.centerIn: parent
-    color: Theme.base
+    color: Theme.mantle
+    radius: Theme.vertMargin
 
     ColumnLayout {
       width: parent.width
@@ -69,7 +70,7 @@ Item {
       Rectangle {
         id: header
         radius: Theme.vertMargin
-        color: Theme.crust
+        color: Theme.base
         Layout.leftMargin: Theme.horizMargin
         implicitWidth: parent.width - Theme.horizMargin*2
         implicitHeight: 40
