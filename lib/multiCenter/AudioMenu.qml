@@ -7,6 +7,14 @@ Item {
   id: root
   anchors.fill: parent
 
+  onVisibleChanged: {
+    if (visible) {
+      focusedNode = outputDevices?.length ? outputDevices[0] : null
+      currentZone = defaultZone
+      root.forceActiveFocus()
+    }
+  }
+
   property var outputDevices: Pipewire.nodes.values.filter(item => item.isSink && !item.isStream)
 
   PwObjectTracker { // required to allow all objects to have audio data
@@ -18,18 +26,27 @@ Item {
   property int currentZone: 0
   readonly property int defaultZone: 0
 
-  property int menuState: 0
-  readonly property int noState: 0
+  // -- Focus Handling --
+  property var focusedNode: null
+  readonly property int selectedIdx: outputDevices ? outputDevices.findIndex(d => d === focusedNode) : -1
+  property int lastKnownIdx: 0
+  onSelectedIdxChanged: if (selectedIdx !== -1) lastKnownIdx = selectedIdx
 
-  onVisibleChanged: {
-    if (visible) {
-      currentZone = defaultZone
-      root.forceActiveFocus()
+  onOutputDevicesChanged: {
+    if (selectedIdx === -1 && outputDevices?.length > 1) {
+      focusedNode = outputDevices[Math.min(root.lastKnownIdx, root.outputDevices.length - 1)]
     }
   }
 
+  function moveUp() {
+    root.focusedNode = outputDevices[Math.max(0, selectedIdx - 1)]
+  }
+
+  function moveDn() {
+    root.focusedNode = outputDevices[Math.min(outputDevices.length - 1, selectedIdx + 1)]
+  }
+
   // -- Keyboard Shortcuts --
-  
   // event handlers
   onCurrentZoneChanged: {
     menuState = noState
@@ -45,6 +62,12 @@ Item {
           event.accepted = true;
         }
         break;
+      case Qt.Key_J:
+        moveDn()
+        event.accepted = true; break
+      case Qt.Key_K:
+        moveUp()
+        event.accepted = true; break
     }
   }
 
@@ -52,6 +75,7 @@ Item {
     handleCommonKeys(event);
   }
 
+  // -- Content --
   Rectangle {
     id: content
     implicitWidth: parent.width - (Theme.horizMargin*2)
@@ -104,9 +128,16 @@ Item {
 
           implicitWidth: parent.width - Theme.horizMargin*2
           implicitHeight: text.implicitHeight + Theme.vertMargin*2
-          color: Theme.surface0
+          color: itemFocus ? Theme.surface1 : Theme.surface0
           radius: Theme.vertMargin
           clip: true
+
+          HoverHandler { id: hover }
+          readonly property bool itemFocus: {
+            if (hover.hovered) return true;
+            if (root.focusedNode == modelData) return true;
+            return false
+          }
 
           MouseArea {
             anchors.fill: parent
@@ -127,7 +158,7 @@ Item {
           Rectangle {
             implicitHeight: parent.height
             anchors.left: parent.left
-            color: Theme.surface1
+            color: listItem.itemFocus ? Theme.surface2 : Theme.surface1
             implicitWidth: parent.implicitWidth * listItem.modelData.audio.volume
             radius: parent.radius
             Behavior on implicitWidth {
