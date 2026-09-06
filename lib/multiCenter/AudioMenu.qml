@@ -32,17 +32,18 @@ Item {
   onOutputDevicesChanged: if (selectedIdx === -1 && outputDevices?.length > 1) focusedNode = outputDevices[Math.min(root.lastKnownIdx, root.outputDevices.length - 1)]
 
   function moveUp() {
+    if (selectedIdx === -1) {
+      root.focusedNode = outputDevices[0]; return
+    }
     if (selectedIdx === 0) {
-      root.focusedNode = outputDevices[outputDevices.length -1];
-      return;
+      root.focusedNode = outputDevices[outputDevices.length -1]; return
     }
     root.focusedNode = outputDevices[selectedIdx - 1]
   }
 
   function moveDn() {
-    if (selectedIdx === outputDevices.length - 1) {
-      root.focusedNode = outputDevices[0]
-      return;
+    if (selectedIdx === outputDevices.length - 1 || selectedIdx === -1) {
+      root.focusedNode = outputDevices[0]; return
     }
     root.focusedNode = outputDevices[selectedIdx + 1]
   }
