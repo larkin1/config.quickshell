@@ -42,7 +42,7 @@ PanelWindow { //qmllint disable uncreatable-type
     implicitHeight: 150
 
     Keys.onPressed: event => {
-      if (event.key === Qt.Key_Escape) {
+      if (event.key === Qt.Key_Escape || event.key === Qt.Key_Q) {
         ShellUI.close()
         event.accepted = true;
       }

@@ -60,6 +60,7 @@ Item {
     switch (event.key) {
 
       case Qt.Key_Escape:
+      case Qt.Key_Q:
         if (menuState !== noState) {
           menuState = noState
           event.accepted = true;
@@ -246,6 +247,7 @@ Item {
             Keys.onPressed: event => {
               switch (event.key) {
                 case Qt.Key_Escape:
+                case Qt.Key_Q:
                   root.forceActiveFocus();
                   event.accepted = true;
                   break;

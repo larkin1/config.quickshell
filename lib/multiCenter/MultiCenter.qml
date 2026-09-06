@@ -56,6 +56,7 @@ Item {
       Keys.onPressed: event => {
         switch (event.key) {
           case Qt.Key_Escape:
+          case Qt.Key_Q:
             ShellUI.close();
             event.accepted = true;
         }
