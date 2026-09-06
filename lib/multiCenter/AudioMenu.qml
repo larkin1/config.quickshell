@@ -10,7 +10,6 @@ Item {
   onVisibleChanged: {
     if (visible) {
       focusedNode = outputDevices?.length ? Pipewire.defaultAudioSink : null
-      currentZone = defaultZone
       root.forceActiveFocus()
     }
   }
@@ -22,9 +21,6 @@ Item {
   }
 
   property bool allMuted: outputDevices.length > 0 && outputDevices.every(n => n.audio?.muted ?? false)
-
-  property int currentZone: 0
-  readonly property int defaultZone: 0
 
   // -- Focus Handling --
   property var focusedNode: null
@@ -53,13 +49,16 @@ Item {
 
   // -- Keyboard Shortcuts --
   // shortcuts used between all focus zones
-  function handleCommonKeys(event) {
+  function handleKeys(event) {
     switch (event.key) {
       case Qt.Key_J:
         moveDn()
         event.accepted = true; break
       case Qt.Key_K:
         moveUp()
+        event.accepted = true; break
+      case Qt.Key_G:
+        root.focusedNode = outputDevices[0]
         event.accepted = true; break
       case Qt.Key_H:
         root.focusedNode.audio.volume -= 0.01
@@ -79,8 +78,36 @@ Item {
     }
   }
 
+  function handleShiftKeys(event) {
+    switch (event.key) {
+      case Qt.Key_J:
+      case Qt.Key_G:
+        root.focusedNode = outputDevices[outputDevices.length -1]
+        event.accepted = true; break
+      case Qt.Key_K:
+        root.focusedNode = outputDevices[0]
+        event.accepted = true; break
+      case Qt.Key_X:
+      case Qt.Key_D:
+      case Qt.Key_M:
+        const mute = !root.allMuted
+        for (const i of root.outputDevices) i.audio.muted = mute
+        event.accepted = true; break
+      case Qt.Key_H:
+        root.focusedNode.audio.volume = 0
+        event.accepted = true; break
+      case Qt.Key_L:
+        root.focusedNode.audio.volume = 1 
+        event.accepted = true; break
+    }
+  }
+
   Keys.onPressed: event => {
-    handleCommonKeys(event);
+    if (event.modifiers === Qt.ShiftModifier) {
+      handleShiftKeys(event)
+    } else {
+      handleKeys(event);
+    }
   }
 
   // -- Content --
