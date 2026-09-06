@@ -30,13 +30,10 @@ Item {
   property var focusedNode: null
   readonly property int selectedIdx: outputDevices ? outputDevices.findIndex(d => d === focusedNode) : -1
   property int lastKnownIdx: 0
+
   onSelectedIdxChanged: if (selectedIdx !== -1) lastKnownIdx = selectedIdx
 
-  onOutputDevicesChanged: {
-    if (selectedIdx === -1 && outputDevices?.length > 1) {
-      focusedNode = outputDevices[Math.min(root.lastKnownIdx, root.outputDevices.length - 1)]
-    }
-  }
+  onOutputDevicesChanged: if (selectedIdx === -1 && outputDevices?.length > 1) focusedNode = outputDevices[Math.min(root.lastKnownIdx, root.outputDevices.length - 1)]
 
   function moveUp() {
     root.focusedNode = outputDevices[Math.max(0, selectedIdx - 1)]
@@ -47,26 +44,29 @@ Item {
   }
 
   // -- Keyboard Shortcuts --
-  // event handlers
-  onCurrentZoneChanged: {
-    menuState = noState
-  }
-
   // shortcuts used between all focus zones
   function handleCommonKeys(event) {
     switch (event.key) {
-
-      case Qt.Key_Escape:
-        if (menuState !== noState) {
-          menuState = noState
-          event.accepted = true;
-        }
-        break;
       case Qt.Key_J:
         moveDn()
         event.accepted = true; break
       case Qt.Key_K:
         moveUp()
+        event.accepted = true; break
+      case Qt.Key_H:
+        root.focusedNode.audio.volume -= 0.01
+        event.accepted = true; break
+      case Qt.Key_L:
+        root.focusedNode.audio.volume += 0.01
+        event.accepted = true; break
+      case Qt.Key_X:
+      case Qt.Key_D:
+      case Qt.Key_M:
+        root.focusedNode.audio.muted = !root.focusedNode.audio.muted
+        event.accepted = true; break
+      case Qt.Key_Return:
+      case Qt.Key_Space:
+        Pipewire.preferredDefaultAudioSink = root.focusedNode
         event.accepted = true; break
     }
   }
