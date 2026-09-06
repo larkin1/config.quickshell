@@ -9,7 +9,7 @@ Item {
 
   onVisibleChanged: {
     if (visible) {
-      focusedNode = outputDevices?.length ? outputDevices[0] : null
+      focusedNode = outputDevices?.length ? Pipewire.defaultAudioSink : null
       currentZone = defaultZone
       root.forceActiveFocus()
     }
@@ -36,11 +36,19 @@ Item {
   onOutputDevicesChanged: if (selectedIdx === -1 && outputDevices?.length > 1) focusedNode = outputDevices[Math.min(root.lastKnownIdx, root.outputDevices.length - 1)]
 
   function moveUp() {
-    root.focusedNode = outputDevices[Math.max(0, selectedIdx - 1)]
+    if (selectedIdx === 0) {
+      root.focusedNode = outputDevices[outputDevices.length -1];
+      return;
+    }
+    root.focusedNode = outputDevices[selectedIdx - 1]
   }
 
   function moveDn() {
-    root.focusedNode = outputDevices[Math.min(outputDevices.length - 1, selectedIdx + 1)]
+    if (selectedIdx === outputDevices.length - 1) {
+      root.focusedNode = outputDevices[0]
+      return;
+    }
+    root.focusedNode = outputDevices[selectedIdx + 1]
   }
 
   // -- Keyboard Shortcuts --
@@ -135,7 +143,7 @@ Item {
           HoverHandler { id: hover }
           readonly property bool itemFocus: {
             if (hover.hovered) return true;
-            if (root.focusedNode == modelData) return true;
+            if (root.focusedNode == modelData) return true; //qmllint disable unqualified
             return false
           }
 
