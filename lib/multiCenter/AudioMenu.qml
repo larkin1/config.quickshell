@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.Pipewire
+import Quickshell.Widgets
 import "../.."
 
 Item {
@@ -154,7 +155,7 @@ Item {
       Repeater {
         model: root.outputDevices
         implicitWidth: parent.width
-        Rectangle {
+        ClippingRectangle {
           id: listItem
 
           required property int index
@@ -166,7 +167,6 @@ Item {
           implicitHeight: text.implicitHeight + Theme.vertMargin*2
           color: itemFocus ? Theme.surface1 : Theme.surface0
           radius: Theme.vertMargin
-          clip: true
 
           HoverHandler { id: hover }
           readonly property bool itemFocus: {
@@ -195,8 +195,8 @@ Item {
             implicitHeight: parent.height
             anchors.left: parent.left
             color: listItem.itemFocus ? Theme.surface2 : Theme.surface1
-            implicitWidth: parent.implicitWidth * listItem.modelData.audio.volume
-            radius: parent.radius
+            implicitWidth: parent.width * listItem.modelData.audio.volume
+            radius: Theme.vertMargin
             Behavior on implicitWidth {
               NumberAnimation {
                 duration: 100
