@@ -9,56 +9,66 @@ Item {
   id: root
   anchors.fill: parent
 
-  // -- State management --
-  // selected item in the devices list
-  property int devicesSelectedIdx: 0
+  onVisibleChanged: {
+    if (visible) {
+      focusedDev = devices?.length ? devices[0] : null
+      root.forceActiveFocus()
+    }
+  }
+
+  property var devices: Bluetooth.defaultAdapter?.devices.values; // qmllint disable unresolved-type
 
   Process {
     running: true
     command: ["bluetoothctl", "--agent", "NoInputNoOutput"]
   }
 
-  // zone selection. chooses which element has "focus"
-  readonly property int headerZone: 0
-  readonly property int listZone: 1
-  readonly property int searchZone: 2
-  property int currentZone: 0
+  // -- Focus Management --
+  property var focusedDev: null
+  readonly property int selectedIdx: devices ? devices.findIndex(d => d === focusedDev) : -1
+  property int lastKnownIdx: 0
 
+  onSelectedIdxChanged: {
+    menuState = noState
+    if (selectedIdx !== -1) lastKnownIdx = selectedIdx
+  }
+
+  onDevicesChanged: if (selectedIdx === -1 && devices?.length > 1) focusedDev = devices[Math.min(lastKnownIdx, devices.length - 1)]
+
+  function moveUp() {
+    if (selectedIdx === -1) {
+      root.focusedDev = devices[0]; return
+    }
+    if (selectedIdx === 0) {
+      root.focusedDev = devices[devices.length -1]; return
+    }
+    root.focusedDev = devices[selectedIdx - 1]
+  }
+
+  function moveDn() {
+    if (selectedIdx === devices.length - 1 || selectedIdx === -1) {
+      root.focusedDev = devices[0]; return
+    }
+    root.focusedDev = devices[selectedIdx + 1]
+  }
+
+  // -- State management --
   // state selection. changes states such as whether the user is being prompted to remove an item.
   readonly property int noState: 0
   readonly property int removeState: 1
   property int menuState: 0
 
-  onDevicesSelectedIdxChanged: { menuState = noState }
-
-  onVisibleChanged: {
-    if (visible) {
-      devicesSelectedIdx = 0
-      currentZone = listZone
-      root.forceActiveFocus()
-    }
-  }
-
-  // -- Bluetooth management --
-  property var devices: Bluetooth.defaultAdapter?.devices; // qmllint disable unresolved-type
-
   // -- Keyboard Shortcuts --
-  
-  // event handlers
-  onCurrentZoneChanged: {
-    menuState = noState
-    if (currentZone === searchZone) {
-      searchBox.forceActiveFocus()
-      searchBox.clear()
+  Keys.onPressed: event => {
+    if (event.modifiers === Qt.ShiftModifier) {
+      handleShiftKeys(event)
     } else {
-      root.forceActiveFocus()
+      handleKeys(event);
     }
   }
 
-  // shortcuts used between all focus zones
-  function handleCommonKeys(event) {
+  function handleKeys(event) {
     switch (event.key) {
-
       case Qt.Key_Escape:
       case Qt.Key_Q:
         if (menuState !== noState) {
@@ -66,89 +76,68 @@ Item {
           event.accepted = true;
         }
         break;
-
-      case Qt.Key_Slash:
-        currentZone = searchZone;
-        break;
-
       case Qt.Key_P:
         Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled // qmllint disable unresolved-type
         event.accepted = true; break;
-
       case Qt.Key_S:
         Bluetooth.defaultAdapter.discovering = true // qmllint disable unresolved-type
         scanTimeout.restart()
         event.accepted = true; break;
-    }
-  }
-
-  // shortcuts used in the header zone
-  function handleHeaderKeys(event) {
-    switch (event.key) {
-
-      case Qt.Key_H:
-      case Qt.Key_Left:
-        currentZone = listZone;
-        event.accepted = true; break;
-      case Qt.Key_L:
-      case Qt.Key_Right:
-        currentZone += 1
-        event.accepted = true; break;
-    }
-  }
-
-  // shortcuts used while list items are active
-  function handleListKeys(event) {
-    switch (event.key) {
-
-      case Qt.Key_H:
-      case Qt.Key_Left:
-        currentZone -= 1
-        event.accepted = true; break;
-      case Qt.Key_L:
-      case Qt.Key_Right:
-        currentZone = headerZone;
-        event.accepted = true; break;
 
       case Qt.Key_J:
       case Qt.Key_Down:
-        if (devicesSelectedIdx < deviceRepeater.count - 1) devicesSelectedIdx += 1
+        root.moveDn()
         event.accepted = true; break;
       case Qt.Key_K:
       case Qt.Key_Up:
-        if (devicesSelectedIdx !== 0) devicesSelectedIdx -= 1
+        root.moveUp()
         event.accepted = true; break;
-
       case Qt.Key_D:
       case Qt.Key_X:
       case Qt.Key_Delete:
         menuState = removeState
         event.accepted = true; break;
-
       case Qt.Key_Return:
       case Qt.Key_Space:
-        deviceRepeater.itemAt(devicesSelectedIdx).toggle() // qmllint disable missing-property
+        toggle(focusedDev)
         event.accepted = true; break;
-
       case Qt.Key_Y:
-        deviceRepeater.itemAt(devicesSelectedIdx).remove() // qmllint disable missing-property
+        if (menuState === removeState) focusedDev.forget()
         menuState = noState
         event.accepted = true; break;
-
       case Qt.Key_N:
         menuState = noState
         event.accepted = true; break;
-
       case Qt.Key_T:
-        deviceRepeater.itemAt(devicesSelectedIdx).trustToggle() // qmllint disable missing-property
+        focusedDev.trusted = !focusedDev.trusted
         event.accepted = true; break;
     }
   }
 
-  Keys.onPressed: event => {
-    handleCommonKeys(event);
-    if (currentZone === headerZone) handleHeaderKeys(event);
-    else if (currentZone === listZone) handleListKeys(event);
+  function handleShiftKeys(event) {
+    switch (event.key) {
+      case Qt.Key_J:
+        root.focusedDev = devices[devices.length -1]
+        event.accepted = true; break;
+      case Qt.Key_K:
+        root.focusedDev = devices[0]
+        event.accepted = true; break;
+      case Qt.Key_D:
+      case Qt.Key_X:
+        Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled // qmllint disable unresolved-type
+        event.accepted = true; break;
+    }
+  }
+
+  function toggle(d) {
+    if (d.state === BluetoothDeviceState.Connecting
+      || d.state === BluetoothDeviceState.Disconnecting
+      || d.pairing)
+      return
+
+    if (d.connected) d.disconnect()
+    else if (d.paired) d.connect()
+    else d.pair()
   }
 
   Timer {
@@ -178,16 +167,18 @@ Item {
         anchors.leftMargin: Theme.horizMargin
         anchors.rightMargin: Theme.horizMargin
 
-        Toggle {
+        IconButton {
           Layout.alignment: Qt.AlignRight
-          activated: Bluetooth.defaultAdapter ? Bluetooth.defaultAdapter.enabled : false // qmllint disable unresolved-type
-          onText: "on"
-          offText: "off"
-          onActivatedChanged: {
-            Bluetooth.defaultAdapter.enabled = activated // qmllint disable unresolved-type
+          implicitHeight: actionsBar.height
+          activeBtnPath: Bluetooth.defaultAdapter?.enabled ? "../../svg/bt-active.svg" : "../../svg/bt-off-active.svg" // qmllint disable unresolved-type
+          inactiveBtnPath: Bluetooth.defaultAdapter?.enabled ? "../../svg/bt-inactive.svg" : "../../svg/bt-off.svg" // qmllint disable unresolved-type
+          openAnimation: false
+
+          onClicked: {
+            Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled // qmllint disable unresolved-type
           }
         }
-        
+
         Item { Layout.fillWidth: true }
 
         IconButton {
@@ -205,7 +196,6 @@ Item {
     }
 
     Rectangle {
-      id: devices
       implicitHeight: (root.height - (Theme.vertMargin*2)) - actionsBar.implicitHeight - parent.spacing
       implicitWidth: parent.width
       color: Theme.mantle
@@ -222,38 +212,6 @@ Item {
         ColumnLayout {
           id: devicesLayout
           implicitWidth: parent.width
-
-          TextField {
-            id: searchBox
-            implicitWidth: parent.width
-            horizontalAlignment: TextField.AlignHCenter
-
-            color: Theme.text
-            font.family: Theme.font
-            font.pixelSize: Theme.fontSize
-            font.weight: Theme.fontWeight
-
-            background: Rectangle {
-              anchors.fill: parent
-              color: searchBox.activeFocus ? Theme.surface2 : Theme.surface0
-              radius: Theme.vertMargin
-            }
-
-            onAccepted: {
-              root.forceActiveFocus();
-              root.currentZone = root.listZone
-            }
-
-            Keys.onPressed: event => {
-              switch (event.key) {
-                case Qt.Key_Escape:
-                case Qt.Key_Q:
-                  root.forceActiveFocus();
-                  event.accepted = true;
-                  break;
-              }
-            }
-          }
 
           Repeater {
             id: deviceRepeater
@@ -272,45 +230,14 @@ Item {
               required property int index
               required property var modelData
 
-              property bool focused: (root.currentZone === root.listZone && root.devicesSelectedIdx === index) // qmllint disable unqualified
-              property bool removalMode: (root.menuState === root.removeState && root.devicesSelectedIdx === index) // qmllint disable unqualified
-              property bool connected: modelData.connected
-              property string name: modelData.name
+              property bool focused: (root.focusedDev === modelData) // qmllint disable unqualified
+              property bool removalMode: (root.menuState === root.removeState && focused) // qmllint disable unqualified
 
-              function toggle() {
-                const d = modelData
-                if (d.state === BluetoothDeviceState.Connecting
-                  || d.state === BluetoothDeviceState.Disconnecting
-                  || d.pairing)
-                  return
-
-                if (d.connected) {
-                  d.disconnect()
-                }
-                else if (d.paired) {
-                  d.connect()
-                }
-                else {
-                  d.pair()
-                }
-              }
-
-              function remove() {
-                modelData.forget()
-              }
-
-              function trustToggle() {
-                modelData.trusted = !modelData.trusted
-              }
-
+              HoverHandler { id: deviceRowHover }
               MouseArea {
                 anchors.fill: parent
-                onClicked: deviceRow.toggle()
+                onClicked: root.toggle(deviceRow.modelData) //qmllint disable unqualified
                 cursorShape: Qt.PointingHandCursor
-              }
-
-              HoverHandler {
-                id: deviceRowHover
               }
 
               RowLayout {
@@ -321,11 +248,18 @@ Item {
 
                 StyledText {
                   id: deviceText
-                  text: deviceRow.removalMode ? "Really remove device?" : deviceRow.modelData.name
-                  color: deviceRow.modelData.paired ? deviceRow.modelData.connected ? Theme.cyclingColor : Theme.text : Theme.overlay0
+                  text: deviceRow.removalMode ? "Remove device?" : deviceRow.modelData.name
+                  elide: Qt.ElideRight
+                  Layout.preferredWidth: deviceRow.width - deviceRow.height*4
+                  color: {
+                    if (deviceRow.removalMode) return Theme.surface0
+                    else if (deviceRow.modelData.connected) return Theme.cyclingColor
+                    else if (deviceRow.modelData.paired) return Theme.text
+                    else return Theme.overlay0
+                  }
                 }
 
-                Rectangle { Layout.fillWidth: true }
+                Item { Layout.fillWidth: true }
 
                 IconButton {
                   Layout.alignment: Qt.AlignRight
@@ -336,10 +270,10 @@ Item {
 
                   onClicked: {
                     if (deviceRow.removalMode) {
-                      deviceRow.remove() // qmllint disable missing-property
+                      deviceRow.modelData.forget() // qmllint disable missing-property
                       root.menuState = noState // qmllint disable unqualified
                     } else {
-                      deviceRow.trustToggle()
+                      deviceRow.modelData.trusted = !deviceRow.modelData.trusted
                     }
                   }
                 }
@@ -354,7 +288,7 @@ Item {
                     if (deviceRow.removalMode) {
                       root.menuState = noState // qmllint disable unqualified
                     } else {
-                      root.devicesSelectedIdx = deviceRow.index // qmllint disable unqualified
+                      root.focusedDev = deviceRow.modelData // qmllint disable unqualified
                       root.menuState = removeState // qmllint disable unqualified
                     }
                   }
