@@ -62,10 +62,10 @@ Item {
         root.focusedNode = outputDevices[0]
         event.accepted = true; break
       case Qt.Key_H:
-        root.focusedNode.audio.volume -= 0.01
+        root.focusedNode.audio.volume -= 0.05
         event.accepted = true; break
       case Qt.Key_L:
-        root.focusedNode.audio.volume += 0.01
+        root.focusedNode.audio.volume += 0.05
         event.accepted = true; break
       case Qt.Key_X:
       case Qt.Key_D:
