@@ -118,8 +118,9 @@ Item {
     color: root.progressbarColor
     Timer {
       running: root.currentPlayer?.playbackState == MprisPlaybackState.Playing && root.currentPlayer?.positionSupported
-      interval: 1000
+      interval: Math.max(30, (root.currentPlayer?.length*1000)/root.width) // update the progress every pixel or at ~30fps
       repeat: true
+      triggeredOnStart: true
       onTriggered: root.currentPlayer?.positionChanged()
     }
   }
