@@ -114,7 +114,7 @@ Item {
     anchors.bottom: parent.bottom
     radius: implicitHeight/2
     implicitHeight: parent.height * 0.15
-    implicitWidth: parent.width*(root.currentPlayer?.position/root.currentPlayer?.length)
+    implicitWidth: (parent.width-implicitHeight)*(root.currentPlayer?.position/root.currentPlayer?.length)+implicitHeight
     color: root.progressbarColor
     Timer {
       running: root.currentPlayer?.playbackState == MprisPlaybackState.Playing && root.currentPlayer?.positionSupported
