@@ -8,6 +8,7 @@ Item {
   required property color textColor
   required property color bgColor
   required property color activeBGColor
+  required property color progressbarColor
 
   anchors.verticalCenter: parent.verticalCenter
   height: Theme.barHeight
@@ -105,6 +106,22 @@ Item {
   Rectangle {
     anchors.fill: parent
     color: root.bgColor
+  }
+
+  Rectangle {
+    visible: root.currentPlayer?.positionSupported ? true : false // the ? : avoids warnings about "unable to assign [undefined] to bool"
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    radius: implicitHeight/2
+    implicitHeight: parent.height * 0.15
+    implicitWidth: parent.width*(root.currentPlayer?.position/root.currentPlayer?.length)
+    color: root.progressbarColor
+    Timer {
+      running: root.currentPlayer?.playbackState == MprisPlaybackState.Playing && root.currentPlayer?.positionSupported
+      interval: 1000
+      repeat: true
+      onTriggered: root.currentPlayer?.positionChanged()
+    }
   }
 
   Rectangle {

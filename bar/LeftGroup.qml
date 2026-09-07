@@ -73,6 +73,7 @@ Item {
         textColor: Theme.text
         activeBGColor: Theme.surface1
         bgColor: Theme.mantle
+        progressbarColor: Theme.cyclingColor
       }
     }
 
