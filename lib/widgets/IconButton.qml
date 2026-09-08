@@ -24,7 +24,7 @@ Item {
   property Item focusUp: null
   property Item focusDown: null
   property bool openAnimation: true
-  property int iconRotation: 0
+  property real iconRotation: 0
   property var openAnimationEasing: Easing.InQuart
   readonly property bool hovered: btnHover.hovered
 

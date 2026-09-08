@@ -188,14 +188,16 @@ Item {
           inactiveBtnPath: "../../svg/reboot-inactive.svg"
           openAnimation: false
 
-          PropertyAnimation {
+          RotationAnimation {
             target: scan
             property: "iconRotation"
-            running: Bluetooth.defaultAdapter?.discovering // qmllint disable unresolved-type
+            running: Bluetooth.defaultAdapter?.discovering ?? false// qmllint disable unresolved-type
             loops: Animation.Infinite
             duration: 2500
             from: 0
             to: 360
+            easing.type: Easing.Linear
+            direction: RotationAnimation.Clockwise
           }
 
           onClicked: {
@@ -227,7 +229,7 @@ Item {
           Repeater {
             id: deviceRepeater
             implicitWidth: parent.width
-            model: root.devices
+            model: Bluetooth.defaultAdapter?.devices; // qmllint disable unresolved-type
 
             Rectangle {
               id: deviceRow
