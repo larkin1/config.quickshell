@@ -8,6 +8,7 @@ Item {
   required property color textColor
   required property color bgColor
   required property color activeBGColor
+  required property color activeProgressbarColor
   required property color progressbarColor
 
   anchors.verticalCenter: parent.verticalCenter
@@ -109,14 +110,24 @@ Item {
   }
 
   Rectangle {
+    id: progress
     visible: root.currentPlayer?.positionSupported ? true : false // the ? : avoids warnings about "unable to assign [undefined] to bool"
     anchors.left: parent.left
     anchors.bottom: parent.bottom
     radius: implicitHeight/2
     implicitHeight: parent.height * 0.15
     implicitWidth: (parent.width-implicitHeight)*(root.currentPlayer?.position/root.currentPlayer?.length)+implicitHeight
-    color: root.progressbarColor
+    color: root.currentPlayer?.playbackState == MprisPlaybackState.Playing ? root.activeProgressbarColor : root.progressbarColor
+
+    Behavior on implicitWidth {
+      NumberAnimation {
+        duration: Math.min(300, progSync.interval)
+        easing.type: Theme.animationEasing
+      }
+    }
+
     Timer {
+      id: progSync
       running: root.currentPlayer?.playbackState == MprisPlaybackState.Playing && root.currentPlayer?.positionSupported
       interval: Math.max(30, (root.currentPlayer?.length*1000)/root.width) // update the progress every pixel or at ~30fps
       repeat: true
