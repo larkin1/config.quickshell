@@ -24,6 +24,7 @@ Item {
   property Item focusUp: null
   property Item focusDown: null
   property bool openAnimation: true
+  property int iconRotation: 0
   property var openAnimationEasing: Easing.InQuart
   readonly property bool hovered: btnHover.hovered
 
@@ -117,6 +118,7 @@ Item {
       implicitSize: btn.height * 0.5
       mipmap: true
       source: Qt.resolvedUrl(root.inactiveBtnPath)
+      rotation: root.iconRotation
       opacity: (btnHover.hovered || root.activeFocus) ? 0 : 1
       Behavior on opacity {
         NumberAnimation {
@@ -131,6 +133,7 @@ Item {
       implicitSize: btn.height * 0.5
       mipmap: true
       source: Qt.resolvedUrl(root.activeBtnPath)
+      rotation: root.iconRotation
       opacity: (btnHover.hovered || root.activeFocus) ? 1 : 0
       Behavior on opacity {
         NumberAnimation {

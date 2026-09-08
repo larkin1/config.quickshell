@@ -182,10 +182,21 @@ Item {
         Item { Layout.fillWidth: true }
 
         IconButton {
+          id: scan
           implicitHeight: actionsBar.height
           activeBtnPath: "../../svg/reboot-active.svg"
           inactiveBtnPath: "../../svg/reboot-inactive.svg"
           openAnimation: false
+
+          PropertyAnimation {
+            target: scan
+            property: "iconRotation"
+            running: Bluetooth.defaultAdapter?.discovering // qmllint disable unresolved-type
+            loops: Animation.Infinite
+            duration: 2500
+            from: 0
+            to: 360
+          }
 
           onClicked: {
             Bluetooth.defaultAdapter.discovering = true // qmllint disable unresolved-type
