@@ -49,8 +49,6 @@ Item {
     root.focusedNode = outputDevices[selectedIdx + 1]
   }
 
-  // -- Keyboard Shortcuts --
-  // shortcuts used between all focus zones
   function handleKeys(event) {
     switch (event.key) {
       case Qt.Key_J:
@@ -112,7 +110,6 @@ Item {
     }
   }
 
-  // -- Content --
   Rectangle {
     id: content
     implicitWidth: parent.width - (Theme.horizMargin*2)

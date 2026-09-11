@@ -53,12 +53,10 @@ Item {
   }
 
   // -- State management --
-  // state selection. changes states such as whether the user is being prompted to remove an item.
   readonly property int noState: 0
   readonly property int removeState: 1
   property int menuState: 0
 
-  // -- Keyboard Shortcuts --
   Keys.onPressed: event => {
     if (event.modifiers === Qt.ShiftModifier) {
       handleShiftKeys(event)

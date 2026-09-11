@@ -10,12 +10,12 @@ most of the icons used in this bar are from [Dazzle Line Icons](https://www.svgr
      - [ ] finish bluetooth menu
          - [x] add devices section
          - [x] add controls section
-         - [ ] refine shortcuts
+         - [x] refine shortcuts
          - [ ] make it obvious what the shortcuts are somewhere
-     - [ ] make audio menu
+     - [x] make audio menu
          - [x] add devices section
          - [x] add controls to devices (volume, mute, select)
-         - [ ] add keyboard shortcuts
-         - [ ] prettify
+         - [x] add keyboard shortcuts
+         - [x] prettify
      - [ ] make wifi menu
      - [ ] make mpris menu
