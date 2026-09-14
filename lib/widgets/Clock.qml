@@ -10,7 +10,7 @@ Item {
 
   implicitWidth: clockText.implicitWidth + Theme.horizMargin
   implicitHeight: Theme.barHeight
-  
+
   clip: true
 
   HoverHandler {

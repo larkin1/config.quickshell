@@ -10,7 +10,7 @@ Item {
 
   onVisibleChanged: {
     if (visible) {
-      focusedNode = outputDevices?.length ? Pipewire.defaultAudioSink : null
+      list.currentItem = outputDevices?.length ? Pipewire.defaultAudioSink : null
       root.forceActiveFocus()
     }
   }
@@ -24,56 +24,36 @@ Item {
   property bool allMuted: outputDevices.length > 0 && outputDevices.every(n => n.audio?.muted ?? false)
 
   // -- Focus Handling --
-  property var focusedNode: null
-  readonly property int selectedIdx: outputDevices ? outputDevices.findIndex(d => d === focusedNode) : -1
-  property int lastKnownIdx: 0
-
-  onSelectedIdxChanged: if (selectedIdx !== -1) lastKnownIdx = selectedIdx
-
-  onOutputDevicesChanged: if (selectedIdx === -1 && outputDevices?.length > 1) focusedNode = outputDevices[Math.min(root.lastKnownIdx, root.outputDevices.length - 1)]
-
-  function moveUp() {
-    if (selectedIdx === -1) {
-      root.focusedNode = outputDevices[0]; return
-    }
-    if (selectedIdx === 0) {
-      root.focusedNode = outputDevices[outputDevices.length -1]; return
-    }
-    root.focusedNode = outputDevices[selectedIdx - 1]
-  }
-
-  function moveDn() {
-    if (selectedIdx === outputDevices.length - 1 || selectedIdx === -1) {
-      root.focusedNode = outputDevices[0]; return
-    }
-    root.focusedNode = outputDevices[selectedIdx + 1]
+  ListMgr {
+    id: list
+    list: root.outputDevices
   }
 
   function handleKeys(event) {
     switch (event.key) {
       case Qt.Key_J:
-        moveDn()
+        list.moveDn()
         event.accepted = true; break
       case Qt.Key_K:
-        moveUp()
+        list.moveUp()
         event.accepted = true; break
       case Qt.Key_G:
-        root.focusedNode = outputDevices[0]
+        list.currentItem = outputDevices[0]
         event.accepted = true; break
       case Qt.Key_H:
-        root.focusedNode.audio.volume -= 0.05
+        list.currentItem.audio.volume -= 0.05
         event.accepted = true; break
       case Qt.Key_L:
-        root.focusedNode.audio.volume += 0.05
+        list.currentItem.audio.volume += 0.05
         event.accepted = true; break
       case Qt.Key_X:
       case Qt.Key_D:
       case Qt.Key_M:
-        root.focusedNode.audio.muted = !root.focusedNode.audio.muted
+        list.currentItem.audio.muted = !list.currentItem.audio.muted
         event.accepted = true; break
       case Qt.Key_Return:
       case Qt.Key_Space:
-        Pipewire.preferredDefaultAudioSink = root.focusedNode
+        Pipewire.preferredDefaultAudioSink = list.currentItem
         event.accepted = true; break
     }
   }
@@ -82,10 +62,10 @@ Item {
     switch (event.key) {
       case Qt.Key_J:
       case Qt.Key_G:
-        root.focusedNode = outputDevices[outputDevices.length -1]
+        list.currentItem = outputDevices[outputDevices.length -1]
         event.accepted = true; break
       case Qt.Key_K:
-        root.focusedNode = outputDevices[0]
+        list.currentItem = outputDevices[0]
         event.accepted = true; break
       case Qt.Key_X:
       case Qt.Key_D:
@@ -94,10 +74,10 @@ Item {
         for (const i of root.outputDevices) i.audio.muted = mute
         event.accepted = true; break
       case Qt.Key_H:
-        root.focusedNode.audio.volume = 0
+        list.currentItem.audio.volume = 0
         event.accepted = true; break
       case Qt.Key_L:
-        root.focusedNode.audio.volume = 1 
+        list.currentItem.audio.volume = 1
         event.accepted = true; break
     }
   }
@@ -168,7 +148,7 @@ Item {
           HoverHandler { id: hover }
           readonly property bool itemFocus: {
             if (hover.hovered) return true;
-            if (root.focusedNode == modelData) return true; //qmllint disable unqualified
+            if (list.currentItem == modelData) return true; //qmllint disable unqualified
             return false
           }
 

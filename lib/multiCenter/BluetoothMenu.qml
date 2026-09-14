@@ -11,7 +11,7 @@ Item {
 
   onVisibleChanged: {
     if (visible) {
-      focusedDev = devices?.length ? devices[0] : null
+      list.currentItem = devices?.length ? devices[0] : null
       root.forceActiveFocus()
     }
   }
@@ -24,32 +24,12 @@ Item {
   }
 
   // -- Focus Management --
-  property var focusedDev: null
-  readonly property int selectedIdx: devices ? devices.findIndex(d => d === focusedDev) : -1
-  property int lastKnownIdx: 0
-
-  onSelectedIdxChanged: {
-    menuState = noState
-    if (selectedIdx !== -1) lastKnownIdx = selectedIdx
-  }
-
-  onDevicesChanged: if (selectedIdx === -1 && devices?.length > 1) focusedDev = devices[Math.min(lastKnownIdx, devices.length - 1)]
-
-  function moveUp() {
-    if (selectedIdx === -1) {
-      root.focusedDev = devices[0]; return
+  ListMgr {
+    id: list
+    list: root.devices
+    onMoved: {
+      root.menuState = root.noState
     }
-    if (selectedIdx === 0) {
-      root.focusedDev = devices[devices.length -1]; return
-    }
-    root.focusedDev = devices[selectedIdx - 1]
-  }
-
-  function moveDn() {
-    if (selectedIdx === devices.length - 1 || selectedIdx === -1) {
-      root.focusedDev = devices[0]; return
-    }
-    root.focusedDev = devices[selectedIdx + 1]
   }
 
   // -- State management --
@@ -84,11 +64,11 @@ Item {
 
       case Qt.Key_J:
       case Qt.Key_Down:
-        root.moveDn()
+        list.moveDn()
         event.accepted = true; break;
       case Qt.Key_K:
       case Qt.Key_Up:
-        root.moveUp()
+        list.moveUp()
         event.accepted = true; break;
       case Qt.Key_D:
       case Qt.Key_X:
@@ -97,17 +77,17 @@ Item {
         event.accepted = true; break;
       case Qt.Key_Return:
       case Qt.Key_Space:
-        toggle(focusedDev)
+        toggle(list.currentItem)
         event.accepted = true; break;
       case Qt.Key_Y:
-        if (menuState === removeState) focusedDev.forget()
+        if (menuState === removeState) list.currentItem.forget()
         menuState = noState
         event.accepted = true; break;
       case Qt.Key_N:
         menuState = noState
         event.accepted = true; break;
       case Qt.Key_T:
-        focusedDev.trusted = !focusedDev.trusted
+        list.currentItem.trusted = !list.currentItem.trusted
         event.accepted = true; break;
     }
   }
@@ -115,10 +95,10 @@ Item {
   function handleShiftKeys(event) {
     switch (event.key) {
       case Qt.Key_J:
-        root.focusedDev = devices[devices.length -1]
+        list.currentItem = devices[devices.length -1]
         event.accepted = true; break;
       case Qt.Key_K:
-        root.focusedDev = devices[0]
+        list.currentItem = devices[0]
         event.accepted = true; break;
       case Qt.Key_D:
       case Qt.Key_X:
@@ -241,7 +221,7 @@ Item {
               required property int index
               required property var modelData
 
-              property bool focused: (root.focusedDev === modelData) // qmllint disable unqualified
+              property bool focused: (list.currentItem === modelData) // qmllint disable unqualified
               property bool removalMode: (root.menuState === root.removeState && focused) // qmllint disable unqualified
 
               HoverHandler { id: deviceRowHover }
@@ -299,7 +279,7 @@ Item {
                     if (deviceRow.removalMode) {
                       root.menuState = noState // qmllint disable unqualified
                     } else {
-                      root.focusedDev = deviceRow.modelData // qmllint disable unqualified
+                      list.currentItem = deviceRow.modelData // qmllint disable unqualified
                       root.menuState = removeState // qmllint disable unqualified
                     }
                   }
