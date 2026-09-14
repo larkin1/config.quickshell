@@ -1,5 +1,5 @@
-singleton ShellUI lib/ShellUI.qml
-singleton Theme lib/Theme.qml
+singleton ShellUI lib/state/ShellUI.qml
+singleton Theme lib/state/Theme.qml
 singleton PowerMenu lib/overlays/PowerMenu.qml
 singleton LockScreen lib/overlays/LockScreen.qml
 LeftGroup bar/LeftGroup.qml
@@ -8,7 +8,6 @@ MiddleGroup bar/MiddleGroup.qml
 Bar bar/Bar.qml
 StyledText lib/components/StyledText.qml
 Border lib/components/Border.qml
-Toggle lib/components/Toggle.qml
 Workspaces lib/widgets/Workspaces.qml
 Clock lib/widgets/Clock.qml
 Mpris lib/widgets/Mpris.qml
@@ -20,10 +19,10 @@ Tray lib/widgets/Tray.qml
 PowerButton lib/widgets/PowerButton.qml
 PasswordField lib/widgets/PasswordField.qml
 MultiButton lib/widgets/MultiButton.qml
-IconButton lib/widgets/IconButton.qml
+IconButton lib/components/IconButton.qml
 Battery lib/widgets/Battery.qml
 MultiCenter lib/multiCenter/MultiCenter.qml
 MultiUI lib/multiCenter/MultiUI.qml
 BluetoothMenu lib/multiCenter/BluetoothMenu.qml
 AudioMenu lib/multiCenter/AudioMenu.qml
-ListMgr lib/multiCenter/ListMgr.qml
+ListMgr lib/util/ListMgr.qml
