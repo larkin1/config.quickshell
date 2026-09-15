@@ -2,6 +2,7 @@ singleton ShellUI lib/services/ShellUI.qml
 singleton Theme lib/services/Theme.qml
 singleton PowerMenu lib/overlays/PowerMenu.qml
 singleton LockScreen lib/overlays/LockScreen.qml
+singleton Media lib/services/Media.qml
 LeftGroup bar/LeftGroup.qml
 RightGroup bar/RightGroup.qml
 MiddleGroup bar/MiddleGroup.qml
@@ -10,7 +11,7 @@ StyledText lib/components/StyledText.qml
 Border lib/components/Border.qml
 Workspaces lib/widgets/Workspaces.qml
 Clock lib/widgets/Clock.qml
-Mpris lib/widgets/Mpris.qml
+Player lib/widgets/Player.qml
 OutVol lib/widgets/OutVol.qml
 Mic lib/widgets/Mic.qml
 Cpu lib/widgets/Cpu.qml

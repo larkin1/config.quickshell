@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Services.Mpris
 import ".."
 
 Item {
@@ -67,7 +66,7 @@ Item {
         }
       }
 
-      Mpris {
+      Player {
         id: media
         width: parent.width
         textColor: Theme.text
