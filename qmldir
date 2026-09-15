@@ -1,5 +1,5 @@
-singleton ShellUI lib/state/ShellUI.qml
-singleton Theme lib/state/Theme.qml
+singleton ShellUI lib/services/ShellUI.qml
+singleton Theme lib/services/Theme.qml
 singleton PowerMenu lib/overlays/PowerMenu.qml
 singleton LockScreen lib/overlays/LockScreen.qml
 LeftGroup bar/LeftGroup.qml
