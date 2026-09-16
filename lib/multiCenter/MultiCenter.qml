@@ -79,6 +79,9 @@ Item {
 
         Keys.onPressed: event => {
           switch (event.key) {
+            case Qt.Key_Space:
+              Media.currentPlayer.togglePlaying()
+              break;
             case Qt.Key_H:
             case Qt.Key_Left:
               powerButton.forceActiveFocus(); break
