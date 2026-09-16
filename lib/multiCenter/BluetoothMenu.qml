@@ -196,96 +196,85 @@ Item {
 
       ListView {
         id: listView
-        anchors.topMargin: Theme.vertMargin
-        anchors.leftMargin: Theme.horizMargin
-        anchors.rightMargin: Theme.horizMargin
-        anchors.bottomMargin: Theme.horizMargin
+        anchors.margins: Theme.vertMargin
+        spacing: Theme.vertMargin/2
         anchors.fill: parent
         clip: true
+        model: root.devices
+        // model: Bluetooth.defaultAdapter?.devices; // qmllint disable unresolved-type
 
-        ColumnLayout {
-          id: devicesLayout
-          implicitWidth: parent.width
+        delegate: Rectangle {
+          id: deviceRow
+          radius: Theme.vertMargin
 
-          Repeater {
-            id: deviceRepeater
-            implicitWidth: parent.width
-            model: Bluetooth.defaultAdapter?.devices; // qmllint disable unresolved-type
+          color: removalMode ? Theme.red : focused || deviceRowHover.hovered ? Theme.surface1 : Theme.surface0
 
-            Rectangle {
-              id: deviceRow
-              radius: Theme.vertMargin
+          width: ListView.view.width
+          height: deviceText.implicitHeight*2
 
-              color: removalMode ? Theme.red : focused || deviceRowHover.hovered ? Theme.surface1 : Theme.surface0
+          required property int index
+          required property var modelData
 
-              implicitWidth: parent.width
-              implicitHeight: deviceText.implicitHeight*2
+          property bool focused: (list.currentItem === modelData) // qmllint disable unqualified
+          property bool removalMode: (root.menuState === root.removeState && focused) // qmllint disable unqualified
 
-              required property int index
-              required property var modelData
+          HoverHandler { id: deviceRowHover }
+          MouseArea {
+            anchors.fill: parent
+            onClicked: root.toggle(deviceRow.modelData) //qmllint disable unqualified
+            cursorShape: Qt.PointingHandCursor
+          }
 
-              property bool focused: (list.currentItem === modelData) // qmllint disable unqualified
-              property bool removalMode: (root.menuState === root.removeState && focused) // qmllint disable unqualified
+          RowLayout {
+            anchors.leftMargin: Theme.horizMargin
+            anchors.rightMargin: Theme.horizMargin
+            anchors.fill: parent
+            spacing: 0
 
-              HoverHandler { id: deviceRowHover }
-              MouseArea {
-                anchors.fill: parent
-                onClicked: root.toggle(deviceRow.modelData) //qmllint disable unqualified
-                cursorShape: Qt.PointingHandCursor
+            StyledText {
+              id: deviceText
+              text: deviceRow.removalMode ? "Remove device?" : deviceRow.modelData.name
+              elide: Qt.ElideRight
+              Layout.preferredWidth: deviceRow.width - deviceRow.height*4
+              color: {
+                if (deviceRow.removalMode) return Theme.surface0
+                else if (deviceRow.modelData.connected) return Theme.cyclingColor
+                else if (deviceRow.modelData.paired) return Theme.text
+                else return Theme.overlay0
               }
+            }
 
-              RowLayout {
-                anchors.leftMargin: Theme.horizMargin
-                anchors.rightMargin: Theme.horizMargin
-                anchors.fill: parent
-                spacing: 0
+            Item { Layout.fillWidth: true }
 
-                StyledText {
-                  id: deviceText
-                  text: deviceRow.removalMode ? "Remove device?" : deviceRow.modelData.name
-                  elide: Qt.ElideRight
-                  Layout.preferredWidth: deviceRow.width - deviceRow.height*4
-                  color: {
-                    if (deviceRow.removalMode) return Theme.surface0
-                    else if (deviceRow.modelData.connected) return Theme.cyclingColor
-                    else if (deviceRow.modelData.paired) return Theme.text
-                    else return Theme.overlay0
-                  }
+            IconButton {
+              Layout.alignment: Qt.AlignRight
+              implicitHeight: deviceRow.height
+              activeBtnPath: deviceRow.removalMode ? "../../svg/check-active.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check-active.svg" : "../../svg/shield-cross-active.svg"
+              inactiveBtnPath: deviceRow.removalMode ? "../../svg/check-inactive.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check-inactive.svg" : "../../svg/shield-cross-inactive.svg"
+              openAnimation: false
+
+              onClicked: {
+                if (deviceRow.removalMode) {
+                  deviceRow.modelData.forget() // qmllint disable missing-property
+                  root.menuState = noState // qmllint disable unqualified
+                } else {
+                  deviceRow.modelData.trusted = !deviceRow.modelData.trusted
                 }
+              }
+            }
 
-                Item { Layout.fillWidth: true }
+            IconButton {
+              implicitHeight: deviceRow.height
+              activeBtnPath: deviceRow.removalMode ? "../../svg/cross-active.svg" : "../../svg/trash-active.svg"
+              inactiveBtnPath: deviceRow.removalMode ? "../../svg/cross-inactive.svg" : "../../svg/trash-inactive.svg"
+              openAnimation: false
 
-                IconButton {
-                  Layout.alignment: Qt.AlignRight
-                  implicitHeight: deviceRow.height
-                  activeBtnPath: deviceRow.removalMode ? "../../svg/check-active.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check-active.svg" : "../../svg/shield-cross-active.svg"
-                  inactiveBtnPath: deviceRow.removalMode ? "../../svg/check-inactive.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check-inactive.svg" : "../../svg/shield-cross-inactive.svg"
-                  openAnimation: false
-
-                  onClicked: {
-                    if (deviceRow.removalMode) {
-                      deviceRow.modelData.forget() // qmllint disable missing-property
-                      root.menuState = noState // qmllint disable unqualified
-                    } else {
-                      deviceRow.modelData.trusted = !deviceRow.modelData.trusted
-                    }
-                  }
-                }
-
-                IconButton {
-                  implicitHeight: deviceRow.height
-                  activeBtnPath: deviceRow.removalMode ? "../../svg/cross-active.svg" : "../../svg/trash-active.svg"
-                  inactiveBtnPath: deviceRow.removalMode ? "../../svg/cross-inactive.svg" : "../../svg/trash-inactive.svg"
-                  openAnimation: false
-
-                  onClicked: {
-                    if (deviceRow.removalMode) {
-                      root.menuState = noState // qmllint disable unqualified
-                    } else {
-                      list.currentItem = deviceRow.modelData // qmllint disable unqualified
-                      root.menuState = removeState // qmllint disable unqualified
-                    }
-                  }
+              onClicked: {
+                if (deviceRow.removalMode) {
+                  root.menuState = noState // qmllint disable unqualified
+                } else {
+                  list.currentItem = deviceRow.modelData // qmllint disable unqualified
+                  root.menuState = removeState // qmllint disable unqualified
                 }
               }
             }
