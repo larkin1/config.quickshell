@@ -9,7 +9,8 @@ QtObject {
   signal moved
 
   onCurrentIdxChanged: if (currentIdx !== -1) lastKnownIdx = currentIdx
-  onListChanged: if (currentIdx === -1 && list?.length > 1) currentItem = list[Math.min(lastKnownIdx, list.length - 1)]
+  onListChanged: if (currentIdx === -1 && list?.length > 0) currentItem = list[Math.min(lastKnownIdx, list.length - 1)]
+  onCurrentItemChanged: moved()
 
   function moveUp() {
     if (currentIdx === -1) {
@@ -19,7 +20,6 @@ QtObject {
       currentItem = list[list.length -1]; return
     }
     currentItem = list[currentIdx - 1]
-    moved()
   }
 
   function moveDn() {
@@ -27,6 +27,22 @@ QtObject {
       currentItem = list[0]; return
     }
     currentItem = list[currentIdx + 1]
-    moved()
   }
+
+  function jumpFirst() {
+    if (list?.length > 0) {
+      currentItem = list[0]
+      return
+    }
+    currentItem = null
+  }
+
+  function jumpLast() {
+    if (list?.length > 0) {
+      currentItem = list[list.length - 1]
+      return
+    }
+    currentItem = null
+  }
+
 }

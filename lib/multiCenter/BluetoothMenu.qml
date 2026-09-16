@@ -2,7 +2,7 @@ import Quickshell.Bluetooth
 import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls
+// import QtQuick.Controls
 import "../.."
 
 Item {
@@ -29,6 +29,7 @@ Item {
     list: root.devices
     onMoved: {
       root.menuState = root.noState
+      listView.positionViewAtIndex(list.currentIdx, ListView.Contain)
     }
   }
 
@@ -77,6 +78,7 @@ Item {
         event.accepted = true; break;
       case Qt.Key_Return:
       case Qt.Key_Space:
+        if (menuState === removeState) break;
         toggle(list.currentItem)
         event.accepted = true; break;
       case Qt.Key_Y:
@@ -95,10 +97,10 @@ Item {
   function handleShiftKeys(event) {
     switch (event.key) {
       case Qt.Key_J:
-        list.currentItem = devices[devices.length -1]
+        list.jumpLast()
         event.accepted = true; break;
       case Qt.Key_K:
-        list.currentItem = devices[0]
+        list.jumpFirst()
         event.accepted = true; break;
       case Qt.Key_D:
       case Qt.Key_X:
@@ -192,7 +194,8 @@ Item {
       color: Theme.mantle
       radius: Theme.vertMargin
 
-      ScrollView {
+      ListView {
+        id: listView
         anchors.topMargin: Theme.vertMargin
         anchors.leftMargin: Theme.horizMargin
         anchors.rightMargin: Theme.horizMargin

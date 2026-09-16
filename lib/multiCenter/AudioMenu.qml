@@ -38,7 +38,7 @@ Item {
         list.moveUp()
         event.accepted = true; break
       case Qt.Key_G:
-        list.currentItem = outputDevices[0]
+        list.jumpFirst()
         event.accepted = true; break
       case Qt.Key_H:
         list.currentItem.audio.volume -= 0.05
@@ -62,10 +62,10 @@ Item {
     switch (event.key) {
       case Qt.Key_J:
       case Qt.Key_G:
-        list.currentItem = outputDevices[outputDevices.length -1]
+        list.jumpLast()
         event.accepted = true; break
       case Qt.Key_K:
-        list.currentItem = outputDevices[0]
+        list.jumpFirst()
         event.accepted = true; break
       case Qt.Key_X:
       case Qt.Key_D:
