@@ -80,26 +80,33 @@ Item {
         Keys.onPressed: event => {
           switch (event.key) {
             case Qt.Key_Space:
-              Media.currentPlayer.togglePlaying()
-              break;
+              Media.currentPlayer?.togglePlaying()
+              event.accepted = true; break
             case Qt.Key_H:
             case Qt.Key_Left:
-              powerButton.forceActiveFocus(); break
+              powerButton.forceActiveFocus()
+              event.accepted = true; break
             case Qt.Key_J:
             case Qt.Key_Down:
-              powerButton.forceActiveFocus(); break
+              powerButton.forceActiveFocus()
+              event.accepted = true; break
             case Qt.Key_K:
             case Qt.Key_Up:
-              powerButton.forceActiveFocus(); break
+              powerButton.forceActiveFocus()
+              event.accepted = true; break
             case Qt.Key_L:
-            case Qt.Key_Left:
-              powerButton.forceActiveFocus(); break
+            case Qt.Key_Right:
+              powerButton.forceActiveFocus()
+              event.accepted = true; break
             case Qt.Key_P:
-              powerButton.clicked(); break
+              powerButton.clicked()
+              event.accepted = true; break
             case Qt.Key_B:
-              bluetoothButton.clicked(); break
+              bluetoothButton.clicked()
+              event.accepted = true; break
             case Qt.Key_A:
-              audioButton.clicked(); break
+              audioButton.clicked()
+              event.accepted = true; break
           }
         }
 

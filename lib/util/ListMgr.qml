@@ -13,19 +13,15 @@ QtObject {
   onCurrentItemChanged: moved()
 
   function moveUp() {
-    if (currentIdx === -1) {
-      currentItem = list[0]; return
-    }
-    if (currentIdx === 0) {
-      currentItem = list[list.length -1]; return
-    }
+    if (!list?.length) return;
+    if (currentIdx === -1) { jumpFirst(); return; }
+    if (currentIdx === 0) { jumpLast(); return }
     currentItem = list[currentIdx - 1]
   }
 
   function moveDn() {
-    if (currentIdx === list.length - 1 || currentIdx === -1) {
-      currentItem = list[0]; return
-    }
+    if (!list?.length) return;
+    if (currentIdx === list.length - 1 || currentIdx === -1) { jumpFirst(); return }
     currentItem = list[currentIdx + 1]
   }
 
