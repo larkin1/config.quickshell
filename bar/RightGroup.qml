@@ -244,8 +244,11 @@ Item {
       id: power
       Layout.rightMargin: (Theme.horizMargin/1.5)
       onClicked: {
-        // PowerMenu.visible = true
-        ShellUI.openPower()
+        if (Record.recording) {
+          Record.toggle()
+        } else {
+          ShellUI.openPower()
+        }
       }
     }
   }
