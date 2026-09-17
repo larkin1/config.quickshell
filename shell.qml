@@ -5,4 +5,5 @@ Bar {
   property var _pm: PowerMenu
   property var _ls: LockScreen
   property var _mp: Media
+  property var _rc: Record
 }

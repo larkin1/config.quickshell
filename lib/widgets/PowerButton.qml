@@ -9,6 +9,67 @@ Item {
   implicitWidth: powerButton.width
   height: Theme.barHeight
 
+  property var activeIcon: Qt.resolvedUrl("../../svg/power-button-active.svg")
+  property var inactiveIcon: Qt.resolvedUrl("../../svg/power-button-inactive.svg")
+
+  readonly property bool rec: Record.recording
+
+  onRecChanged: {
+    if (rec) {
+      recOn.restart()
+    } else {
+      recOff.restart()
+    }
+  }
+
+  SequentialAnimation {
+    id: recOff
+    NumberAnimation {
+      duration: 100
+      targets: [iconInactive, iconActive]
+      property: "rotation"
+      from: 0
+      to: -180
+    }
+    ScriptAction {
+      script: {
+        root.activeIcon = Qt.resolvedUrl("../../svg/power-button-active.svg")
+        root.inactiveIcon = Qt.resolvedUrl("../../svg/power-button-inactive.svg")
+      }
+    }
+    NumberAnimation {
+      duration: 100
+      targets: [iconInactive, iconActive]
+      property: "rotation"
+      from: -180
+      to: -360
+    }
+  }
+
+  SequentialAnimation {
+    id: recOn
+    NumberAnimation {
+      duration: 100
+      targets: [iconInactive, iconActive]
+      property: "rotation"
+      from: 0
+      to: 180
+    }
+    ScriptAction {
+      script: {
+        root.activeIcon = Qt.resolvedUrl("../../svg/video-active.svg")
+        root.inactiveIcon = Qt.resolvedUrl("../../svg/video-active.svg")
+      }
+    }
+    NumberAnimation {
+      duration: 100
+      targets: [iconInactive, iconActive]
+      property: "rotation"
+      from: 180
+      to: 360
+    }
+  }
+
   Rectangle {
     id: powerButton
     width: Theme.barHeight
@@ -22,7 +83,7 @@ Item {
       anchors.centerIn: parent
       implicitSize: Theme.iconSize
       mipmap: true
-      source: Qt.resolvedUrl("../../svg/power-button-inactive.svg")
+      source: root.inactiveIcon
       opacity: powerHover.hovered ? 0 : 1
       Behavior on opacity {
         NumberAnimation {
@@ -36,7 +97,7 @@ Item {
       anchors.centerIn: parent
       implicitSize: Theme.iconSize
       mipmap: true
-      source: Qt.resolvedUrl("../../svg/power-button-active.svg")
+      source: root.activeIcon
       opacity: powerHover.hovered ? 1 : 0
       Behavior on opacity {
         NumberAnimation {

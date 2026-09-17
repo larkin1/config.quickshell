@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Io
 import "../.."
 
 Item {
@@ -107,6 +108,9 @@ Item {
             case Qt.Key_A:
               audioButton.clicked()
               event.accepted = true; break
+            case Qt.Key_R:
+              screenRecButton.clicked()
+              event.accepted = true; break
           }
         }
 
@@ -154,6 +158,21 @@ Item {
             screens.openAudio()
           }
           focusLeft: bluetoothButton
+        }
+
+        IconButton {
+          id: screenRecButton
+          Layout.column: 1
+          Layout.row: 1
+          implicitHeight: parent.buttonHeight
+          activeBtnPath: Record.recording ? "../../svg/video-active.svg" : "../../svg/novideo-active.svg"
+          inactiveBtnPath: Record.recording ? "../../svg/video-active.svg" : "../../svg/novideo-inactive.svg"
+          openAnimation: false
+          visible: screens.uiState == ""
+          focusLeft: bluetoothButton
+          onClicked: {
+            Record.toggle()
+          }
         }
       }
     }
