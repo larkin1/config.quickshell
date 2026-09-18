@@ -143,6 +143,7 @@ Item {
           }
           focusLeft: powerButton
           focusRight: audioButton
+          focusDown: screenRecButton
         }
 
         IconButton {
@@ -169,7 +170,7 @@ Item {
           inactiveBtnPath: Record.recording ? "../../svg/video-active.svg" : "../../svg/novideo-inactive.svg"
           openAnimation: false
           visible: screens.uiState == ""
-          focusLeft: bluetoothButton
+          focusUp: bluetoothButton
           onClicked: {
             Record.toggle()
           }
