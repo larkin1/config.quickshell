@@ -116,9 +116,8 @@ Item {
         RowLayout {
           IconButton {
             implicitHeight: header.height
-            activeBtnPath: root.allMuted ? "../../svg/vol-off-active" : "../../svg/vol-max-active.svg"
-            inactiveBtnPath: root.allMuted ? "../../svg/vol-off-inactive.svg" : "../../svg/vol-max.svg"
-            openAnimation: false
+            iconPath: root.allMuted ? "../../svg/vol-off.svg" : "../../svg/vol-max.svg"
+            iconColor: active ? Theme.red : Theme.text
             Layout.alignment: Qt.AlignRight
 
             onClicked: {
@@ -202,9 +201,8 @@ Item {
 
             IconButton {
               implicitHeight: listItem.height
-              activeBtnPath: listItem.modelData.audio.muted ? "../../svg/vol-off-active" : "../../svg/vol-max-active.svg"
-              inactiveBtnPath: listItem.modelData.audio.muted ? "../../svg/vol-off-inactive.svg" : "../../svg/vol-max.svg"
-              openAnimation: false
+              iconPath: listItem.modelData.audio.muted ? "../../svg/vol-off.svg" : "../../svg/vol-max.svg"
+              iconColor: active ? Theme.red : Theme.text
               Layout.alignment: Qt.AlignRight
 
               onClicked: {

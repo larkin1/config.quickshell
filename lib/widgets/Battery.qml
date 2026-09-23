@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell.Services.UPower
 import Quickshell.Widgets
@@ -80,6 +81,11 @@ Item {
       implicitSize: Theme.iconSize
       mipmap: true
       source: Qt.resolvedUrl(root.battIcon())
+      layer.enabled: true
+      layer.effect: MultiEffect {
+        colorization: 1.00
+        colorizationColor: Theme.text
+      }
     }
 
     StyledText {

@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Hyprland
@@ -46,6 +47,11 @@ Item {
       implicitSize: Theme.iconSize
       mipmap: true
       source: Qt.resolvedUrl("../../svg/nix.svg")
+      layer.enabled: true
+      layer.effect: MultiEffect {
+        colorization: 1.00
+        colorizationColor: Theme.crust
+      }
     }
   }
 

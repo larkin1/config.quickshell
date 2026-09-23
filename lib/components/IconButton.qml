@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
@@ -12,39 +13,23 @@ Item {
 
   signal clicked()
 
-  property string activeBtnPath: ""
-  property string inactiveBtnPath: ""
+  property string iconPath: ""
+  property color iconColor: Theme.text
+  property real iconRotation: 0
   property var command: null
   property color baseColor: "transparent"
   property color hoverColor: Qt.alpha("grey", "0.08")
-  property int openDelay: 0
-  property bool expanded: true
   property Item focusLeft: null
   property Item focusRight: null
   property Item focusUp: null
   property Item focusDown: null
-  property bool openAnimation: true
-  property real iconRotation: 0
-  property var openAnimationEasing: Easing.InQuart
-  readonly property bool hovered: btnHover.hovered
+  property bool activeOverride: false
+
+  readonly property bool active: btnHover.hovered || activeFocus || activeOverride
 
   onClicked: {
     if (root.command !== undefined && root.command !== null) {
       Quickshell.execDetached(root.command)
-    }
-  }
-
-  onExpandedChanged: {
-    if (expanded) {
-      if (openAnimation) {
-        open.start()
-      } else {
-        root.implicitWidth = root.height
-        iconInactive.opacity = 1
-      }
-    } else {
-      root.implicitWidth = 0
-      iconInactive.opacity = 0
     }
   }
 
@@ -107,63 +92,28 @@ Item {
       anchors.centerIn: parent
       Behavior on color {
         ColorAnimation {
-          duration: 200
-        }
-      }
-    }
-
-    IconImage {
-      id: iconInactive
-      anchors.centerIn: parent
-      implicitSize: btn.height * 0.5
-      mipmap: true
-      source: Qt.resolvedUrl(root.inactiveBtnPath)
-      rotation: root.iconRotation
-      opacity: (btnHover.hovered || root.activeFocus) ? 0 : 1
-      Behavior on opacity {
-        NumberAnimation {
           duration: Theme.colorAnimationDuration
         }
       }
     }
 
     IconImage {
-      id: iconActive
+      id: icon
       anchors.centerIn: parent
       implicitSize: btn.height * 0.5
       mipmap: true
-      source: Qt.resolvedUrl(root.activeBtnPath)
+      source: Qt.resolvedUrl(root.iconPath)
       rotation: root.iconRotation
-      opacity: (btnHover.hovered || root.activeFocus) ? 1 : 0
-      Behavior on opacity {
-        NumberAnimation {
-          duration: Theme.colorAnimationDuration
+      layer.enabled: true
+      layer.effect: MultiEffect {
+        colorization: 1.00
+        colorizationColor: root.iconColor // qmllint disable unqualified
+        Behavior on colorizationColor {
+          ColorAnimation {
+            duration: Theme.colorAnimationDuration
+          }
         }
       }
-    }
-  }
-
-  SequentialAnimation {
-    id: open
-    PropertyAction {
-      target: iconInactive
-      property: "opacity"
-      value: 0
-    }
-    PauseAnimation { duration: root.openDelay }
-    PropertyAnimation {
-      target: root
-      property: "implicitWidth"
-      easing: root.openAnimationEasing
-      from: 0
-      to: root.height
-    }
-    PropertyAnimation {
-      target: iconInactive
-      property: "opacity"
-      duration: 400
-      from: 0
-      to: 1
     }
   }
 }

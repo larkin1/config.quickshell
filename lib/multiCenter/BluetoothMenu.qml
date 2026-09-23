@@ -150,9 +150,8 @@ Item {
         IconButton {
           Layout.alignment: Qt.AlignRight
           implicitHeight: actionsBar.height
-          activeBtnPath: Bluetooth.defaultAdapter?.enabled ? "../../svg/bt-active.svg" : "../../svg/bt-off-active.svg" // qmllint disable unresolved-type
-          inactiveBtnPath: Bluetooth.defaultAdapter?.enabled ? "../../svg/bt-inactive.svg" : "../../svg/bt-off.svg" // qmllint disable unresolved-type
-          openAnimation: false
+          iconPath: Bluetooth.defaultAdapter?.enabled ? "../../svg/bt.svg" : "../../svg/bt-off.svg" // qmllint disable unresolved-type
+          iconColor: active ? Theme.red : Theme.text
 
           onClicked: {
             Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled // qmllint disable unresolved-type
@@ -164,9 +163,8 @@ Item {
         IconButton {
           id: scan
           implicitHeight: actionsBar.height
-          activeBtnPath: "../../svg/reboot-active.svg"
-          inactiveBtnPath: "../../svg/reboot-inactive.svg"
-          openAnimation: false
+          iconPath: "../../svg/reboot.svg"
+          iconColor: active ? Theme.red : Theme.text
 
           RotationAnimation {
             target: scan
@@ -249,9 +247,8 @@ Item {
             IconButton {
               Layout.alignment: Qt.AlignRight
               implicitHeight: deviceRow.height
-              activeBtnPath: deviceRow.removalMode ? "../../svg/check-active.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check-active.svg" : "../../svg/shield-cross-active.svg"
-              inactiveBtnPath: deviceRow.removalMode ? "../../svg/check-inactive.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check-inactive.svg" : "../../svg/shield-cross-inactive.svg"
-              openAnimation: false
+              iconPath: deviceRow.removalMode ? "../../svg/check.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check.svg" : "../../svg/shield-cross.svg"
+              iconColor: active ? Theme.red : Theme.text
 
               onClicked: {
                 if (deviceRow.removalMode) {
@@ -265,9 +262,8 @@ Item {
 
             IconButton {
               implicitHeight: deviceRow.height
-              activeBtnPath: deviceRow.removalMode ? "../../svg/cross-active.svg" : "../../svg/trash-active.svg"
-              inactiveBtnPath: deviceRow.removalMode ? "../../svg/cross-inactive.svg" : "../../svg/trash-inactive.svg"
-              openAnimation: false
+              iconPath: deviceRow.removalMode ? "../../svg/cross.svg" : "../../svg/trash.svg"
+              iconColor: active ? Theme.red : Theme.text
 
               onClicked: {
                 if (deviceRow.removalMode) {

@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import Quickshell.Widgets
 import "../.."
 
@@ -9,8 +10,8 @@ Item {
   implicitWidth: powerButton.width
   height: Theme.barHeight
 
-  property var activeIcon: Qt.resolvedUrl("../../svg/power-button-active.svg")
-  property var inactiveIcon: Qt.resolvedUrl("../../svg/power-button-inactive.svg")
+  property var iconPath: Qt.resolvedUrl("../../svg/power-button.svg")
+  property color iconColor: rec || powerHover.hovered ? Theme.red : Theme.text
 
   readonly property bool rec: Record.recording
 
@@ -26,20 +27,19 @@ Item {
     id: recOff
     NumberAnimation {
       duration: 100
-      targets: [iconInactive, iconActive]
+      targets: iconInactive
       property: "rotation"
       from: 0
       to: -180
     }
     ScriptAction {
       script: {
-        root.activeIcon = Qt.resolvedUrl("../../svg/power-button-active.svg")
-        root.inactiveIcon = Qt.resolvedUrl("../../svg/power-button-inactive.svg")
+        root.iconPath = Qt.resolvedUrl("../../svg/power-button.svg")
       }
     }
     NumberAnimation {
       duration: 100
-      targets: [iconInactive, iconActive]
+      target: iconInactive
       property: "rotation"
       from: -180
       to: -360
@@ -50,20 +50,19 @@ Item {
     id: recOn
     NumberAnimation {
       duration: 100
-      targets: [iconInactive, iconActive]
+      target: iconInactive
       property: "rotation"
       from: 0
       to: 180
     }
     ScriptAction {
       script: {
-        root.activeIcon = Qt.resolvedUrl("../../svg/video-active.svg")
-        root.inactiveIcon = Qt.resolvedUrl("../../svg/video-active.svg")
+        root.iconPath = Qt.resolvedUrl("../../svg/video.svg")
       }
     }
     NumberAnimation {
       duration: 100
-      targets: [iconInactive, iconActive]
+      target: iconInactive
       property: "rotation"
       from: 180
       to: 360
@@ -83,32 +82,21 @@ Item {
       anchors.centerIn: parent
       implicitSize: Theme.iconSize
       mipmap: true
-      source: root.inactiveIcon
-      opacity: powerHover.hovered ? 0 : 1
-      Behavior on opacity {
-        NumberAnimation {
-          duration: Theme.colorAnimationDuration
-        }
-      }
-    }
-
-    IconImage {
-      id: iconActive
-      anchors.centerIn: parent
-      implicitSize: Theme.iconSize
-      mipmap: true
-      source: root.activeIcon
-      opacity: powerHover.hovered ? 1 : 0
-      Behavior on opacity {
-        NumberAnimation {
-          duration: Theme.colorAnimationDuration
+      source: root.iconPath
+      layer.enabled: true
+      layer.effect: MultiEffect {
+        colorization: 1.00
+        colorizationColor: root.iconColor // qmllint disable unqualified
+        Behavior on colorizationColor {
+          ColorAnimation {
+            duration: Theme.colorAnimationDuration
+          }
         }
       }
     }
 
     HoverHandler {
       id: powerHover
-      cursorShape: Qt.PointingHandCursor
     }
 
     MouseArea {

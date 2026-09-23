@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell.Io
 import Quickshell.Widgets
@@ -50,6 +51,11 @@ Item {
       implicitSize: Theme.iconSize
       mipmap: true
       source: Qt.resolvedUrl("../../svg/cpu.svg")
+      layer.enabled: true
+      layer.effect: MultiEffect {
+        colorization: 1.00
+        colorizationColor: Theme.text
+      }
     }
 
     StyledText {

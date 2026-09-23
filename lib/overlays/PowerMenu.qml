@@ -56,13 +56,11 @@ PanelWindow { //qmllint disable uncreatable-type
 
     IconButton {
       id: poweroff
-      activeBtnPath: "../../svg/shutdown-active.svg"
-      inactiveBtnPath: "../../svg/shutdown-inactive.svg"
+      iconPath: "../../svg/shutdown.svg"
+      iconColor: active ? Theme.red : Theme.text
       command: ["poweroff"]
       baseColor: Theme.surface0
       hoverColor: Theme.surface1
-      openDelay: 0
-      expanded: ShellUI.powerOpen
       focusLeft: lock
       focusRight: reboot
     }
@@ -75,13 +73,11 @@ PanelWindow { //qmllint disable uncreatable-type
 
     IconButton {
       id: reboot
-      activeBtnPath: "../../svg/reboot-active.svg"
-      inactiveBtnPath: "../../svg/reboot-inactive.svg"
+      iconPath: "../../svg/reboot.svg"
+      iconColor: active ? Theme.red : Theme.text
       command: ["reboot"]
       baseColor: Theme.base
       hoverColor: Theme.surface0
-      openDelay: 250
-      expanded: ShellUI.powerOpen
       focusLeft: poweroff
       focusRight: sleep
     }
@@ -94,13 +90,11 @@ PanelWindow { //qmllint disable uncreatable-type
 
     IconButton {
       id: sleep
-      activeBtnPath: "../../svg/sleep-active.svg"
-      inactiveBtnPath: "../../svg/sleep-inactive.svg"
+      iconPath: "../../svg/sleep.svg"
+      iconColor: active ? Theme.red : Theme.text
       command: ["systemctl", "suspend"]
       baseColor: Theme.mantle
       hoverColor: Theme.base
-      openDelay: 500
-      expanded: ShellUI.powerOpen
       focusLeft: reboot
       focusRight: lock
     }
@@ -113,12 +107,10 @@ PanelWindow { //qmllint disable uncreatable-type
 
     IconButton {
       id: lock
-      activeBtnPath: "../../svg/lock-active.svg"
-      inactiveBtnPath: "../../svg/lock-inactive.svg"
+      iconPath: "../../svg/lock.svg"
+      iconColor: active ? Theme.red : Theme.text
       baseColor: Theme.crust
       hoverColor: Theme.mantle
-      openDelay: 750
-      expanded: ShellUI.powerOpen
       focusLeft: sleep
       focusRight: poweroff
 

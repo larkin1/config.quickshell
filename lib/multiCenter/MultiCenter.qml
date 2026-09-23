@@ -119,9 +119,8 @@ Item {
           Layout.column: 0
           Layout.row: 0
           implicitHeight: parent.buttonHeight
-          activeBtnPath: "../../svg/power-button-active.svg"
-          inactiveBtnPath: "../../svg/power-button-inactive.svg"
-          openAnimation: false
+          iconPath: "../../svg/power-button.svg"
+          iconColor: active ? Theme.red : Theme.text
           visible: screens.uiState == ""
           onClicked: {
             ShellUI.openPower()
@@ -134,9 +133,8 @@ Item {
           Layout.column: 1
           Layout.row: 0
           implicitHeight: parent.buttonHeight
-          activeBtnPath: "../../svg/bt-active.svg"
-          inactiveBtnPath: "../../svg/bt-inactive.svg"
-          openAnimation: false
+          iconPath: "../../svg/bt.svg"
+          iconColor: active ? Theme.red : Theme.text
           visible: screens.uiState == ""
           onClicked: {
             screens.openBluetooth()
@@ -151,9 +149,8 @@ Item {
           Layout.column: 2
           Layout.row: 0
           implicitHeight: parent.buttonHeight
-          activeBtnPath: "../../svg/speaker-active.svg"
-          inactiveBtnPath: "../../svg/speaker-inactive.svg"
-          openAnimation: false
+          iconPath: "../../svg/speaker.svg"
+          iconColor: active ? Theme.red : Theme.text
           visible: screens.uiState == ""
           onClicked: {
             screens.openAudio()
@@ -166,9 +163,8 @@ Item {
           Layout.column: 1
           Layout.row: 1
           implicitHeight: parent.buttonHeight
-          activeBtnPath: Record.recording ? "../../svg/video-active.svg" : "../../svg/novideo-active.svg"
-          inactiveBtnPath: Record.recording ? "../../svg/video-active.svg" : "../../svg/novideo-inactive.svg"
-          openAnimation: false
+          iconPath: Record.recording ? "../../svg/video.svg" : "../../svg/novideo.svg"
+          iconColor: active ? Theme.red : Theme.text
           visible: screens.uiState == ""
           focusUp: bluetoothButton
           onClicked: {

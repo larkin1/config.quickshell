@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell.Services.Pipewire
 import Quickshell.Widgets
@@ -58,6 +59,11 @@ Item {
       mipmap: true
       source: Qt.resolvedUrl(root.sinkIconType(root.sink))
       onSourceChanged: { root.changed() }
+      layer.enabled: true
+      layer.effect: MultiEffect {
+        colorization: 1.00
+        colorizationColor: root.sink?.audio.muted ? Theme.surface2 : Theme.text // qmllint disable unqualified
+      }
     }
     StyledText {
       id: vol

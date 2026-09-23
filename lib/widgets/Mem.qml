@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell.Io
 import Quickshell.Widgets
@@ -44,6 +45,11 @@ Item {
       implicitSize: Theme.iconSize
       mipmap: true
       source: Qt.resolvedUrl("../../svg/memory.svg")
+      layer.enabled: true
+      layer.effect: MultiEffect {
+        colorization: 1.00
+        colorizationColor: (root.memUsage > 90)? Theme.red : ((root.memUsage > 75)? Theme.peach : ((root.memUsage > 50)? Theme.yellow : Theme.text)) // qmllint disable unqualified
+      }
     }
 
     StyledText {
