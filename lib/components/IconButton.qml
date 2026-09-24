@@ -24,6 +24,7 @@ Item {
   property Item focusUp: null
   property Item focusDown: null
   property bool activeOverride: false
+  property double buttonOpacity: 1.00
 
   readonly property bool active: btnHover.hovered || activeFocus || activeOverride
 
@@ -86,6 +87,7 @@ Item {
 
     Rectangle {
       color: (btnHover.hovered || root.activeFocus) ? root.hoverColor : root.baseColor
+      opacity: root.buttonOpacity
       implicitWidth: parent.width * 0.8
       implicitHeight: parent.height * 0.8
       radius: parent.height * 0.2
@@ -100,6 +102,7 @@ Item {
     IconImage {
       id: icon
       anchors.centerIn: parent
+      opacity: root.buttonOpacity
       implicitSize: btn.height * 0.5
       mipmap: true
       source: Qt.resolvedUrl(root.iconPath)

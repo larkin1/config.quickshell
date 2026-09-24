@@ -30,6 +30,7 @@ PanelWindow { //qmllint disable uncreatable-type
 
   onVisibleChanged: {
     if (visible) {
+      open.restart()
       poweroff.forceActiveFocus()
       grab.active = true;
     }
@@ -124,6 +125,23 @@ PanelWindow { //qmllint disable uncreatable-type
       background: "transparent"
       reversed: false
     }
+  }
+
+  SequentialAnimation {
+    id: open
+    PropertyAction {
+      targets: [lock, sleep, poweroff, reboot]
+      properties: "buttonOpacity,implicitWidth"
+      value: 0
+    }
+    NumberAnimation { target: poweroff; property: "implicitWidth"; to: content.implicitHeight; duration: Theme.animationDuration; easing: Easing.InQuart; }
+    NumberAnimation { target: poweroff; property: "buttonOpacity"; to: 1; duration: Theme.animationDuration*0.5; easing: Theme.animationEasing; }
+    NumberAnimation { target: reboot; property: "implicitWidth"; to: content.implicitHeight; duration: Theme.animationDuration; easing: Easing.InQuart; }
+    NumberAnimation { target: reboot; property: "buttonOpacity"; to: 1; duration: Theme.animationDuration*0.5; easing: Theme.animationEasing; }
+    NumberAnimation { target: sleep; property: "implicitWidth"; to: content.implicitHeight; duration: Theme.animationDuration; easing: Easing.InQuart; }
+    NumberAnimation { target: sleep; property: "buttonOpacity"; to: 1; duration: Theme.animationDuration*0.5; easing: Theme.animationEasing; }
+    NumberAnimation { target: lock; property: "implicitWidth"; to: content.implicitHeight; duration: Theme.animationDuration; easing: Easing.InQuart; }
+    NumberAnimation { target: lock; property: "buttonOpacity"; to: 1; duration: Theme.animationDuration*0.5; easing: Theme.animationEasing; }
   }
 
   HyprlandFocusGrab {
