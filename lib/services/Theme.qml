@@ -1,7 +1,9 @@
 pragma Singleton
+
+import Quickshell
 import QtQuick
 
-QtObject {
+Singleton {
   id: root
   // Base
   readonly property color crust:    "#11111b"

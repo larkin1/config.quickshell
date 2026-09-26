@@ -1,10 +1,11 @@
 pragma Singleton
 
 import QtQuick
+import Quickshell
 import Quickshell.Io
 import "../.."
 
-Item {
+Singleton {
   id: root
   property bool recording: false
 

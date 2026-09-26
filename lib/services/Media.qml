@@ -1,10 +1,11 @@
 pragma Singleton
 
 import QtQuick
+import Quickshell
 import Quickshell.Services.Mpris
 import "../.."
 
-QtObject {
+Singleton {
   readonly property bool isPlaying: currentPlayer?.playbackState === MprisPlaybackState.Playing
   readonly property var playerList: Mpris.players.values.filter(p => !p.dbusName.includes("playerctld"))
   readonly property var playingPlayers: playerList.filter(p => p.playbackState === MprisPlaybackState.Playing)
