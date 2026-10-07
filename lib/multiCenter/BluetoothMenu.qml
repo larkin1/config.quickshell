@@ -2,7 +2,6 @@ import Quickshell.Bluetooth
 import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
-// import QtQuick.Controls
 import "../.."
 
 Item {
@@ -199,7 +198,6 @@ Item {
         anchors.fill: parent
         clip: true
         model: root.devices
-        // model: Bluetooth.defaultAdapter?.devices; // qmllint disable unresolved-type
 
         delegate: Rectangle {
           id: deviceRow

@@ -11,7 +11,7 @@ Item {
     right: parent.right
   }
 
-  RowLayout { // Content flows left-right
+  RowLayout {
     id: innerRow
     spacing: 0
 

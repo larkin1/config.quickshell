@@ -22,7 +22,7 @@ Item {
 
   Rectangle {
     id: progress
-    visible: Media.currentPlayer?.positionSupported ? true : false // the ? : avoids warnings about "unable to assign [undefined] to bool"
+    visible: Media.currentPlayer?.positionSupported ? true : false
     anchors.left: parent.left
     anchors.bottom: parent.bottom
     radius: implicitHeight/2

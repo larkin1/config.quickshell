@@ -32,7 +32,6 @@ Item {
           // qmllint disable unqualified
           source: modelData.icon
         }
-        MouseArea {
           anchors.fill: parent
           acceptedButtons: Qt.LeftButton | Qt.RightButton
           cursorShape: Qt.PointingHandCursor

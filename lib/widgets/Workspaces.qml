@@ -18,7 +18,6 @@ Row {
     id: workspacesRepeater
     model: Hyprland.workspaces
 
-    // the weird ?s are to prevent some warnings from values being null at startup
     property string windowMonitor: QsWindow.window?.screen.name ?? "" // qmllint disable missing-property
 
     delegate: Rectangle {
