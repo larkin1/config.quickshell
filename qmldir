@@ -4,6 +4,7 @@ singleton PowerMenu lib/overlays/PowerMenu.qml
 singleton LockScreen lib/overlays/LockScreen.qml
 singleton Media lib/services/Media.qml
 singleton Record lib/services/Record.qml
+singleton Colors lib/services/Colors.qml
 LeftGroup bar/LeftGroup.qml
 RightGroup bar/RightGroup.qml
 MiddleGroup bar/MiddleGroup.qml

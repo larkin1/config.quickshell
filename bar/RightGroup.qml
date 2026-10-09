@@ -24,7 +24,7 @@ Item {
 
     Border {
       background: "transparent"
-      foreground: Theme.mantle
+      foreground: Colors.md3.surface_container_lowest
       reversed: true
       implicitHeight: Theme.barHeight
       HoverHandler {
@@ -45,7 +45,7 @@ Item {
 
       implicitWidth: 0
       implicitHeight: Theme.barHeight
-      color: Theme.mantle
+      color: Colors.md3.surface_container_lowest
       clip: true
 
       HoverHandler {
@@ -125,15 +125,15 @@ Item {
     }
 
     Border {
-      foreground: Theme.base
-      background: Theme.mantle
+      foreground: Colors.md3.surface_container
+      background: Colors.md3.surface_container_lowest
       reversed: true
       implicitHeight: Theme.barHeight
     }
 
     Rectangle {
       id: battRect
-      color: Theme.base
+      color: Colors.md3.surface_container
       implicitHeight: Theme.barHeight
       implicitWidth: batt.implicitWidth
       Battery {
@@ -142,8 +142,8 @@ Item {
     }
 
     Border {
-      background: Theme.base
-      foreground: Theme.surface0
+      background: Colors.md3.surface_container
+      foreground: Colors.md3.surface_container_highest
       reversed: true
       implicitHeight: Theme.barHeight
       HoverHandler {
@@ -163,7 +163,7 @@ Item {
       id: trayRect
 
       clip: true
-      color: Theme.surface0
+      color: Colors.md3.surface_container_highest
       implicitHeight: Theme.barHeight
       implicitWidth: 0
 
@@ -233,7 +233,7 @@ Item {
     }
 
     Border {
-      background: Theme.surface0
+      background: Colors.md3.surface_container_highest
       foreground: "transparent"
       Layout.rightMargin: Theme.horizMargin * 0.2
       reversed: true

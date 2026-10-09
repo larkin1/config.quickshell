@@ -26,13 +26,13 @@ Item {
 
     Border {
       background: "transparent"
-      foreground: Theme.base
+      foreground: Colors.md3.surface_container
       implicitHeight: Theme.barHeight
       reversed: true
     }
 
     Rectangle {
-      color: Theme.base
+      color: Colors.md3.surface_container
       Layout.fillHeight: true
       implicitWidth: mem.width + Theme.horizMargin
       Mem {
@@ -42,15 +42,15 @@ Item {
     }
 
     Border {
-      foreground: Theme.surface0
-      background: Theme.base
+      foreground: Colors.md3.surface_container_highest
+      background: Colors.md3.surface_container
       reversed: true
       implicitHeight: Theme.barHeight
     }
 
 
     Rectangle {
-      color: Theme.surface0
+      color: Colors.md3.surface_container_highest
       Layout.fillHeight: true
       implicitWidth: cpu.width + Theme.horizMargin
       Cpu {
@@ -73,7 +73,7 @@ Item {
     }
 
     Border {
-      background: Theme.surface0
+      background: Colors.md3.surface_container_highest
       foreground: "transparent"
       reversed: true
     }
@@ -95,7 +95,7 @@ Item {
 
     Border {
       foreground: "transparent"
-      background: Theme.surface0
+      background: Colors.md3.surface_container_highest
     }
   }
 
@@ -112,7 +112,7 @@ Item {
 
     Rectangle {
       id: clockWidget
-      color: Theme.surface0
+      color: Colors.md3.surface_container_highest
       Layout.fillHeight: true
       implicitWidth: clock.implicitWidth
 
@@ -123,14 +123,14 @@ Item {
     }
 
     Border {
-      foreground: Theme.surface0
-      background: Theme.base
+      foreground: Colors.md3.surface_container_highest
+      background: Colors.md3.surface_container
       implicitHeight: Theme.barHeight
     }
 
     Rectangle {
       id: dateWidget
-      color: Theme.base
+      color: Colors.md3.surface_container
       Layout.fillHeight: true
       implicitWidth: date.implicitWidth
 
@@ -144,7 +144,7 @@ Item {
     }
 
     Border {
-      foreground: Theme.base
+      foreground: Colors.md3.surface_container
       background: "transparent"
       implicitHeight: Theme.barHeight
     }

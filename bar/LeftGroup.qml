@@ -22,7 +22,7 @@ Item {
     // Content
     Border {
       background: "transparent"
-      foreground: Theme.base
+      foreground: Colors.md3.surface_container
       Layout.leftMargin: Theme.horizMargin
       reversed: true
       implicitHeight: Theme.barHeight
@@ -30,29 +30,29 @@ Item {
 
     Rectangle { // Workspaces
       id: text1
-      color: Theme.base
+      color: Colors.md3.surface_container
       Layout.fillHeight: true
       implicitWidth: workspaces.implicitWidth
 
       Workspaces {
         id: workspaces
-        bgColor: Theme.base
-        activeBGColor: Theme.surface0
-        inactiveTextColor: Theme.surface2
-        activeTextColor: Theme.cyclingColor
+        bgColor: Colors.md3.surface_container
+        activeBGColor: Qt.alpha(Colors.md3.on_surface, 0.08)
+        inactiveTextColor: Colors.md3.on_surface_variant
+        activeTextColor: Colors.cyclingColor
       }
     }
 
     Border {
-      foreground: Theme.base
-      background: Theme.mantle
+      foreground: Colors.md3.surface_container
+      background: Colors.md3.surface_container_lowest
       outerMargin: Theme.horizMargin
       implicitHeight: Theme.barHeight
     }
 
     Rectangle {
       id: mediaWidget
-      color: Theme.mantle
+      color: Colors.md3.surface_container_lowest
       Layout.fillHeight: true
       implicitWidth: media.implicitWidth
       clip: true
@@ -69,16 +69,16 @@ Item {
       Player {
         id: media
         width: parent.width
-        textColor: Theme.text
-        activeBGColor: Theme.surface1
-        bgColor: Theme.mantle
-        activeProgressbarColor: Theme.cyclingColor
-        progressbarColor: Theme.surface2
+        textColor: Colors.md3.on_surface
+        activeBGColor: Qt.alpha(Colors.md3.on_surface, 0.08)
+        bgColor: Colors.md3.surface_container_lowest
+        activeProgressbarColor: Colors.cyclingColor
+        progressbarColor: Colors.md3.on_surface_variant
       }
     }
 
     Border {
-      foreground: Theme.mantle
+      foreground: Colors.md3.surface_container_lowest
       background: "transparent"
       implicitHeight: Theme.barHeight
     }

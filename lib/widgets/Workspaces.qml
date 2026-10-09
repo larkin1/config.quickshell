@@ -55,7 +55,7 @@ Row {
       Rectangle {
         width: parent.width - 3
         height: parent.height - 6
-        color: workspaceHover.hovered ? root.activeBGColor : root.bgColor // qmllint disable unqualified
+        color: workspaceHover.hovered ? root.activeBGColor : "transparent" // qmllint disable unqualified
         radius: height/2
         anchors.centerIn: parent
         Behavior on color {
