@@ -23,11 +23,12 @@ Item {
     implicitSize: Theme.iconSize
     anchors.centerIn: parent
     mipmap: true
+    opacity: root.source?.audio.muted ? 0.38 : 1.0
     source: root.source?.audio.muted ? Qt.resolvedUrl("../../svg/mic-inactive.svg") : Qt.resolvedUrl("../../svg/mic-active.svg")
     layer.enabled: true
     layer.effect: MultiEffect {
       colorization: 1.00
-      colorizationColor: root.source?.audio.muted ? Theme.overlay0 : Theme.text // qmllint disable unqualified
+      colorizationColor: Colors.md3.on_surface
     }
     onSourceChanged: { root.changed() }
   }

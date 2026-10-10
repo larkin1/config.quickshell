@@ -59,16 +59,17 @@ Item {
       mipmap: true
       source: Qt.resolvedUrl(root.sinkIconType(root.sink))
       onSourceChanged: { root.changed() }
+      opacity: root.sink?.audio.muted ? 0.38 : 1.0
       layer.enabled: true
       layer.effect: MultiEffect {
         colorization: 1.00
-        colorizationColor: root.sink?.audio.muted ? Theme.surface2 : Theme.text // qmllint disable unqualified
+        colorizationColor: Colors.md3.on_surface
       }
     }
     StyledText {
       id: vol
       text: (root.sink && root.sink.audio) ? Math.round(root.sink.audio.volume * 100) + "%" : "-%"
-      color: root.sink?.audio.muted ? Theme.surface2 : Theme.text
+      color: root.sink?.audio.muted ? Qt.alpha(Colors.md3.on_surface, 0.38) : Colors.md3.on_surface
       onTextChanged: { root.changed() }
     }
   }

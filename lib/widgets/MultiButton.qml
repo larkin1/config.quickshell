@@ -50,7 +50,7 @@ Item {
       layer.enabled: true
       layer.effect: MultiEffect {
         colorization: 1.00
-        colorizationColor: Theme.crust
+        colorizationColor: Colors.md3.surface_container
       }
     }
   }

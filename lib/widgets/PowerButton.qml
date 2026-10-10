@@ -11,7 +11,7 @@ Item {
   height: Theme.barHeight
 
   property var iconPath: Qt.resolvedUrl("../../svg/power-button.svg")
-  property color iconColor: rec || powerHover.hovered ? Theme.red : Theme.text
+  property color iconColor: rec || powerHover.hovered ? Colors.md3.primary : Colors.md3.on_surface
 
   readonly property bool rec: Record.recording
 

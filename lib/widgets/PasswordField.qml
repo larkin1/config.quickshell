@@ -28,20 +28,20 @@ Item {
     clip: true
 
     Border {
-      foreground: Theme.mantle
+      foreground: Colors.md3.surface_container_lowest
       background: "transparent"
       reversed: true
     }
 
     Border {
-      foreground: Theme.base
-      background: Theme.mantle
+      foreground: Colors.md3.surface_container
+      background: Colors.md3.surface_container_lowest
       reversed: true
     }
 
     Border {
-      foreground: Theme.surface0
-      background: Theme.base
+      foreground: Colors.md3.surface_container_highest
+      background: Colors.md3.surface_container
       reversed: true
     }
 
@@ -52,7 +52,7 @@ Item {
 
       Rectangle {
         anchors.fill: parent
-        color: Theme.surface0
+        color: Colors.md3.surface_container_highest
 
         Behavior on border.color {
           ColorAnimation {
@@ -67,7 +67,7 @@ Item {
         anchors.margins: Theme.horizMargin
         opacity: 0
         focus: true
-        color: Theme.text
+        color: Colors.md3.on_surface
         font.family: Theme.font
         font.pixelSize: Theme.fontSize
         font.weight: Theme.fontWeight
@@ -87,7 +87,7 @@ Item {
         anchors.centerIn: parent
         text: root.authenticating ? "Authenticating..." : (input.text.length === 0 ? root.placeholder : "*".repeat(input.text.length))
         font.pixelSize: root.height * 0.3
-        color: (input.text.length === 0 ? (root.error ? Theme.red : Theme.overlay0) : Theme.text)
+        color: (input.text.length === 0 ? (root.error ? Colors.md3.error : Qt.alpha(Colors.md3.on_surface, 0.38)) : Colors.md3.on_surface)
       }
 
       MouseArea {
@@ -98,17 +98,17 @@ Item {
     }
 
     Border {
-      foreground: Theme.surface0
-      background: Theme.base
+      foreground: Colors.md3.surface_container_highest
+      background: Colors.md3.surface_container
     }
 
     Border {
-      foreground: Theme.base
-      background: Theme.mantle
+      foreground: Colors.md3.surface_container
+      background: Colors.md3.surface_container_lowest
     }
 
     Border {
-      foreground: Theme.mantle
+      foreground: Colors.md3.surface_container_lowest
       background: "transparent"
     }
   }
