@@ -6,5 +6,5 @@ Text {
   font.family: Theme.font
   font.pixelSize: Theme.fontSize
   font.weight: Theme.fontWeight
-  color: Theme.text
+  color: Colors.md3.on_surface
 }

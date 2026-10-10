@@ -54,17 +54,15 @@ Item {
       layer.enabled: true
       layer.effect: MultiEffect {
         colorization: 1.00
-        colorizationColor: Theme.text
+        colorizationColor: (root.cpuUsage > 90)? Colors.md3.on_error : (root.cpuUsage > 50)? Colors.md3.error : Colors.md3.on_surface // qmllint disable unqualified
       }
     }
 
     StyledText {
       id: cpuText
       text: root.cpuUsage + "%"
-      color: (root.cpuUsage > 75)? Theme.red : (
-             (root.cpuUsage > 50)? Theme.peach : (
-             (root.cpuUsage > 25)? Theme.yellow : Theme.text
-      ))
+      color: (root.cpuUsage > 90)? Colors.md3.on_error :
+             (root.cpuUsage > 50)? Colors.md3.error : Colors.md3.on_surface
     }
   }
 }

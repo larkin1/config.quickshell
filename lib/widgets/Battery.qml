@@ -84,7 +84,7 @@ Item {
       layer.enabled: true
       layer.effect: MultiEffect {
         colorization: 1.00
-        colorizationColor: Theme.text
+        colorizationColor: Colors.md3.on_surface
       }
     }
 
