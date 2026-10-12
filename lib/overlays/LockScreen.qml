@@ -34,7 +34,7 @@ Scope {
     locked: false
 
     WlSessionLockSurface {
-      color: Theme.crust
+      color: Colors.md3.surface_container_lowest
 
       Rectangle {
         id: inputs

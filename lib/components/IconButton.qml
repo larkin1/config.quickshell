@@ -14,7 +14,7 @@ Item {
   signal clicked()
 
   property string iconPath: ""
-  property color iconColor: Theme.text
+  property color iconColor: active ? Colors.md3.on_surface : Colors.md3.primary
   property real iconRotation: 0
   property var command: null
   property color baseColor: "transparent"

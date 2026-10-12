@@ -28,20 +28,20 @@ Item {
     clip: true
 
     Border {
-      foreground: Colors.md3.surface_container_lowest
+      foreground: Colors.md3.surface_container
       background: "transparent"
       reversed: true
     }
 
     Border {
-      foreground: Colors.md3.surface_container
-      background: Colors.md3.surface_container_lowest
+      foreground: Colors.md3.surface_container_high
+      background: Colors.md3.surface_container
       reversed: true
     }
 
     Border {
       foreground: Colors.md3.surface_container_highest
-      background: Colors.md3.surface_container
+      background: Colors.md3.surface_container_high
       reversed: true
     }
 
@@ -99,16 +99,16 @@ Item {
 
     Border {
       foreground: Colors.md3.surface_container_highest
+      background: Colors.md3.surface_container_high
+    }
+
+    Border {
+      foreground: Colors.md3.surface_container_high
       background: Colors.md3.surface_container
     }
 
     Border {
       foreground: Colors.md3.surface_container
-      background: Colors.md3.surface_container_lowest
-    }
-
-    Border {
-      foreground: Colors.md3.surface_container_lowest
       background: "transparent"
     }
   }
