@@ -48,15 +48,15 @@ Item {
       layer.enabled: true
       layer.effect: MultiEffect {
         colorization: 1.00
-        colorizationColor: (root.memUsage > 90) ? Colors.md3.on_error : (root.memUsage > 50) ? Colors.md3.error : Colors.md3.on_surface // qmllint disable unqualified
+        colorizationColor: (root.memUsage > 75) ? Colors.md3.error : (root.memUsage > 50) ? Colors.md3.on_error_container : Colors.md3.on_surface // qmllint disable unqualified
       }
     }
 
     StyledText {
       id: memText
       text: root.memUsage + "%"
-      color: (root.memUsage > 90)? Colors.md3.on_error :
-             (root.memUsage > 50)? Colors.md3.error : Colors.md3.on_surface
+      color: (root.memUsage > 75)? Colors.md3.error :
+             (root.memUsage > 50)? Colors.md3.on_error_container : Colors.md3.on_surface
     }
   }
 }
