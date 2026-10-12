@@ -203,7 +203,6 @@ Item {
           id: deviceRow
           radius: Theme.vertMargin
 
-          // color: removalMode ? Colors.md3.error_container : focused || deviceRowHover.hovered ? Colors.md3.on_surface : Colors.md3.surface_container_high
           color: removalMode ? Colors.md3.error_container
                : focused ? Colors.md3.surface_container_highest
                : Colors.md3.surface_container_high

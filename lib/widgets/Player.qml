@@ -6,7 +6,6 @@ Item {
 
   required property color textColor
   required property color bgColor
-  required property color activeBGColor
   required property color activeProgressbarColor
   required property color progressbarColor
 

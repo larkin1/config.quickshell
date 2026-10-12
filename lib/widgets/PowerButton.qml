@@ -74,7 +74,7 @@ Item {
     width: Theme.barHeight
     height: Theme.barHeight
     radius: Theme.barHeight / 2
-    color: Theme.surface2
+    color: Colors.md3.surface_container_highest
     anchors.centerIn: parent
 
     IconImage {

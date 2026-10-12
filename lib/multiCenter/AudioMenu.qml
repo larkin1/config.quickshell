@@ -90,48 +90,49 @@ Item {
     }
   }
 
-  Rectangle {
-    id: content
+  ColumnLayout {
     implicitWidth: parent.width - (Theme.horizMargin*2)
     implicitHeight: parent.height - (Theme.vertMargin*2)
     anchors.centerIn: parent
-    color: Theme.mantle
-    radius: Theme.vertMargin
+    spacing: Theme.vertMargin
 
-    ColumnLayout {
-      width: parent.width
+    Rectangle {
+      id: header
+      implicitWidth: parent.width
+      implicitHeight: (root.height - (Theme.vertMargin*2)) / 13
+      radius: Theme.vertMargin
+      color: Colors.md3.surface_container
 
-      Item {
-        implicitHeight: Theme.vertMargin
-      }
+      RowLayout {
+        IconButton {
+          implicitHeight: header.height
+          iconPath: root.allMuted ? "../../svg/vol-off.svg" : "../../svg/vol-max.svg"
+          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
+          Layout.alignment: Qt.AlignRight
 
-      Rectangle {
-        id: header
-        radius: Theme.vertMargin
-        color: Theme.base
-        Layout.leftMargin: Theme.horizMargin
-        implicitWidth: parent.width - Theme.horizMargin*2
-        implicitHeight: 40
-
-        RowLayout {
-          IconButton {
-            implicitHeight: header.height
-            iconPath: root.allMuted ? "../../svg/vol-off.svg" : "../../svg/vol-max.svg"
-            iconColor: active ? Theme.red : Theme.text
-            Layout.alignment: Qt.AlignRight
-
-            onClicked: {
-              const mute = !root.allMuted
-              for (const i of root.outputDevices) i.audio.muted = mute
-            }
+          onClicked: {
+            const mute = !root.allMuted
+            for (const i of root.outputDevices) i.audio.muted = mute
           }
         }
       }
+    }
 
-      Repeater {
+    Rectangle {
+      implicitWidth: parent.width
+      implicitHeight: (root.height - (Theme.vertMargin*2)) - header.implicitHeight - parent.spacing
+      color: Colors.md3.surface_container
+      radius: Theme.vertMargin
+
+      ListView {
+        id: listView
+        anchors.margins: Theme.vertMargin
+        spacing: Theme.vertMargin/2
+        anchors.fill: parent
+        clip: true
         model: root.outputDevices
-        implicitWidth: parent.width
-        ClippingRectangle {
+
+        delegate: ClippingRectangle {
           id: listItem
 
           required property int index
@@ -139,17 +140,20 @@ Item {
 
           Layout.leftMargin: Theme.horizMargin
 
-          implicitWidth: parent.width - Theme.horizMargin*2
-          implicitHeight: text.implicitHeight + Theme.vertMargin*2
-          color: itemFocus ? Theme.surface1 : Theme.surface0
+          implicitWidth: parent.width
+          implicitHeight: text.implicitHeight * 2
           radius: Theme.vertMargin
+          color: list.currentItem == modelData ? Colors.md3.surface_container_highest : Colors.md3.surface_container_high //qmllint disable unqualified
+
+          Rectangle {
+            anchors.fill: parent
+            radius: Theme.vertMargin
+            color: Colors.md3.on_surface
+            opacity: hover.hovered ? 0.08 : 0
+            Behavior on opacity { NumberAnimation { duration: Theme.animationDuration } }
+          }
 
           HoverHandler { id: hover }
-          readonly property bool itemFocus: {
-            if (hover.hovered) return true;
-            if (list.currentItem == modelData) return true; //qmllint disable unqualified
-            return false
-          }
 
           MouseArea {
             anchors.fill: parent
@@ -170,7 +174,8 @@ Item {
           Rectangle {
             implicitHeight: parent.height
             anchors.left: parent.left
-            color: listItem.itemFocus ? Theme.surface2 : Theme.surface1
+            color: Colors.md3.on_surface
+            opacity: 0.1
             implicitWidth: parent.width * listItem.modelData.audio.volume
             radius: Theme.vertMargin
             Behavior on implicitWidth {
@@ -190,7 +195,7 @@ Item {
             StyledText {
               id: text
               elide: Qt.ElideRight
-              color: Pipewire.defaultAudioSink === listItem.modelData ? Theme.cyclingColor : Theme.text
+              color: Pipewire.defaultAudioSink === listItem.modelData ? Colors.cyclingColor : Colors.md3.on_surface
               Layout.preferredWidth: listItem.width - listItem.height*4
               text: listItem.modelData.description
             }
@@ -202,7 +207,7 @@ Item {
             IconButton {
               implicitHeight: listItem.height
               iconPath: listItem.modelData.audio.muted ? "../../svg/vol-off.svg" : "../../svg/vol-max.svg"
-              iconColor: active ? Theme.red : Theme.text
+              iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
               Layout.alignment: Qt.AlignRight
 
               onClicked: {

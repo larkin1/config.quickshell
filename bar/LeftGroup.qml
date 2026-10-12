@@ -70,10 +70,9 @@ Item {
         id: media
         width: parent.width
         textColor: Colors.md3.on_surface
-        activeBGColor: Qt.alpha(Colors.md3.on_surface, 0.08)
         bgColor: Colors.md3.surface_container_lowest
         activeProgressbarColor: Colors.cyclingColor
-        progressbarColor: Colors.md3.on_surface_variant
+        progressbarColor: Qt.alpha(Colors.md3.on_surface, 0.38)
       }
     }
 

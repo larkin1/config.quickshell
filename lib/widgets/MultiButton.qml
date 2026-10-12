@@ -17,7 +17,7 @@ Item {
 
   readonly property bool open: ShellUI.multiOpen && onFocusedScreen
 
-  property color background: Theme.cyclingColor
+  property color background: Colors.cyclingColor
   property int expandedWidth: 500
 
   MultiCenter {
