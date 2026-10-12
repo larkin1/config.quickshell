@@ -138,7 +138,7 @@ Item {
       id: actionsBar
       implicitHeight: (root.height - (Theme.vertMargin*2)) / 13
       implicitWidth: parent.width
-      color: Theme.mantle
+      color: Colors.md3.surface_container
       radius: Theme.vertMargin
 
       RowLayout {
@@ -150,7 +150,7 @@ Item {
           Layout.alignment: Qt.AlignRight
           implicitHeight: actionsBar.height
           iconPath: Bluetooth.defaultAdapter?.enabled ? "../../svg/bt.svg" : "../../svg/bt-off.svg" // qmllint disable unresolved-type
-          iconColor: active ? Theme.red : Theme.text
+          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
           onClicked: {
             Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled // qmllint disable unresolved-type
@@ -163,7 +163,7 @@ Item {
           id: scan
           implicitHeight: actionsBar.height
           iconPath: "../../svg/reboot.svg"
-          iconColor: active ? Theme.red : Theme.text
+          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
           RotationAnimation {
             target: scan
@@ -188,7 +188,7 @@ Item {
     Rectangle {
       implicitHeight: (root.height - (Theme.vertMargin*2)) - actionsBar.implicitHeight - parent.spacing
       implicitWidth: parent.width
-      color: Theme.mantle
+      color: Colors.md3.surface_container
       radius: Theme.vertMargin
 
       ListView {
@@ -203,7 +203,18 @@ Item {
           id: deviceRow
           radius: Theme.vertMargin
 
-          color: removalMode ? Theme.red : focused || deviceRowHover.hovered ? Theme.surface1 : Theme.surface0
+          // color: removalMode ? Colors.md3.error_container : focused || deviceRowHover.hovered ? Colors.md3.on_surface : Colors.md3.surface_container_high
+          color: removalMode ? Colors.md3.error_container
+               : focused ? Colors.md3.surface_container_highest
+               : Colors.md3.surface_container_high
+
+          Rectangle {
+            anchors.fill: parent
+            radius: parent.radius
+            color: Colors.md3.on_surface
+            opacity: deviceRowHover.hovered ? 0.08: 0
+            Behavior on opacity { NumberAnimation { duration: Theme.animationDuration } }
+          }
 
           width: ListView.view.width
           height: deviceText.implicitHeight*2
@@ -233,10 +244,10 @@ Item {
               elide: Qt.ElideRight
               Layout.preferredWidth: deviceRow.width - deviceRow.height*4
               color: {
-                if (deviceRow.removalMode) return Theme.surface0
-                else if (deviceRow.modelData.connected) return Theme.cyclingColor
-                else if (deviceRow.modelData.paired) return Theme.text
-                else return Theme.overlay0
+                if (deviceRow.removalMode) return Colors.md3.on_error_container
+                else if (deviceRow.modelData.connected) return Colors.cyclingColor
+                else if (deviceRow.modelData.paired) return Colors.md3.on_surface
+                else return Qt.alpha(Colors.md3.on_surface, 0.38)
               }
             }
 
@@ -246,7 +257,7 @@ Item {
               Layout.alignment: Qt.AlignRight
               implicitHeight: deviceRow.height
               iconPath: deviceRow.removalMode ? "../../svg/check.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check.svg" : "../../svg/shield-cross.svg"
-              iconColor: active ? Theme.red : Theme.text
+              iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
               onClicked: {
                 if (deviceRow.removalMode) {
@@ -261,7 +272,7 @@ Item {
             IconButton {
               implicitHeight: deviceRow.height
               iconPath: deviceRow.removalMode ? "../../svg/cross.svg" : "../../svg/trash.svg"
-              iconColor: active ? Theme.red : Theme.text
+              iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
               onClicked: {
                 if (deviceRow.removalMode) {
