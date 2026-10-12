@@ -14,13 +14,13 @@ Singleton {
   property var playerIcon: {
     switch (currentPlayer?.identity) {
       case "Mozilla firefox":
-        return { icon:"󰈹", color: Theme.peach };
+        return { icon:"󰈹", color: "#FF9500" };
       case "Helium":
-        return { icon:"", color: Theme.sky };
+        return { icon:"", color: "#3450D1" };
       case "Spotify":
-        return { icon:"", color: Theme.green };
+        return { icon:"", color: "#1ED760" };
       default:
-        return { icon:"", color: Theme.sky };
+        return { icon:"", color: Colors.md3.on_surface };
     }
   }
 

@@ -50,7 +50,7 @@ Item {
       implicitWidth: parent.width
       anchors.top: parent.top
 
-      color: Theme.backgroundBlur
+      color: Colors.md3.surface
       bottomLeftRadius: Theme.vertMargin
       bottomRightRadius: Theme.vertMargin
 
@@ -120,7 +120,7 @@ Item {
           Layout.row: 0
           implicitHeight: parent.buttonHeight
           iconPath: "../../svg/power-button.svg"
-          iconColor: active ? Theme.red : Theme.text
+          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
           visible: screens.uiState == ""
           onClicked: {
             ShellUI.openPower()
@@ -134,7 +134,7 @@ Item {
           Layout.row: 0
           implicitHeight: parent.buttonHeight
           iconPath: "../../svg/bt.svg"
-          iconColor: active ? Theme.red : Theme.text
+          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
           visible: screens.uiState == ""
           onClicked: {
             screens.openBluetooth()
@@ -150,7 +150,7 @@ Item {
           Layout.row: 0
           implicitHeight: parent.buttonHeight
           iconPath: "../../svg/speaker.svg"
-          iconColor: active ? Theme.red : Theme.text
+          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
           visible: screens.uiState == ""
           onClicked: {
             screens.openAudio()
@@ -164,7 +164,7 @@ Item {
           Layout.row: 1
           implicitHeight: parent.buttonHeight
           iconPath: Record.recording ? "../../svg/video.svg" : "../../svg/novideo.svg"
-          iconColor: active ? Theme.red : Theme.text
+          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
           visible: screens.uiState == ""
           focusUp: bluetoothButton
           onClicked: {

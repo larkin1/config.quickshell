@@ -9,7 +9,7 @@ import "../.."
 PanelWindow { //qmllint disable uncreatable-type
   id: root
   visible: ShellUI.powerOpen
-  color: Theme.backgroundBlur
+  color: Qt.alpha(Colors.md3.surface, 0.38)
 
   WlrLayershell.namespace: "quickshell-blur" // you need to make a layer-rule in your hyprland config for this to work properly.
   WlrLayershell.layer: WlrLayer.Top
@@ -51,67 +51,67 @@ PanelWindow { //qmllint disable uncreatable-type
 
     Border {
       background: "transparent"
-      foreground: Theme.surface0
+      foreground: Colors.md3.surface_container_highest
       reversed: true
     }
 
     IconButton {
       id: poweroff
       iconPath: "../../svg/shutdown.svg"
-      iconColor: active ? Theme.red : Theme.text
+      iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
       command: ["poweroff"]
-      baseColor: Theme.surface0
-      hoverColor: Theme.surface1
+      baseColor: Colors.md3.surface_container_highest
+      hoverColor: Qt.alpha(Colors.md3.on_surface, 0.08)
       focusLeft: lock
       focusRight: reboot
     }
 
     Border {
-      foreground: Theme.surface0
-      background: Theme.base
+      foreground: Colors.md3.surface_container_highest
+      background: Colors.md3.surface_container
       reversed: false
     }
 
     IconButton {
       id: reboot
       iconPath: "../../svg/reboot.svg"
-      iconColor: active ? Theme.red : Theme.text
+      iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
       command: ["reboot"]
-      baseColor: Theme.base
-      hoverColor: Theme.surface0
+      baseColor: Colors.md3.surface_container
+      hoverColor: Qt.alpha(Colors.md3.on_surface, 0.08)
       focusLeft: poweroff
       focusRight: sleep
     }
 
     Border {
-      foreground: Theme.base
-      background: Theme.mantle
+      foreground: Colors.md3.surface_container
+      background: Colors.md3.surface_container_low
       reversed: false
     }
 
     IconButton {
       id: sleep
       iconPath: "../../svg/sleep.svg"
-      iconColor: active ? Theme.red : Theme.text
+      iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
       command: ["systemctl", "suspend"]
-      baseColor: Theme.mantle
-      hoverColor: Theme.base
+      baseColor: Colors.md3.surface_container_low
+      hoverColor: Qt.alpha(Colors.md3.on_surface, 0.08)
       focusLeft: reboot
       focusRight: lock
     }
 
     Border {
-      foreground: Theme.mantle
-      background: Theme.crust
+      foreground: Colors.md3.surface_container_low
+      background: Colors.md3.surface_container_lowest
       reversed: false
     }
 
     IconButton {
       id: lock
       iconPath: "../../svg/lock.svg"
-      iconColor: active ? Theme.red : Theme.text
-      baseColor: Theme.crust
-      hoverColor: Theme.mantle
+      iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
+      baseColor: Colors.md3.surface_container_lowest
+      hoverColor: Qt.alpha(Colors.md3.on_surface, 0.08)
       focusLeft: sleep
       focusRight: poweroff
 
@@ -121,7 +121,7 @@ PanelWindow { //qmllint disable uncreatable-type
     }
 
     Border {
-      foreground: Theme.crust
+      foreground: Colors.md3.surface_container_lowest
       background: "transparent"
       reversed: false
     }

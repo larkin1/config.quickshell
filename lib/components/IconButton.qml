@@ -24,7 +24,7 @@ Item {
   property Item focusUp: null
   property Item focusDown: null
   property bool activeOverride: false
-  property double buttonOpacity: 1.00
+  property double buttonOpacity: 1.0
 
   readonly property bool active: btnHover.hovered || activeFocus || activeOverride
 
@@ -86,7 +86,7 @@ Item {
     }
 
     Rectangle {
-      color: (btnHover.hovered || root.activeFocus) ? root.hoverColor : root.baseColor
+      color: (btnHover.hovered || root.activeFocus) ? root.hoverColor : "transparent"
       opacity: root.buttonOpacity
       implicitWidth: parent.width * 0.8
       implicitHeight: parent.height * 0.8
