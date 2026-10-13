@@ -14,11 +14,11 @@ Item {
   signal clicked()
 
   property string iconPath: ""
-  property color iconColor: active ? Colors.md3.on_surface : Colors.md3.primary
+  property color iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
   property real iconRotation: 0
   property var command: null
   property color baseColor: "transparent"
-  property color hoverColor: Qt.alpha("grey", "0.08")
+  property color hoverColor: Qt.alpha(Colors.md3.on_surface, "0.08")
   property Item focusLeft: null
   property Item focusRight: null
   property Item focusUp: null
