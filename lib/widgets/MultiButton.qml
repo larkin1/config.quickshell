@@ -17,7 +17,7 @@ Item {
 
   readonly property bool open: ShellUI.multiOpen && onFocusedScreen
 
-  property color background: Colors.cyclingColor
+  property color background: Colors.md3.primary
   property int expandedWidth: 500
 
   MultiCenter {
@@ -50,7 +50,7 @@ Item {
       layer.enabled: true
       layer.effect: MultiEffect {
         colorization: 1.00
-        colorizationColor: Colors.md3.surface_container
+        colorizationColor: Colors.md3.on_primary
       }
     }
   }

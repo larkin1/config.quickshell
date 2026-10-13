@@ -153,6 +153,15 @@ Item {
             Behavior on opacity { NumberAnimation { duration: Theme.animationDuration } }
           }
 
+          Rectangle {
+            anchors.verticalCenter: parent.verticalCenter
+            implicitHeight: text.implicitHeight
+            implicitWidth: Theme.horizMargin * 0.4
+            radius: implicitWidth/2
+            color: Colors.md3.primary
+            visible: Pipewire.defaultAudioSink === listItem.modelData
+          }
+
           HoverHandler { id: hover }
 
           MouseArea {
@@ -195,7 +204,7 @@ Item {
             StyledText {
               id: text
               elide: Qt.ElideRight
-              color: Pipewire.defaultAudioSink === listItem.modelData ? Colors.cyclingColor : Colors.md3.on_surface
+              color: Pipewire.defaultAudioSink === listItem.modelData ? Colors.md3.primary : Colors.md3.on_surface
               Layout.preferredWidth: listItem.width - listItem.height*4
               text: listItem.modelData.description
             }

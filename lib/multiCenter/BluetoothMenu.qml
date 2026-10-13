@@ -1,5 +1,6 @@
 import Quickshell.Bluetooth
 import Quickshell.Io
+import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 import "../.."
@@ -199,7 +200,7 @@ Item {
         clip: true
         model: root.devices
 
-        delegate: Rectangle {
+        delegate: ClippingRectangle {
           id: deviceRow
           radius: Theme.vertMargin
 
@@ -209,10 +210,19 @@ Item {
 
           Rectangle {
             anchors.fill: parent
-            radius: parent.radius
+            radius: Theme.vertMargin
             color: Colors.md3.on_surface
             opacity: deviceRowHover.hovered ? 0.08: 0
             Behavior on opacity { NumberAnimation { duration: Theme.animationDuration } }
+          }
+
+          Rectangle {
+            anchors.verticalCenter: parent.verticalCenter
+            implicitHeight: deviceText.implicitHeight
+            implicitWidth: Theme.horizMargin * 0.4
+            radius: implicitWidth/2
+            color: Colors.md3.primary
+            visible: deviceRow.modelData.connected && ! deviceRow.removalMode
           }
 
           width: ListView.view.width
@@ -244,7 +254,7 @@ Item {
               Layout.preferredWidth: deviceRow.width - deviceRow.height*4
               color: {
                 if (deviceRow.removalMode) return Colors.md3.on_error_container
-                else if (deviceRow.modelData.connected) return Colors.cyclingColor
+                else if (deviceRow.modelData.connected) return Colors.md3.primary
                 else if (deviceRow.modelData.paired) return Colors.md3.on_surface
                 else return Qt.alpha(Colors.md3.on_surface, 0.38)
               }

@@ -80,7 +80,7 @@ Item {
 
     Border {
       background: "transparent"
-      foreground: Colors.cyclingColor
+      foreground: Colors.md3.primary
       reversed: true
     }
 
@@ -89,7 +89,7 @@ Item {
     }
 
     Border {
-      foreground: Colors.cyclingColor
+      foreground: Colors.md3.primary
       background: "transparent"
     }
 

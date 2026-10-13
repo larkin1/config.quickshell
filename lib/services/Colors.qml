@@ -24,26 +24,6 @@ Singleton {
 		}
 	}
 
-  property color cyclingColor: "#cba6f7"
-
-  SequentialAnimation on cyclingColor {
-    id: colorCycleAnim
-    loops: Animation.Infinite
-    running: true
-    property int dur: 4000
-    ColorAnimation { from: "#cba6f7"; to: "#b4befe"; duration: colorCycleAnim.dur }
-    ColorAnimation { from: "#b4befe"; to: "#89b4fa"; duration: colorCycleAnim.dur }
-    ColorAnimation { from: "#89b4fa"; to: "#74c7ec"; duration: colorCycleAnim.dur }
-    ColorAnimation { from: "#74c7ec"; to: "#94e2d5"; duration: colorCycleAnim.dur }
-    ColorAnimation { from: "#94e2d5"; to: "#a6e3a1"; duration: colorCycleAnim.dur }
-    ColorAnimation { from: "#a6e3a1"; to: "#f9e2af"; duration: colorCycleAnim.dur }
-    ColorAnimation { from: "#f9e2af"; to: "#fab387"; duration: colorCycleAnim.dur }
-    ColorAnimation { from: "#fab387"; to: "#f38ba8"; duration: colorCycleAnim.dur }
-    ColorAnimation { from: "#f38ba8"; to: "#eba0ac"; duration: colorCycleAnim.dur }
-    ColorAnimation { from: "#eba0ac"; to: "#f5c2e7"; duration: colorCycleAnim.dur }
-    ColorAnimation { from: "#f5c2e7"; to: "#cba6f7"; duration: colorCycleAnim.dur }
-  }
-
 	component Md3: JsonObject {
 		property string background: "transparent"
 		property string error: "transparent"

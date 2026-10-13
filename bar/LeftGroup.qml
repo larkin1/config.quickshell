@@ -39,7 +39,7 @@ Item {
         bgColor: Colors.md3.surface_container
         activeBGColor: Qt.alpha(Colors.md3.on_surface, 0.08)
         inactiveTextColor: Colors.md3.on_surface_variant
-        activeTextColor: Colors.cyclingColor
+        activeTextColor: Colors.md3.primary
       }
     }
 
@@ -71,7 +71,7 @@ Item {
         width: parent.width
         textColor: Colors.md3.on_surface
         bgColor: Colors.md3.surface_container_lowest
-        activeProgressbarColor: Colors.cyclingColor
+        activeProgressbarColor: Colors.md3.primary
         progressbarColor: Qt.alpha(Colors.md3.on_surface, 0.38)
       }
     }
