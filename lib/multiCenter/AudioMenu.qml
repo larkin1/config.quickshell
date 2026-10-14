@@ -27,6 +27,9 @@ Item {
   ListMgr {
     id: list
     list: root.outputDevices
+    onMoved: {
+      listView.positionViewAtIndex(list.currentIdx, ListView.Contain)
+    }
   }
 
   function handleKeys(event) {
@@ -104,11 +107,14 @@ Item {
       color: Colors.md3.surface_container
 
       RowLayout {
+        anchors.fill: parent
+        anchors.leftMargin: Theme.horizMargin
+        anchors.rightMargin: Theme.horizMargin
+
         IconButton {
           implicitHeight: header.height
           iconPath: root.allMuted ? "../../svg/vol-off.svg" : "../../svg/vol-max.svg"
           iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
-          Layout.alignment: Qt.AlignRight
 
           onClicked: {
             const mute = !root.allMuted

@@ -136,7 +136,7 @@ Item {
     spacing: Theme.vertMargin
 
     Rectangle {
-      id: actionsBar
+      id: header
       implicitHeight: (root.height - (Theme.vertMargin*2)) / 13
       implicitWidth: parent.width
       color: Colors.md3.surface_container
@@ -149,7 +149,7 @@ Item {
 
         IconButton {
           Layout.alignment: Qt.AlignRight
-          implicitHeight: actionsBar.height
+          implicitHeight: header.height
           iconPath: Bluetooth.defaultAdapter?.enabled ? "../../svg/bt.svg" : "../../svg/bt-off.svg" // qmllint disable unresolved-type
           iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
@@ -162,7 +162,7 @@ Item {
 
         IconButton {
           id: scan
-          implicitHeight: actionsBar.height
+          implicitHeight: header.height
           iconPath: "../../svg/reboot.svg"
           iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
@@ -187,7 +187,7 @@ Item {
     }
 
     Rectangle {
-      implicitHeight: (root.height - (Theme.vertMargin*2)) - actionsBar.implicitHeight - parent.spacing
+      implicitHeight: (root.height - (Theme.vertMargin*2)) - header.implicitHeight - parent.spacing
       implicitWidth: parent.width
       color: Colors.md3.surface_container
       radius: Theme.vertMargin
@@ -201,7 +201,7 @@ Item {
         model: root.devices
 
         delegate: ClippingRectangle {
-          id: deviceRow
+          id: listItem
           radius: Theme.vertMargin
 
           color: removalMode ? Colors.md3.error_container
@@ -212,7 +212,7 @@ Item {
             anchors.fill: parent
             radius: Theme.vertMargin
             color: Colors.md3.on_surface
-            opacity: deviceRowHover.hovered ? 0.08: 0
+            opacity: listItemHover.hovered ? 0.08: 0
             Behavior on opacity { NumberAnimation { duration: Theme.animationDuration } }
           }
 
@@ -222,7 +222,7 @@ Item {
             implicitWidth: Theme.horizMargin * 0.4
             radius: implicitWidth/2
             color: Colors.md3.primary
-            visible: deviceRow.modelData.connected && ! deviceRow.removalMode
+            visible: listItem.modelData.connected && ! listItem.removalMode
           }
 
           width: ListView.view.width
@@ -234,10 +234,10 @@ Item {
           property bool focused: (list.currentItem === modelData) // qmllint disable unqualified
           property bool removalMode: (root.menuState === root.removeState && focused) // qmllint disable unqualified
 
-          HoverHandler { id: deviceRowHover }
+          HoverHandler { id: listItemHover }
           MouseArea {
             anchors.fill: parent
-            onClicked: root.toggle(deviceRow.modelData) //qmllint disable unqualified
+            onClicked: root.toggle(listItem.modelData) //qmllint disable unqualified
             cursorShape: Qt.PointingHandCursor
           }
 
@@ -249,13 +249,13 @@ Item {
 
             StyledText {
               id: deviceText
-              text: deviceRow.removalMode ? "Remove device?" : deviceRow.modelData.name
+              text: listItem.removalMode ? "Remove device?" : listItem.modelData.name
               elide: Qt.ElideRight
-              Layout.preferredWidth: deviceRow.width - deviceRow.height*4
+              Layout.preferredWidth: listItem.width - listItem.height*4
               color: {
-                if (deviceRow.removalMode) return Colors.md3.on_error_container
-                else if (deviceRow.modelData.connected) return Colors.md3.primary
-                else if (deviceRow.modelData.paired) return Colors.md3.on_surface
+                if (listItem.removalMode) return Colors.md3.on_error_container
+                else if (listItem.modelData.connected) return Colors.md3.primary
+                else if (listItem.modelData.paired) return Colors.md3.on_surface
                 else return Qt.alpha(Colors.md3.on_surface, 0.38)
               }
             }
@@ -264,30 +264,30 @@ Item {
 
             IconButton {
               Layout.alignment: Qt.AlignRight
-              implicitHeight: deviceRow.height
-              iconPath: deviceRow.removalMode ? "../../svg/check.svg" : deviceRow.modelData.trusted ? "../../svg/shield-check.svg" : "../../svg/shield-cross.svg"
+              implicitHeight: listItem.height
+              iconPath: listItem.removalMode ? "../../svg/check.svg" : listItem.modelData.trusted ? "../../svg/shield-check.svg" : "../../svg/shield-cross.svg"
               iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
               onClicked: {
-                if (deviceRow.removalMode) {
-                  deviceRow.modelData.forget() // qmllint disable missing-property
+                if (listItem.removalMode) {
+                  listItem.modelData.forget() // qmllint disable missing-property
                   root.menuState = noState // qmllint disable unqualified
                 } else {
-                  deviceRow.modelData.trusted = !deviceRow.modelData.trusted
+                  listItem.modelData.trusted = !listItem.modelData.trusted
                 }
               }
             }
 
             IconButton {
-              implicitHeight: deviceRow.height
-              iconPath: deviceRow.removalMode ? "../../svg/cross.svg" : "../../svg/trash.svg"
+              implicitHeight: listItem.height
+              iconPath: listItem.removalMode ? "../../svg/cross.svg" : "../../svg/trash.svg"
               iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
               onClicked: {
-                if (deviceRow.removalMode) {
+                if (listItem.removalMode) {
                   root.menuState = noState // qmllint disable unqualified
                 } else {
-                  list.currentItem = deviceRow.modelData // qmllint disable unqualified
+                  list.currentItem = listItem.modelData // qmllint disable unqualified
                   root.menuState = removeState // qmllint disable unqualified
                 }
               }
