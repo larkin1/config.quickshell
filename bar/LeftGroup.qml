@@ -72,7 +72,7 @@ Item {
         textColor: Colors.md3.on_surface
         bgColor: Colors.md3.surface_container_lowest
         activeProgressbarColor: Colors.md3.primary
-        progressbarColor: Qt.alpha(Colors.md3.on_surface, 0.38)
+        progressbarColor: Qt.alpha(Colors.md3.on_surface_variant, 0.50)
       }
     }
 

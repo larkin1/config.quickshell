@@ -256,7 +256,7 @@ Item {
                 if (listItem.removalMode) return Colors.md3.on_error_container
                 else if (listItem.modelData.connected) return Colors.md3.primary
                 else if (listItem.modelData.paired) return Colors.md3.on_surface
-                else return Qt.alpha(Colors.md3.on_surface, 0.38)
+                else return Qt.alpha(Colors.md3.on_surface_variant, 0.50)
               }
             }
 

@@ -87,7 +87,7 @@ Item {
         anchors.centerIn: parent
         text: root.authenticating ? "Authenticating..." : (input.text.length === 0 ? root.placeholder : "*".repeat(input.text.length))
         font.pixelSize: root.height * 0.3
-        color: (input.text.length === 0 ? (root.error ? Colors.md3.error : Qt.alpha(Colors.md3.on_surface, 0.38)) : Colors.md3.on_surface)
+        color: (input.text.length === 0 ? (root.error ? Colors.md3.error : Qt.alpha(Colors.md3.on_surface_variant, 0.50)) : Colors.md3.on_surface)
       }
 
       MouseArea {
