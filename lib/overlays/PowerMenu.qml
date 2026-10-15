@@ -9,7 +9,7 @@ import "../.."
 PanelWindow { //qmllint disable uncreatable-type
   id: root
   visible: ShellUI.powerOpen
-  color: Qt.alpha(Colors.md3.surface, 0.38)
+  color: Qt.alpha(Colors.md3.scrim, 0.50)
 
   WlrLayershell.namespace: "quickshell-blur" // you need to make a layer-rule in your hyprland config for this to work properly.
   WlrLayershell.layer: WlrLayer.Top

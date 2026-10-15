@@ -84,7 +84,7 @@ Item {
       layer.enabled: true
       layer.effect: MultiEffect {
         colorization: 1.00
-        colorizationColor: Colors.md3.on_surface
+        colorizationColor: Qt.tint(Colors.md3.error, Qt.alpha(Colors.md3.on_surface, root.battery?.percentage ?? 1)) //qmllint disable unqualified
       }
     }
 
@@ -94,6 +94,7 @@ Item {
         ? Math.round((root.battery?.state === UPowerDeviceState.Charging)? root.battery?.timeToFull / 60 : root.battery?.timeToEmpty / 60) + "m"
         : Math.round(root.battery?.percentage * 100) + "%"
 
+      color: Qt.tint(Colors.md3.error, Qt.alpha(Colors.md3.on_surface, root.battery?.percentage ?? 1))
       onTextChanged: {
         root.updateBattIcon()
       }
