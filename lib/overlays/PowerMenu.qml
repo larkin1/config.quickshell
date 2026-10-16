@@ -31,8 +31,19 @@ PanelWindow { //qmllint disable uncreatable-type
   onVisibleChanged: {
     if (visible) {
       open.restart()
-      poweroff.forceActiveFocus()
+      content.forceActiveFocus()
       grab.active = true;
+    }
+  }
+
+  Keys.onPressed: event => {
+    switch (event.key) {
+      case Qt.Key_H:
+      case Qt.Key_J:
+      case Qt.Key_K:
+      case Qt.Key_L:
+        poweroff.forceActiveFocus()
+        event.accepted = true; break
     }
   }
 
@@ -43,9 +54,17 @@ PanelWindow { //qmllint disable uncreatable-type
     implicitHeight: 150
 
     Keys.onPressed: event => {
-      if (event.key === Qt.Key_Escape || event.key === Qt.Key_Q) {
-        ShellUI.close()
-        event.accepted = true;
+      switch (event.key) {
+        case Qt.Key_H:
+        case Qt.Key_J:
+        case Qt.Key_K:
+        case Qt.Key_L:
+          poweroff.forceActiveFocus()
+          event.accepted = true; break
+        case Qt.Key_Escape:
+        case Qt.Key_Q:
+          ShellUI.close()
+          event.accepted = true;
       }
     }
 
