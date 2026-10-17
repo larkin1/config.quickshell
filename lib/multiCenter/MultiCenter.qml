@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Io
 import "../.."
 
 Item {
@@ -120,12 +119,12 @@ Item {
           Layout.row: 0
           implicitHeight: parent.buttonHeight
           iconPath: "../../svg/power-button.svg"
-          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
           visible: screens.uiState == ""
           onClicked: {
             ShellUI.openPower()
           }
           focusRight: bluetoothButton
+          focusDown: launcherButton
         }
 
         IconButton {
@@ -134,7 +133,6 @@ Item {
           Layout.row: 0
           implicitHeight: parent.buttonHeight
           iconPath: "../../svg/bt.svg"
-          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
           visible: screens.uiState == ""
           onClicked: {
             screens.openBluetooth()
@@ -150,7 +148,6 @@ Item {
           Layout.row: 0
           implicitHeight: parent.buttonHeight
           iconPath: "../../svg/speaker.svg"
-          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
           visible: screens.uiState == ""
           onClicked: {
             screens.openAudio()
@@ -164,12 +161,26 @@ Item {
           Layout.row: 1
           implicitHeight: parent.buttonHeight
           iconPath: Record.recording ? "../../svg/video.svg" : "../../svg/novideo.svg"
-          iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
           visible: screens.uiState == ""
           focusUp: bluetoothButton
+          focusLeft: launcherButton
           onClicked: {
             Record.toggle()
           }
+        }
+
+        IconButton {
+          id: launcherButton
+          Layout.column: 0
+          Layout.row: 1
+          implicitHeight: parent.buttonHeight
+          iconPath: "../../svg/apps.svg"
+          visible: screens.uiState == ""
+          onClicked: {
+            screens.openLauncher()
+          }
+          focusRight: screenRecButton
+          focusUp: powerButton
         }
       }
     }

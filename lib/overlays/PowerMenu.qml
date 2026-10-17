@@ -36,17 +36,6 @@ PanelWindow { //qmllint disable uncreatable-type
     }
   }
 
-  Keys.onPressed: event => {
-    switch (event.key) {
-      case Qt.Key_H:
-      case Qt.Key_J:
-      case Qt.Key_K:
-      case Qt.Key_L:
-        poweroff.forceActiveFocus()
-        event.accepted = true; break
-    }
-  }
-
   RowLayout {
     id: content
     spacing: 0
