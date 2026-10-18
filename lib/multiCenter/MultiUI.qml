@@ -1,5 +1,4 @@
 import QtQuick
-import Quickshell.Io
 import "../.."
 
 Item {
@@ -40,11 +39,12 @@ Item {
     visible: root.uiState == "launcher"
   }
 
-  IpcHandler {
-    target: "MultiCenter"
-    function close():        void { ShellUI.close() }
-    function launcher():     void { ShellUI.openMulti(); root.openLauncher() }
-    function audio():        void { ShellUI.openMulti(); root.openAudio() }
-    function bluetooth():    void { ShellUI.openMulti(); root.openBluetooth() }
+  function openMenu(name) {
+    switch (name) {
+      case "bluetooth": openBluetooth(); break
+      case "audio": openAudio(); break
+      case "launcher": openLauncher(); break
+      default: close()
+    }
   }
 }

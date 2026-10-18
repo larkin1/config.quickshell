@@ -8,6 +8,7 @@ Singleton {
   id: ui
 
   property string mode: "none"
+  property string multiMenu: "" // see ../multiCenter/MultiUI.qml for a list of options
 
   readonly property bool anyOverlay: mode !== "none"
   readonly property bool multiOpen: mode === "multi"
@@ -15,30 +16,32 @@ Singleton {
 
   function close() {
     mode = "none"
+    multiMenu = ""
   }
 
-  function openMulti() {
+  function openMulti(menu) {
+    multiMenu = menu ?? ""
     mode = "multi"
   }
   function openPower() {
     mode = "power"
   }
 
-  function toggleMulti() {
-    if (mode === "multi") mode = "none"
-    else mode = "multi"
+  function toggleMulti(menu) {
+    if (mode === "multi") close()
+    else openMulti(menu)
   }
   function togglePower() {
-    if (mode === "power") mode = "none"
-    else mode = "power"
+    if (mode === "power") close()
+    else openPower()
   }
 
   IpcHandler {
     target: "screens"
-    function close():        void { ui.close() }
-    function toggleMulti():  void { ui.toggleMulti() }
-    function openMulti():    void { ui.openMulti() }
-    function togglePower():  void { ui.togglePower() }
-    function openPower():    void { ui.openPower() }
+    function close(): void { ui.close() }
+    function toggleMulti(): void { ui.toggleMulti("") }
+    function openMulti(menu: string): void { ui.openMulti(menu) }
+    function togglePower(): void { ui.togglePower() }
+    function openPower(): void { ui.openPower() }
   }
 }

@@ -23,13 +23,21 @@ Item {
         openAnim.start()
         grab.active = true;
         buttons.forceActiveFocus()
-        screens.close()
+        // screens.close()
+        screens.openMenu(ShellUI.multiMenu)
       }
     } else {
       openAnim.stop()
       window.visible = false
       background.implicitHeight = 1
       grab.active = false
+    }
+  }
+
+  Connections {
+    target: ShellUI
+    function onMultiMenuChanged() {
+      if (root.open) screens.openMenu(ShellUI.multiMenu)
     }
   }
 
