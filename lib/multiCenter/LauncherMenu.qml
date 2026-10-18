@@ -50,6 +50,7 @@ Item {
       case Qt.Key_Return:
       case Qt.Key_Space:
         list.currentItem?.entry.execute()
+        ShellUI.close()
         event.accepted = true; break
       case Qt.Key_Slash:
       case Qt.Key_I:
@@ -114,7 +115,10 @@ Item {
         font.pixelSize: Theme.fontSize
         font.weight: Theme.fontWeight
 
-        onAccepted: root.items.currentItem?.entry.execute()
+        onAccepted: {
+          root.items.currentItem?.entry.execute()
+          ShellUI.close()
+        }
 
         Keys.onPressed: event => {
           if (event.key == Qt.Key_Escape) {
