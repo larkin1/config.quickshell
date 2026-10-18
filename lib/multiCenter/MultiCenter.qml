@@ -115,8 +115,11 @@ Item {
             case Qt.Key_A:
               audioButton.clicked()
               event.accepted = true; break
-            case Qt.Key_R:
+            case Qt.Key_S:
               screenRecButton.clicked()
+              event.accepted = true; break
+            case Qt.Key_R:
+              launcherButton.clicked()
               event.accepted = true; break
           }
         }
