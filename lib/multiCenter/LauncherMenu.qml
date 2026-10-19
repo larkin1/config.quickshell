@@ -53,7 +53,10 @@ Item {
         event.accepted = true; break
       case Qt.Key_Return:
       case Qt.Key_Space:
-        list.currentItem?.entry.execute()
+        if (list.visible.length > 0 && list.currentItem)
+          list.currentItem.entry.execute()
+        else
+          if (searchField.text !== "") Quickshell.execDetached(["sh", "-c", searchField.text])
         ShellUI.close()
         event.accepted = true; break
       case Qt.Key_Slash:
@@ -118,11 +121,6 @@ Item {
         font.family: Theme.font
         font.pixelSize: Theme.fontSize
         font.weight: Theme.fontWeight
-
-        onAccepted: {
-          root.items.currentItem?.entry.execute()
-          ShellUI.close()
-        }
 
         Keys.onPressed: event => {
           if (event.key == Qt.Key_Escape) {
