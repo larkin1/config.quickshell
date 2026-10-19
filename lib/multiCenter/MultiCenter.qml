@@ -23,7 +23,6 @@ Item {
         openAnim.start()
         grab.active = true;
         buttons.forceActiveFocus()
-        // screens.close()
         screens.openMenu(ShellUI.multiMenu)
       }
     } else {
@@ -199,7 +198,7 @@ Item {
 
   SequentialAnimation {
     id: openAnim
-    PauseAnimation { duration: Theme.animationDuration }
+    PauseAnimation { duration: Theme.animationDuration/2 }
     PropertyAction {
       target: window
       property: "visible"

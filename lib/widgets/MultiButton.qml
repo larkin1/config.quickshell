@@ -57,7 +57,7 @@ Item {
 
   Behavior on implicitWidth {
     NumberAnimation {
-      duration: Theme.animationDuration
+      duration: Theme.animationDuration/2
       easing: Theme.animationEasing
     }
   }
