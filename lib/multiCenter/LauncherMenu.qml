@@ -26,6 +26,7 @@ Item {
     searchKey: items => items.name ?? ""
     search: searchField.text
     onListChanged: jumpFirst()
+    onSearchChanged: jumpFirst()
     onCurrentIdxChanged: {
       listView.positionViewAtIndex(list.currentIdx, ListView.Contain)
     }
