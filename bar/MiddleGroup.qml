@@ -19,7 +19,7 @@ Item {
 
     anchors {
       top: parent.top
-      topMargin: Theme.vertMargin
+      topMargin: Theme.barVertSpacing
       bottom: parent.bottom
       right: centerLayout.left
     }
@@ -34,7 +34,7 @@ Item {
     Rectangle {
       color: Colors.md3.surface_container
       Layout.fillHeight: true
-      implicitWidth: mem.width + Theme.horizMargin
+      implicitWidth: mem.width + Theme.margin
       Mem {
         id: mem
         anchors.centerIn: parent
@@ -52,7 +52,7 @@ Item {
     Rectangle {
       color: Colors.md3.surface_container_highest
       Layout.fillHeight: true
-      implicitWidth: cpu.width + Theme.horizMargin
+      implicitWidth: cpu.width + Theme.margin
       Cpu {
         id: cpu
         anchors.centerIn: parent
@@ -68,7 +68,7 @@ Item {
 
     anchors {
       top: parent.top
-      topMargin: Theme.vertMargin
+      topMargin: Theme.barVertSpacing
       horizontalCenter: root.horizontalCenter
     }
 
@@ -105,7 +105,7 @@ Item {
 
     anchors {
       top: parent.top
-      topMargin: Theme.vertMargin
+      topMargin: Theme.barVertSpacing
       bottom: parent.bottom
       left: centerLayout.right
     }

@@ -39,7 +39,7 @@ Item {
     color: root.background
     implicitWidth: root.open
       ? root.expandedWidth
-      : nixIcon.implicitWidth + Theme.horizMargin
+      : nixIcon.implicitWidth + Theme.margin
 
     IconImage {
       id: nixIcon

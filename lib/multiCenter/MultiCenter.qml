@@ -58,8 +58,8 @@ Item {
       anchors.top: parent.top
 
       color: Colors.md3.surface
-      bottomLeftRadius: Theme.vertMargin
-      bottomRightRadius: Theme.vertMargin
+      bottomLeftRadius: Theme.radius
+      bottomRightRadius: Theme.radius
 
       Keys.onPressed: event => {
         switch (event.key) {

@@ -130,22 +130,22 @@ Item {
   }
 
   ColumnLayout {
-    implicitWidth: parent.width - (Theme.horizMargin*2)
-    implicitHeight: parent.height - (Theme.vertMargin*2)
+    implicitWidth: parent.width - (Theme.margin*2)
+    implicitHeight: parent.height - (Theme.margin*2)
     anchors.centerIn: parent
-    spacing: Theme.vertMargin
+    spacing: Theme.margin
 
     Rectangle {
       id: header
-      implicitHeight: (root.height - (Theme.vertMargin*2)) / 13
+      implicitHeight: (root.height - (Theme.margin*2)) / 13
       implicitWidth: parent.width
       color: Colors.md3.surface_container
-      radius: Theme.vertMargin
+      radius: Theme.radius
 
       RowLayout {
         anchors.fill: parent
-        anchors.leftMargin: Theme.horizMargin
-        anchors.rightMargin: Theme.horizMargin
+        anchors.leftMargin: Theme.margin
+        anchors.rightMargin: Theme.margin
 
         IconButton {
           Layout.alignment: Qt.AlignRight
@@ -187,22 +187,22 @@ Item {
     }
 
     Rectangle {
-      implicitHeight: (root.height - (Theme.vertMargin*2)) - header.implicitHeight - parent.spacing
+      implicitHeight: (root.height - (Theme.margin*2)) - header.implicitHeight - parent.spacing
       implicitWidth: parent.width
       color: Colors.md3.surface_container
-      radius: Theme.vertMargin
+      radius: Theme.margin
 
       ListView {
         id: listView
-        anchors.margins: Theme.vertMargin
-        spacing: Theme.vertMargin/2
+        anchors.margins: Theme.margin
+        spacing: Theme.margin/2
         anchors.fill: parent
         clip: true
         model: root.devices
 
         delegate: ClippingRectangle {
           id: listItem
-          radius: Theme.vertMargin
+          radius: Theme.radius
 
           color: removalMode ? Colors.md3.error_container
                : focused ? Colors.md3.surface_container_highest
@@ -210,7 +210,7 @@ Item {
 
           Rectangle {
             anchors.fill: parent
-            radius: Theme.vertMargin
+            radius: Theme.radius
             color: Colors.md3.on_surface
             opacity: listItemHover.hovered ? 0.08: 0
             Behavior on opacity { NumberAnimation { duration: Theme.animationDuration } }
@@ -219,7 +219,7 @@ Item {
           Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             implicitHeight: deviceText.implicitHeight
-            implicitWidth: Theme.horizMargin * 0.4
+            implicitWidth: Theme.margin * 0.4
             radius: implicitWidth/2
             color: Colors.md3.primary
             visible: listItem.modelData.connected && ! listItem.removalMode
@@ -242,8 +242,8 @@ Item {
           }
 
           RowLayout {
-            anchors.leftMargin: Theme.horizMargin
-            anchors.rightMargin: Theme.horizMargin
+            anchors.leftMargin: Theme.margin
+            anchors.rightMargin: Theme.margin
             anchors.fill: parent
             spacing: 0
 

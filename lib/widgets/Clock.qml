@@ -8,7 +8,7 @@ Item {
   property string timeStr: "HH:mm"
   property string altTimeStr: "HH:mm:ss"
 
-  implicitWidth: clockText.implicitWidth + Theme.horizMargin
+  implicitWidth: clockText.implicitWidth + Theme.margin
   implicitHeight: Theme.barHeight
 
   clip: true

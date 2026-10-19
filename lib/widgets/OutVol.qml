@@ -7,7 +7,7 @@ import "../.."
 
 Item {
   id: root
-  implicitWidth: vollayout.implicitWidth + Theme.horizMargin
+  implicitWidth: vollayout.implicitWidth + Theme.margin
   implicitHeight: Theme.barHeight
 
   signal changed()

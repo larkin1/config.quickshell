@@ -6,7 +6,7 @@ import "../.."
 
 Item {
   id: root
-  implicitWidth: micIcon.implicitWidth + Theme.horizMargin
+  implicitWidth: micIcon.implicitWidth + Theme.margin
   implicitHeight: Theme.barHeight
 
   signal changed()

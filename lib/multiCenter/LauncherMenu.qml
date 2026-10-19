@@ -93,23 +93,23 @@ Item {
 
   ColumnLayout {
     id: content
-    width: parent.width - Theme.horizMargin*2
-    height: parent.height - Theme.vertMargin*2
+    width: parent.width - Theme.margin*2
+    height: parent.height - Theme.margin*2
     anchors.centerIn: parent
-    spacing: Theme.vertMargin
+    spacing: Theme.margin
 
     Rectangle {
       id: header
       implicitWidth: parent.width
-      implicitHeight: (root.height - (Theme.vertMargin*2)) / 13
-      radius: Theme.vertMargin
+      implicitHeight: (root.height - (Theme.margin*2)) / 13
+      radius: Theme.radius
       color: Colors.md3.surface_container
 
       TextField {
         id: searchField
 
         anchors.centerIn: parent
-        implicitWidth: parent.width - Theme.vertMargin*2
+        implicitWidth: parent.width - Theme.margin*2
         horizontalAlignment: TextInput.AlignHCenter
 
         renderType: Text.NativeRendering
@@ -143,14 +143,14 @@ Item {
       implicitWidth: parent.width
       Layout.fillHeight: true
       color: Colors.md3.surface_container
-      radius: Theme.vertMargin
+      radius: Theme.radius
 
       ListView {
         id: listView
         anchors.fill: parent
-        anchors.margins: Theme.vertMargin
+        anchors.margins: Theme.margin
         clip: true
-        spacing: Theme.vertMargin/2
+        spacing: Theme.margin/2
 
         model: list.visible
         delegate: Rectangle {
@@ -159,9 +159,9 @@ Item {
           required property int index
           required property var modelData
 
-          anchors.margins: Theme.vertMargin
+          anchors.margins: Theme.margin
 
-          radius: Theme.vertMargin
+          radius: Theme.radius
           implicitWidth: listView?.width ?? 0 //qmllint disable unqualified
           implicitHeight: text.implicitHeight * 2
 

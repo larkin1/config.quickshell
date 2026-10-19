@@ -9,7 +9,7 @@ Item {
   id: root
   signal changed()
   property var window: QsWindow.window
-  implicitWidth: tray.implicitWidth + Theme.horizMargin
+  implicitWidth: tray.implicitWidth + Theme.margin
   implicitHeight: Theme.barHeight
   clip: true
   RowLayout {
@@ -21,7 +21,7 @@ Item {
       onItemAdded: {root.changed()}
       onItemRemoved: {root.changed()}
       delegate: Rectangle {
-        implicitWidth: icon.implicitWidth + Theme.horizMargin / 2
+        implicitWidth: icon.implicitWidth + Theme.margin / 2
         implicitHeight: Theme.barHeight
         color: "transparent"
         IconImage {

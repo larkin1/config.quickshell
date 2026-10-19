@@ -10,7 +10,7 @@ Item {
 
   anchors.centerIn: parent
   implicitHeight: Theme.barHeight
-  implicitWidth: visible ? content.implicitWidth + Theme.horizMargin: 0
+  implicitWidth: visible ? content.implicitWidth + Theme.margin: 0
   visible: battery ?? false
 
   property var battery

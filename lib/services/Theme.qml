@@ -11,8 +11,9 @@ Singleton {
   readonly property int fontWeight: 650
 
   // Dimensions
-  readonly property int horizMargin: 10
-  readonly property int vertMargin: 10
+  readonly property int margin: 10
+  readonly property int radius: 10
+  readonly property int barVertSpacing: 10
   readonly property int barHeight: 26
   readonly property int iconSize: 18
 

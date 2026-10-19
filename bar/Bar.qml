@@ -12,7 +12,7 @@ Variants {
 
     screen: modelData
     color: "transparent"
-    implicitHeight: Theme.barHeight + Theme.vertMargin
+    implicitHeight: Theme.barHeight + Theme.barVertSpacing
 
     anchors {
       top: true
@@ -28,7 +28,7 @@ Variants {
 
     LeftGroup {
       id: leftGroup
-      rightBoundary: middleGroup.x + middleGroup.contentLeft - Theme.horizMargin
+      rightBoundary: middleGroup.x + middleGroup.contentLeft - Theme.margin
 
       opacity: ShellUI.multiOpen && root.onFocusedScreen ? 0 : 1
       Behavior on opacity {

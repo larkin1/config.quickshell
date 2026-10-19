@@ -17,7 +17,7 @@ Item {
 
     anchors {
       top: parent.top
-      topMargin: Theme.vertMargin
+      topMargin: Theme.barVertSpacing
       bottom: parent.bottom
       right: parent.left
     }
@@ -235,14 +235,14 @@ Item {
     Border {
       background: Colors.md3.surface_container_highest
       foreground: "transparent"
-      Layout.rightMargin: Theme.horizMargin * 0.2
+      Layout.rightMargin: Theme.margin * 0.2
       reversed: true
       implicitHeight: Theme.barHeight
     }
 
     PowerButton {
       id: power
-      Layout.rightMargin: (Theme.horizMargin/1.5)
+      Layout.rightMargin: (Theme.margin/1.5)
       onClicked: {
         if (Record.recording) {
           Record.toggle()

@@ -15,7 +15,7 @@ Item {
 
     anchors {
       top: parent.top
-      topMargin: Theme.vertMargin
+      topMargin: Theme.barVertSpacing
       bottom: parent.bottom
     }
 
@@ -23,7 +23,7 @@ Item {
     Border {
       background: "transparent"
       foreground: Colors.md3.surface_container
-      Layout.leftMargin: Theme.horizMargin
+      Layout.leftMargin: Theme.margin
       reversed: true
       implicitHeight: Theme.barHeight
     }
@@ -46,7 +46,7 @@ Item {
     Border {
       foreground: Colors.md3.surface_container
       background: Colors.md3.surface_container_lowest
-      outerMargin: Theme.horizMargin
+      outerMargin: Theme.margin
       implicitHeight: Theme.barHeight
     }
 
@@ -57,7 +57,7 @@ Item {
       implicitWidth: media.implicitWidth
       clip: true
 
-      Layout.maximumWidth: Math.max(80, root.rightBoundary - mediaWidget.x - Theme.horizMargin)
+      Layout.maximumWidth: Math.max(80, root.rightBoundary - mediaWidget.x - Theme.margin)
 
       Behavior on implicitWidth {
         NumberAnimation {

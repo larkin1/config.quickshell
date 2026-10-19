@@ -64,7 +64,7 @@ Item {
       TextInput {
         id: input
         anchors.fill: parent
-        anchors.margins: Theme.horizMargin
+        anchors.margins: Theme.margin
         opacity: 0
         focus: true
         color: Colors.md3.on_surface
