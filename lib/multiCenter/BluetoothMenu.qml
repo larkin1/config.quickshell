@@ -27,7 +27,7 @@ Item {
   ListMgr {
     id: list
     list: root.devices
-    onMoved: {
+    onCurrentIdxChanged: {
       root.menuState = root.noState
       listView.positionViewAtIndex(list.currentIdx, ListView.Contain)
     }

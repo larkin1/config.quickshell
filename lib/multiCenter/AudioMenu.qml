@@ -27,7 +27,7 @@ Item {
   ListMgr {
     id: list
     list: root.outputDevices
-    onMoved: {
+    onCurrentIdxChanged: {
       listView.positionViewAtIndex(list.currentIdx, ListView.Contain)
     }
   }

@@ -26,6 +26,9 @@ Item {
     searchKey: items => items.name ?? ""
     search: searchField.text
     onListChanged: jumpFirst()
+    onCurrentIdxChanged: {
+      listView.positionViewAtIndex(list.currentIdx, ListView.Contain)
+    }
   }
 
   onVisibleChanged: {
@@ -160,7 +163,7 @@ Item {
           anchors.margins: Theme.vertMargin
 
           radius: Theme.vertMargin
-          implicitWidth: parent?.width ?? 0
+          implicitWidth: listView?.width ?? 0 //qmllint disable unqualified
           implicitHeight: text.implicitHeight * 2
 
           color: list.currentItem?.id == modelData.id ? Colors.md3.surface_container_highest : Colors.md3.surface_container_high //qmllint disable unqualified
