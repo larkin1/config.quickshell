@@ -198,16 +198,22 @@ Item {
 
   SequentialAnimation {
     id: openAnim
-    PauseAnimation { duration: Theme.animationDuration/2 }
     PropertyAction {
       target: window
       property: "visible"
       value: true
     }
     PropertyAction {
-      target: buttons
+      targets: [ buttons, background ]
       property: "opacity"
       value: 0
+    }
+    PauseAnimation { duration: Theme.animationDuration }
+    ScriptAction { script: window.anchor.updateAnchor() }
+    PropertyAction {
+      target: background
+      property: "opacity"
+      value: 1
     }
     PropertyAnimation {
       target: background
