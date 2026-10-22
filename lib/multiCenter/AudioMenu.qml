@@ -10,8 +10,7 @@ Item {
 
   onVisibleChanged: {
     if (visible) {
-      list.currentItem = outputDevices?.length ? Pipewire.defaultAudioSink : null
-      root.forceActiveFocus()
+      sinkList.currentItem = outputDevices?.length ? Pipewire.defaultAudioSink : null
     }
   }
 
@@ -25,38 +24,38 @@ Item {
 
   // -- Focus Handling --
   ListMgr {
-    id: list
+    id: sinkList
     list: root.outputDevices
     onCurrentIdxChanged: {
-      listView.positionViewAtIndex(list.currentIdx, ListView.Contain)
+      listView.positionViewAtIndex(sinkList.currentIdx, ListView.Contain)
     }
   }
 
   function handleKeys(event) {
     switch (event.key) {
       case Qt.Key_J:
-        list.moveDn()
+        sinkList.moveDn()
         event.accepted = true; break
       case Qt.Key_K:
-        list.moveUp()
+        sinkList.moveUp()
         event.accepted = true; break
       case Qt.Key_G:
-        list.jumpFirst()
+        sinkList.jumpFirst()
         event.accepted = true; break
       case Qt.Key_H:
-        list.currentItem.audio.volume -= 0.05
+        sinkList.currentItem.audio.volume -= 0.05
         event.accepted = true; break
       case Qt.Key_L:
-        list.currentItem.audio.volume += 0.05
+        sinkList.currentItem.audio.volume += 0.05
         event.accepted = true; break
       case Qt.Key_X:
       case Qt.Key_D:
       case Qt.Key_M:
-        list.currentItem.audio.muted = !list.currentItem.audio.muted
+        sinkList.currentItem.audio.muted = !sinkList.currentItem.audio.muted
         event.accepted = true; break
       case Qt.Key_Return:
       case Qt.Key_Space:
-        Pipewire.preferredDefaultAudioSink = list.currentItem
+        Pipewire.preferredDefaultAudioSink = sinkList.currentItem
         event.accepted = true; break
     }
   }
@@ -65,10 +64,10 @@ Item {
     switch (event.key) {
       case Qt.Key_J:
       case Qt.Key_G:
-        list.jumpLast()
+        sinkList.jumpLast()
         event.accepted = true; break
       case Qt.Key_K:
-        list.jumpFirst()
+        sinkList.jumpFirst()
         event.accepted = true; break
       case Qt.Key_X:
       case Qt.Key_D:
@@ -77,10 +76,10 @@ Item {
         for (const i of root.outputDevices) i.audio.muted = mute
         event.accepted = true; break
       case Qt.Key_H:
-        list.currentItem.audio.volume = 0
+        sinkList.currentItem.audio.volume = 0
         event.accepted = true; break
       case Qt.Key_L:
-        list.currentItem.audio.volume = 1
+        sinkList.currentItem.audio.volume = 1
         event.accepted = true; break
     }
   }
@@ -149,7 +148,7 @@ Item {
           implicitWidth: parent.width
           implicitHeight: text.implicitHeight * 2
           radius: Theme.radius
-          color: list.currentItem == modelData ? Colors.md3.surface_container_highest : Colors.md3.surface_container_high //qmllint disable unqualified
+          color: sinkList.currentItem == modelData ? Colors.md3.surface_container_highest : Colors.md3.surface_container_high //qmllint disable unqualified
 
           Rectangle {
             anchors.fill: parent

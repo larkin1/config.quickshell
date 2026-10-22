@@ -20,8 +20,9 @@ Item {
         entry: e
     }))
 
+
   ListMgr {
-    id: list
+    id: programList
     list: root.items
     searchKey: items => items.name ?? ""
     search: searchField.text
@@ -33,28 +34,30 @@ Item {
   }
 
   onVisibleChanged: {
-    searchField.forceActiveFocus()
-    list.jumpFirst()
-    searchField.text = ""
+    if (visible) {
+      searchField.forceActiveFocus()
+      programList.jumpFirst()
+      searchField.text = ""
+    }
   }
 
     function handleKeys(event) {
     switch (event.key) {
       case Qt.Key_J:
       case Qt.Key_Down:
-        list.moveDn()
+        programList.moveDn()
         event.accepted = true; break
       case Qt.Key_K:
       case Qt.Key_Up:
-        list.moveUp()
+        programList.moveUp()
         event.accepted = true; break
       case Qt.Key_G:
-        list.jumpFirst()
+        programList.jumpFirst()
         event.accepted = true; break
       case Qt.Key_Return:
       case Qt.Key_Space:
-        if (list.visible.length > 0 && list.currentItem)
-          list.currentItem.entry.execute()
+        if (programList.visible.length > 0 && programList.currentItem)
+          programList.currentItem.entry.execute()
         else
           if (searchField.text !== "") Quickshell.execDetached(["sh", "-c", searchField.text])
         ShellUI.close()
@@ -62,7 +65,6 @@ Item {
       case Qt.Key_Slash:
       case Qt.Key_I:
       case Qt.Key_A:
-        console.log("ee")
         searchField.forceActiveFocus()
         event.accepted = true; break
     }
@@ -73,11 +75,11 @@ Item {
       case Qt.Key_J:
       case Qt.Key_G:
       case Qt.Key_Down:
-        list.jumpLast()
+        programList.jumpLast()
         event.accepted = true; break
       case Qt.Key_K:
       case Qt.Key_Up:
-        list.jumpFirst()
+        programList.jumpFirst()
         event.accepted = true; break
     }
   }
@@ -152,7 +154,7 @@ Item {
         clip: true
         spacing: Theme.margin/2
 
-        model: list.visible
+        model: programList.visible
         delegate: Rectangle {
           id: listItem
 
@@ -165,7 +167,7 @@ Item {
           implicitWidth: listView?.width ?? 0 //qmllint disable unqualified
           implicitHeight: text.implicitHeight * 2
 
-          color: list.currentItem?.id == modelData.id ? Colors.md3.surface_container_highest : Colors.md3.surface_container_high //qmllint disable unqualified
+          color: programList.currentItem?.id == modelData.id ? Colors.md3.surface_container_highest : Colors.md3.surface_container_high //qmllint disable unqualified
 
           Rectangle {
             anchors.fill: parent

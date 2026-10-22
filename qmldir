@@ -29,4 +29,5 @@ MultiUI lib/multiCenter/MultiUI.qml
 BluetoothMenu lib/multiCenter/BluetoothMenu.qml
 AudioMenu lib/multiCenter/AudioMenu.qml
 LauncherMenu lib/multiCenter/LauncherMenu.qml
+HomeMenu lib/multiCenter/HomeMenu.qml
 ListMgr lib/util/ListMgr.qml

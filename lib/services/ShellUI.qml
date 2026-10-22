@@ -7,8 +7,8 @@ import Quickshell.Io
 Singleton {
   id: ui
 
+  property string multiMenu: "home" // see ../multiCenter/MultiUI.qml for a list of options
   property string mode: "none"
-  property string multiMenu: "" // see ../multiCenter/MultiUI.qml for a list of options
 
   readonly property bool anyOverlay: mode !== "none"
   readonly property bool multiOpen: mode === "multi"
@@ -16,13 +16,14 @@ Singleton {
 
   function close() {
     mode = "none"
-    multiMenu = ""
+    multiMenu = "home"
   }
 
   function openMulti(menu) {
-    multiMenu = menu ?? ""
     mode = "multi"
+    multiMenu = menu ?? "home"
   }
+
   function openPower() {
     mode = "power"
   }
@@ -31,6 +32,7 @@ Singleton {
     if (mode === "multi") close()
     else openMulti(menu)
   }
+
   function togglePower() {
     if (mode === "power") close()
     else openPower()
@@ -39,7 +41,7 @@ Singleton {
   IpcHandler {
     target: "screens"
     function close(): void { ui.close() }
-    function toggleMulti(): void { ui.toggleMulti("") }
+    function toggleMulti(): void { ui.toggleMulti("home") }
     function openMulti(menu: string): void { ui.openMulti(menu) }
     function togglePower(): void { ui.togglePower() }
     function openPower(): void { ui.openPower() }

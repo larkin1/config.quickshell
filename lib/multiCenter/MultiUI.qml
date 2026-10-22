@@ -3,48 +3,29 @@ import "../.."
 
 Item {
   id: root
-
   anchors.fill: parent
 
-  property string uiState: ""
-
-  function close() {
-    uiState = ""
-  }
-
-  function openBluetooth() {
-    uiState = "bluetooth"
-  }
-
-  function openAudio() {
-    uiState = "audio"
-  }
-
-  function openLauncher() {
-    uiState = "launcher"
+  function focusCurrent() {
+    ({ home, bluetooth, audio, launcher })[ShellUI.multiMenu]?.forceActiveFocus()
   }
 
   BluetoothMenu {
     id: bluetooth
-    visible: root.uiState == "bluetooth"
+    visible: ShellUI.multiMenu == "bluetooth"
   }
 
   AudioMenu {
     id: audio
-    visible: root.uiState == "audio"
+    visible: ShellUI.multiMenu == "audio"
   }
   
   LauncherMenu {
     id: launcher
-    visible: root.uiState == "launcher"
+    visible: ShellUI.multiMenu == "launcher"
   }
 
-  function openMenu(name) {
-    switch (name) {
-      case "bluetooth": openBluetooth(); break
-      case "audio": openAudio(); break
-      case "launcher": openLauncher(); break
-      default: close()
-    }
+  HomeMenu {
+    id: home
+    visible: ShellUI.multiMenu == "home"
   }
 }
