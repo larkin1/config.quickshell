@@ -7,7 +7,7 @@ import Quickshell.Io
 Singleton {
   id: ui
 
-  property string multiMenu: "home" // see ../multiCenter/MultiUI.qml for a list of options
+  property string multiMenu: "" // see ../multiCenter/MultiUI.qml for a list of options
   property string mode: "none"
 
   readonly property bool anyOverlay: mode !== "none"
@@ -16,7 +16,7 @@ Singleton {
 
   function close() {
     mode = "none"
-    multiMenu = "home"
+    multiMenu = ""
   }
 
   function openMulti(menu) {

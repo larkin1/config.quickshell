@@ -6,14 +6,24 @@ Item {
   id: root
   anchors.fill: parent
 
-  onVisibleChanged: fadeIn.restart()
-  PropertyAnimation {
+  onVisibleChanged: {
+    root.opacity = 0.0
+    if (visible) {
+      root.forceActiveFocus()
+      fadeIn.restart()
+    }
+  }
+
+  SequentialAnimation {
     id: fadeIn
-    target: root
-    property: "opacity"
-    duration: Theme.animationDuration
-    from: 0.00
-    to: 1.00
+    PauseAnimation { duration: Theme.animationDuration*2 }
+    PropertyAnimation {
+      target: root
+      property: "opacity"
+      duration: Theme.animationDuration
+      from: 0.0
+      to: 1.0
+    }
   }
 
   Keys.onPressed: event => {

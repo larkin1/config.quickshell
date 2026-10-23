@@ -11,6 +11,7 @@ Item {
 
   onVisibleChanged: {
     if (visible) {
+      root.forceActiveFocus()
       deviceList.currentItem = devices?.length ? devices[0] : null
     }
   }

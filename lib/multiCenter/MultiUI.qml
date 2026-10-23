@@ -5,12 +5,6 @@ Item {
   id: root
   anchors.fill: parent
 
-  function focusCurrent() {
-    ({ home, bluetooth, audio, launcher })[ShellUI.multiMenu]?.forceActiveFocus()
-  }
-
-  property bool shown: false
-
   BluetoothMenu {
     id: bluetooth
     visible: ShellUI.multiMenu == "bluetooth"
@@ -28,6 +22,6 @@ Item {
 
   HomeMenu {
     id: home
-    visible: ShellUI.multiMenu == "home" && root.shown
+    visible: ShellUI.multiMenu == "home"
   }
 }

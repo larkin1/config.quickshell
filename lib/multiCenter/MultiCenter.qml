@@ -21,12 +21,9 @@ Item {
         background.opacity = 0
         openAnim.start()
         grab.active = true
-        screens.focusCurrent()
       }
     } else {
-      screens.shown = false
       openAnim.stop()
-      screens.focusCurrent()
       window.visible = false
       background.implicitHeight = 1
       grab.active = false
@@ -85,17 +82,6 @@ Item {
       duration: Theme.animationDuration
       from: root.height
       to: 500
-    }
-    PropertyAction {
-      target: screens
-      property: "shown"
-      value: true
-    }
-    PropertyAnimation {
-      target: screens
-      property: "opacity"
-      duration: Theme.animationDuration
-      to: 1
     }
   }
 

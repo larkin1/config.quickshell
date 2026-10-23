@@ -11,6 +11,7 @@ Item {
   onVisibleChanged: {
     if (visible) {
       sinkList.currentItem = outputDevices?.length ? Pipewire.defaultAudioSink : null
+      root.forceActiveFocus()
     }
   }
 
