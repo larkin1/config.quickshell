@@ -24,6 +24,7 @@ Item {
         screens.focusCurrent()
       }
     } else {
+      screens.shown = false
       openAnim.stop()
       screens.focusCurrent()
       window.visible = false
@@ -84,6 +85,11 @@ Item {
       duration: Theme.animationDuration
       from: root.height
       to: 500
+    }
+    PropertyAction {
+      target: screens
+      property: "shown"
+      value: true
     }
     PropertyAnimation {
       target: screens

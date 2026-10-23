@@ -14,7 +14,7 @@ Item {
     }
   }
 
-  property var outputDevices: Pipewire.nodes.values.filter(item => item.isSink && !item.isStream)
+  property var outputDevices: Pipewire.nodes.values.filter(item => item.isSink && !item.isStream) //qmllint disable missing-property
 
   PwObjectTracker { // required to allow all objects to have audio data
     objects: root.outputDevices ? root.outputDevices : []

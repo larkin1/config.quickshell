@@ -35,9 +35,9 @@ Item {
 
   onVisibleChanged: {
     if (visible) {
+      searchField.text = ""
       searchField.forceActiveFocus()
       programList.jumpFirst()
-      searchField.text = ""
     }
   }
 

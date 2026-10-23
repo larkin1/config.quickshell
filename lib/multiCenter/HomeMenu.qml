@@ -6,7 +6,15 @@ Item {
   id: root
   anchors.fill: parent
 
-  onVisibleChanged: buttons.forceActiveFocus()
+  onVisibleChanged: fadeIn.restart()
+  PropertyAnimation {
+    id: fadeIn
+    target: root
+    property: "opacity"
+    duration: Theme.animationDuration
+    from: 0.00
+    to: 1.00
+  }
 
   Keys.onPressed: event => {
     switch (event.key) {

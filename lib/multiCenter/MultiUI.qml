@@ -9,6 +9,8 @@ Item {
     ({ home, bluetooth, audio, launcher })[ShellUI.multiMenu]?.forceActiveFocus()
   }
 
+  property bool shown: false
+
   BluetoothMenu {
     id: bluetooth
     visible: ShellUI.multiMenu == "bluetooth"
@@ -26,6 +28,6 @@ Item {
 
   HomeMenu {
     id: home
-    visible: ShellUI.multiMenu == "home"
+    visible: ShellUI.multiMenu == "home" && root.shown
   }
 }
