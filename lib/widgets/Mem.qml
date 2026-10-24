@@ -11,19 +11,22 @@ Item {
 
   property int interval: 1000
 
-  property int memUsage: 0
+  property double memUsage: 0
 
-  Process {
+  FileView {
     id: proc
-    command: ["sh", "-c", "free | grep Mem"]
-    stdout: SplitParser {
-      onRead: data => {
-        if (!data) return
-        var parts = data.trim().split(/\s+/)
-        var total = parseInt(parts[1]) || 1
-        var used = parseInt(parts[2]) || 0
-        root.memUsage = Math.round(100 * used / total)
+    path: "/proc/meminfo"
+    watchChanges: false
+    onLoaded: parse()
+
+    function parse() {
+      const lines = text().split("\n")
+      let total = 0, avail = 0
+      for (const line of lines) {
+        if (line.startsWith("MemTotal:")) total = parseInt(line.replace(/\D+/g, "")) || 0
+        if (line.startsWith("MemAvailable:")) avail = parseInt(line.replace(/\D+/g, "")) || 0
       }
+      root.memUsage = total ? Math.round(((total-avail)/total * 100)) : 0
     }
   }
 
@@ -32,7 +35,7 @@ Item {
     interval: root.interval
     running: true
     repeat: true
-    onTriggered: proc.running = true
+    onTriggered: proc.reload()
   }
 
   RowLayout {

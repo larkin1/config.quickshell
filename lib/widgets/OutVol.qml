@@ -21,7 +21,7 @@ Item {
       const factory = (p["factory.name"] || "").toLowerCase();
 
       if (factory.includes("bluez5") || name.startsWith("bluez_output.")) {
-        if ( node.audio.muted ) {
+        if ( node.audio?.muted ) {
           return "../../svg/bt-off.svg";
         } else {
           return "../../svg/bt-on.svg";

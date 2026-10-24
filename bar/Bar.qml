@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
 import ".."
@@ -39,13 +38,9 @@ Variants {
       }
     }
 
-    Item { Layout.fillWidth: true }
-
     MiddleGroup {
       id: middleGroup
     }
-
-    Item { Layout.fillWidth: true }
 
     RightGroup {
       id: rightGroup

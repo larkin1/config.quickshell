@@ -26,8 +26,6 @@ PanelWindow { //qmllint disable uncreatable-type
     item: content
   }
 
-  function onCleared() { ShellUI.close() }
-
   onVisibleChanged: {
     if (visible) {
       open.restart()

@@ -53,12 +53,6 @@ Item {
       Rectangle {
         anchors.fill: parent
         color: Colors.md3.surface_container_highest
-
-        Behavior on border.color {
-          ColorAnimation {
-            duration: Theme.colorAnimationDuration
-          }
-        }
       }
 
       TextInput {

@@ -21,6 +21,8 @@ Item {
   Process {
     running: true
     command: ["bluetoothctl", "--agent", "NoInputNoOutput"]
+    stdout: SplitParser { onRead: data => {} }
+    stderr: SplitParser { onRead: data => {} }
   }
 
   // -- Focus Management --

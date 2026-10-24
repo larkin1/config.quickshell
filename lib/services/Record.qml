@@ -9,6 +9,8 @@ Singleton {
   id: root
   property bool recording: false
 
+  Component.onCompleted: poll.running = true
+
   function toggle() {
     rec.running = true
   }
@@ -26,7 +28,7 @@ Singleton {
     id: pollLoop
     interval: 1000
     onTriggered: poll.running = true
-    running: true
+    running: root.recording || rec.running
     repeat: true
   }
 

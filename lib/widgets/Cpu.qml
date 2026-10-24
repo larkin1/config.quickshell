@@ -15,21 +15,22 @@ Item {
   property var lastCpuIdle: 0
   property var lastCpuTotal: 0
 
-  Process {
+  FileView {
     id: proc
-    command: ["sh", "-c", "head -1 /proc/stat"]
-    stdout: SplitParser {
-      onRead: data => {
-        if (!data) return
-        var p = data.trim().split(/\s+/)
-        var idle = parseInt(p[4]) + parseInt(p[5])
-        var total = p.slice(1, 8).reduce((a, b) => a + parseInt(b), 0)
-        if (root.lastCpuTotal > 0) {
-            root.cpuUsage = Math.round(100 * (1 - (idle - root.lastCpuIdle) / (total - root.lastCpuTotal)))
-        }
-        root.lastCpuTotal = total
-        root.lastCpuIdle = idle
+    path: "/proc/stat"
+    watchChanges: false
+    onLoaded: parse()
+
+    function parse() {
+      const p0 = text().slice(0, text().indexOf("\n"));
+      const p = p0.trim().split(/\s+/)
+      var idle = parseInt(p[4]) + parseInt(p[5])
+      var total = p.slice(1, 8).reduce((a, b) => a + parseInt(b), 0)
+      if (root.lastCpuTotal > 0) {
+          root.cpuUsage = Math.round(100 * (1 - (idle - root.lastCpuIdle) / (total - root.lastCpuTotal)))
       }
+      root.lastCpuTotal = total
+      root.lastCpuIdle = idle
     }
   }
 
@@ -38,7 +39,7 @@ Item {
     interval: root.interval
     running: true
     repeat: true
-    onTriggered: proc.running = true
+    onTriggered: proc.reload()
   }
 
   RowLayout {

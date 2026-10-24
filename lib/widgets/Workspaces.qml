@@ -31,9 +31,7 @@ Row {
       height: parent.height
       color: "transparent"
 
-      Component.onCompleted: {
-        width = Qt.binding(function() { return isActive ? 50 : 30 })
-      }
+      width: isActive ? 50 : 30
 
       Behavior on width {
         NumberAnimation {

@@ -26,7 +26,11 @@ Item {
     anchors.bottom: parent.bottom
     radius: implicitHeight/2
     implicitHeight: parent.height * 0.15
-    implicitWidth: (parent.width-implicitHeight)*(Media.currentPlayer?.position/Media.currentPlayer?.length)+implicitHeight
+    implicitWidth: {
+      const p = Media.currentPlayer
+      if (!p?.length || !Number.isFinite(p.position / p.length)) return 0
+      return (parent.width - implicitHeight) * (p.position / p.length) + implicitHeight
+    }
     color: Media.isPlaying ? root.activeProgressbarColor : root.progressbarColor
 
     Behavior on implicitWidth {
@@ -38,8 +42,8 @@ Item {
 
     Timer {
       id: progSync
-      running: Media.isPlaying && Media.currentPlayer?.positionSupported
-      interval: Math.max(30, (Media.currentPlayer?.length*1000)/root.width) // update the progress every pixel or at ~30fps
+      running: Media.isPlaying && (Media.currentPlayer?.length ?? 0) > 0 && root.width > 0
+      interval: Math.min(300, Math.max(30, ((Media.currentPlayer?.length ?? 1) * 1000) / Math.max(1, root.width)))
       repeat: true
       triggeredOnStart: true
       onTriggered: Media.currentPlayer?.positionChanged()

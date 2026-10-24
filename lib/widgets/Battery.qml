@@ -36,9 +36,9 @@ Item {
   }
 
   function getBatt() {
-    let devices = UPower.devices.values;
+    let devices = UPower.devices.values; // qmllint disable missing-property
 
-    for (let i = 0; i <= devices.length; i++) {
+    for (let i = 0; i < devices.length; i++) {
       if (devices[i]?.isLaptopBattery) {
         root.battery = devices[i]
         timer.stop() // stop polling when the system acquires a battery

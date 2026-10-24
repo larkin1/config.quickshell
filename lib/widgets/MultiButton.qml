@@ -34,8 +34,7 @@ Item {
 
   Rectangle {
     id: rect
-    anchors.centerIn: parent
-    anchors.fill:  parent
+    anchors.fill: parent
     color: root.background
     implicitWidth: root.open
       ? root.expandedWidth
