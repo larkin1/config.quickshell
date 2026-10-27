@@ -29,7 +29,7 @@ Item {
     onListChanged: jumpFirst()
     onSearchChanged: jumpFirst()
     onCurrentIdxChanged: {
-      listView.positionViewAtIndex(list.currentIdx, ListView.Contain)
+      listView.positionViewAtIndex(programList.currentIdx, ListView.Contain)
     }
   }
 
