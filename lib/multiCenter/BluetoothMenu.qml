@@ -3,6 +3,7 @@ import Quickshell.Io
 import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 import "../.."
 
 Item {
@@ -29,6 +30,8 @@ Item {
   ListMgr {
     id: deviceList
     list: root.devices
+    searchKey: items => items.name ?? ""
+    search: searchField.text
     onCurrentIdxChanged: {
       root.menuState = root.noState
       listView.positionViewAtIndex(deviceList.currentIdx, ListView.Contain)
@@ -63,6 +66,10 @@ Item {
       case Qt.Key_S:
         Bluetooth.defaultAdapter.discovering = true // qmllint disable unresolved-type
         scanTimeout.restart()
+        event.accepted = true; break;
+
+      case Qt.Key_Slash:
+        searchField.forceActiveFocus()
         event.accepted = true; break;
 
       case Qt.Key_J:
@@ -160,7 +167,44 @@ Item {
           }
         }
 
-        Item { Layout.fillWidth: true }
+        TextField {
+          id: searchField
+
+          Layout.fillWidth: true
+          horizontalAlignment: TextInput.AlignHCenter
+
+          renderType: Text.NativeRendering
+          color: Colors.md3.on_surface
+          placeholderTextColor: Qt.alpha(Colors.md3.on_surface_variant, 0.50)
+
+          placeholderText: "Search for a device..."
+
+          font.family: Theme.font
+          font.pixelSize: Theme.fontSize
+          font.weight: Theme.fontWeight
+
+          Keys.onPressed: event => {
+            switch (event.key) {
+              case Qt.Key_Escape:
+              case Qt.Key_Tab:
+                searchField.text = ""
+                root.forceActiveFocus()
+                event.accepted = true; break;
+              case Qt.Key_Return:
+                root.toggle(deviceList.currentItem)
+                searchField.text = ""
+                root.forceActiveFocus()
+                event.accepted = true; break;
+            }
+          }
+
+          background: Rectangle {
+            radius: header.radius
+            implicitHeight: searchField.height
+            implicitWidth: searchField.width
+            color: Colors.md3.surface_container_high
+          }
+        }
 
         IconButton {
           id: scan
@@ -200,7 +244,7 @@ Item {
         spacing: Theme.margin/2
         anchors.fill: parent
         clip: true
-        model: root.devices
+        model: deviceList.visible
 
         delegate: ClippingRectangle {
           id: listItem
