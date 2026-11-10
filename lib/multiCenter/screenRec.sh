@@ -1,18 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
-PIDFILE="${XDG_RUNTIME_DIR:-/tmp}/wf-recorder.pid"
 OUT="$HOME"
 
-if [[ -f "$PIDFILE" ]] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
-  if [ "$(ps -p "$(cat "$PIDFILE")" -o comm=)" = wf-recorder ]; then
-    kill -INT "$(cat "$PIDFILE")"
-    notify-send "Recording stopped" "saved to $OUT" || true
-  fi
-  rm -f "$PIDFILE"
+if pgrep -x wl-screenrec >/dev/null; then
+  pkill -INT -x wl-screenrec
+  notify-send "Recording stopped" "saved to $OUT" || true
 else
-  command -v wf-recorder >/dev/null || { notify-send "wf-recorder not installed" || true; exit 1; }
-  SLP="$(slurp -d -b '#181825b3' -c '#cdd6f4ff' </dev/null)" || exit 0
-  FILE="$HOME/rec-$(date +%Y%m%d-%H%M%S).mkv"
-  wf-recorder -a -g "$SLP" --audio-backend=pipewire -f "$FILE" >>/tmp/wf-recorder.log 2>&1 &
-  echo $! > "$PIDFILE"
+  colors="$(cat "$HOME/.local/state/quickshell/generated/colors.json")"
+  scrim="$(jq -r '.md3.scrim' <<<"$colors")"
+  outline="$(jq -r '.md3.outline' <<<"$colors")"
+  location="$(hyprctl -j clients | jq -r '.[] | select(.workspace.id != -1) | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1]) \(.class)"' | slurp -o -B "${scrim}52" -b "${scrim}52" -c "${outline}ff")" # smart picker
+  wl-screenrec -g "$location" -f "$OUT/rec-$(date +%F_%H-%M-%S).mkv" &
 fi
