@@ -12,15 +12,15 @@ Singleton {
   Component.onCompleted: poll.running = true
 
   function toggle() {
-    rec.running = true
+    rec.running = true;
   }
 
   Process {
     id: rec
-    command: ["sh", "-c", "$HOME/.config/quickshell/lib/multiCenter/screenRec.sh"]
+    command: ["sh", "-c", "$HOME/.config/quickshell/lib/services/screenRec.sh"]
     onRunningChanged: {
-      poll.running = true
-      ShellUI.close()
+      poll.running = true;
+      ShellUI.close();
     }
   }
 
@@ -34,12 +34,15 @@ Singleton {
 
   Process {
     id: poll
-    command: ["pgrep", "-x", "wf-recorder"]
-    onExited: code => root.recording = (code === 0) //qmllint disable signal-handler-parameters
+    command: ["pgrep", "-x", "wl-screenrec"]
+    onExited: code => root.recording = (code === 0)
+    //qmllint disable signal-handler-parameters
   }
 
   IpcHandler {
     target: "record"
-    function toggle(): void { root.toggle() }
+    function toggle(): void {
+      root.toggle();
+    }
   }
 }
