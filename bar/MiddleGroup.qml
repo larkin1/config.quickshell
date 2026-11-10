@@ -48,7 +48,6 @@ Item {
       implicitHeight: Theme.barHeight
     }
 
-
     Rectangle {
       color: Colors.md3.surface_container_highest
       Layout.fillHeight: true

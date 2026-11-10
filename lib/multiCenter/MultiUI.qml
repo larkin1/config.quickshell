@@ -14,7 +14,7 @@ Item {
     id: audio
     visible: ShellUI.multiMenu == "audio"
   }
-  
+
   LauncherMenu {
     id: launcher
     visible: ShellUI.multiMenu == "launcher"

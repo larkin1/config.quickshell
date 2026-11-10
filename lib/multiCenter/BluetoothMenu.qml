@@ -12,18 +12,22 @@ Item {
 
   onVisibleChanged: {
     if (visible) {
-      root.forceActiveFocus()
-      deviceList.currentItem = devices?.length ? devices[0] : null
+      root.forceActiveFocus();
+      deviceList.currentItem = devices?.length ? devices[0] : null;
     }
   }
 
-  property var devices: Bluetooth.defaultAdapter?.devices.values; // qmllint disable unresolved-type
+  property var devices: Bluetooth.defaultAdapter?.devices.values // qmllint disable unresolved-type
 
   Process {
     running: true
     command: ["bluetoothctl", "--agent", "NoInputNoOutput"]
-    stdout: SplitParser { onRead: data => {} }
-    stderr: SplitParser { onRead: data => {} }
+    stdout: SplitParser {
+      onRead: data => {}
+    }
+    stderr: SplitParser {
+      onRead: data => {}
+    }
   }
 
   // -- Focus Management --
@@ -33,8 +37,8 @@ Item {
     searchKey: items => items.name ?? ""
     search: searchField.text
     onCurrentIdxChanged: {
-      root.menuState = root.noState
-      listView.positionViewAtIndex(deviceList.currentIdx, ListView.Contain)
+      root.menuState = root.noState;
+      listView.positionViewAtIndex(deviceList.currentIdx, ListView.Contain);
     }
   }
 
@@ -45,7 +49,7 @@ Item {
 
   Keys.onPressed: event => {
     if (event.modifiers === Qt.ShiftModifier) {
-      handleShiftKeys(event)
+      handleShiftKeys(event);
     } else {
       handleKeys(event);
     }
@@ -53,100 +57,113 @@ Item {
 
   function handleKeys(event) {
     switch (event.key) {
-      case Qt.Key_Escape:
-      case Qt.Key_Q:
-        if (menuState !== noState) {
-          menuState = noState
-          event.accepted = true;
-        }
+    case Qt.Key_Escape:
+    case Qt.Key_Q:
+      if (menuState !== noState) {
+        menuState = noState;
+        event.accepted = true;
+      }
+      break;
+    case Qt.Key_P:
+      Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
+      event.accepted = true;
+      break;
+    case Qt.Key_S:
+      Bluetooth.defaultAdapter.discovering = true; // qmllint disable unresolved-type
+      scanTimeout.restart();
+      event.accepted = true;
+      break;
+    case Qt.Key_Slash:
+      searchField.forceActiveFocus();
+      event.accepted = true;
+      break;
+    case Qt.Key_J:
+    case Qt.Key_Down:
+      deviceList.moveDn();
+      event.accepted = true;
+      break;
+    case Qt.Key_K:
+    case Qt.Key_Up:
+      deviceList.moveUp();
+      event.accepted = true;
+      break;
+    case Qt.Key_D:
+    case Qt.Key_X:
+    case Qt.Key_Delete:
+      menuState = removeState;
+      event.accepted = true;
+      break;
+    case Qt.Key_Return:
+    case Qt.Key_Space:
+      if (menuState === removeState)
         break;
-      case Qt.Key_P:
-        Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled // qmllint disable unresolved-type
-        event.accepted = true; break;
-      case Qt.Key_S:
-        Bluetooth.defaultAdapter.discovering = true // qmllint disable unresolved-type
-        scanTimeout.restart()
-        event.accepted = true; break;
-
-      case Qt.Key_Slash:
-        searchField.forceActiveFocus()
-        event.accepted = true; break;
-
-      case Qt.Key_J:
-      case Qt.Key_Down:
-        deviceList.moveDn()
-        event.accepted = true; break;
-      case Qt.Key_K:
-      case Qt.Key_Up:
-        deviceList.moveUp()
-        event.accepted = true; break;
-      case Qt.Key_D:
-      case Qt.Key_X:
-      case Qt.Key_Delete:
-        menuState = removeState
-        event.accepted = true; break;
-      case Qt.Key_Return:
-      case Qt.Key_Space:
-        if (menuState === removeState) break;
-        toggle(deviceList.currentItem)
-        event.accepted = true; break;
-      case Qt.Key_Y:
-        if (menuState === removeState) deviceList.currentItem.forget()
-        menuState = noState
-        event.accepted = true; break;
-      case Qt.Key_N:
-        menuState = noState
-        event.accepted = true; break;
-      case Qt.Key_T:
-        deviceList.currentItem.trusted = !deviceList.currentItem.trusted
-        event.accepted = true; break;
+      toggle(deviceList.currentItem);
+      event.accepted = true;
+      break;
+    case Qt.Key_Y:
+      if (menuState === removeState)
+        deviceList.currentItem.forget();
+      menuState = noState;
+      event.accepted = true;
+      break;
+    case Qt.Key_N:
+      menuState = noState;
+      event.accepted = true;
+      break;
+    case Qt.Key_T:
+      deviceList.currentItem.trusted = !deviceList.currentItem.trusted;
+      event.accepted = true;
+      break;
     }
   }
 
   function handleShiftKeys(event) {
     switch (event.key) {
-      case Qt.Key_J:
-        deviceList.jumpLast()
-        event.accepted = true; break;
-      case Qt.Key_K:
-        deviceList.jumpFirst()
-        event.accepted = true; break;
-      case Qt.Key_D:
-      case Qt.Key_X:
-        Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled // qmllint disable unresolved-type
-        event.accepted = true; break;
+    case Qt.Key_J:
+      deviceList.jumpLast();
+      event.accepted = true;
+      break;
+    case Qt.Key_K:
+      deviceList.jumpFirst();
+      event.accepted = true;
+      break;
+    case Qt.Key_D:
+    case Qt.Key_X:
+      Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
+      event.accepted = true;
+      break;
     }
   }
 
   function toggle(d) {
-    if (d.state === BluetoothDeviceState.Connecting
-      || d.state === BluetoothDeviceState.Disconnecting
-      || d.pairing)
-      return
-
-    if (d.connected) d.disconnect()
-    else if (d.paired) d.connect()
-    else d.pair()
+    if (d.state === BluetoothDeviceState.Connecting || d.state === BluetoothDeviceState.Disconnecting || d.pairing)
+      return;
+    if (d.connected)
+      d.disconnect();
+    else if (d.paired)
+      d.connect();
+    else
+      d.pair();
   }
 
   Timer {
     id: scanTimeout
-    interval: 30*1000
+    interval: 30 * 1000
     running: false
     onTriggered: {
-      Bluetooth.defaultAdapter.discovering = false // qmllint disable unresolved-type
+      Bluetooth.defaultAdapter.discovering = false; // qmllint disable unresolved-type
     }
   }
 
   ColumnLayout {
-    implicitWidth: parent.width - (Theme.margin*2)
-    implicitHeight: parent.height - (Theme.margin*2)
+    implicitWidth: parent.width - (Theme.margin * 2)
+    implicitHeight: parent.height - (Theme.margin * 2)
     anchors.centerIn: parent
     spacing: Theme.margin
 
     Rectangle {
       id: header
-      implicitHeight: (root.height - (Theme.margin*2)) / 13
+      implicitHeight: (root.height - (Theme.margin * 2)) / 13
       implicitWidth: parent.width
       color: Colors.md3.surface_container
       radius: Theme.radius
@@ -163,7 +180,7 @@ Item {
           iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
           onClicked: {
-            Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled // qmllint disable unresolved-type
+            Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
           }
         }
 
@@ -185,16 +202,18 @@ Item {
 
           Keys.onPressed: event => {
             switch (event.key) {
-              case Qt.Key_Escape:
-              case Qt.Key_Tab:
-                searchField.text = ""
-                root.forceActiveFocus()
-                event.accepted = true; break;
-              case Qt.Key_Return:
-                root.toggle(deviceList.currentItem)
-                searchField.text = ""
-                root.forceActiveFocus()
-                event.accepted = true; break;
+            case Qt.Key_Escape:
+            case Qt.Key_Tab:
+              searchField.text = "";
+              root.forceActiveFocus();
+              event.accepted = true;
+              break;
+            case Qt.Key_Return:
+              root.toggle(deviceList.currentItem);
+              searchField.text = "";
+              root.forceActiveFocus();
+              event.accepted = true;
+              break;
             }
           }
 
@@ -225,15 +244,15 @@ Item {
           }
 
           onClicked: {
-            Bluetooth.defaultAdapter.discovering = true // qmllint disable unresolved-type
-            scanTimeout.restart()
+            Bluetooth.defaultAdapter.discovering = true; // qmllint disable unresolved-type
+            scanTimeout.restart();
           }
         }
       }
     }
 
     Rectangle {
-      implicitHeight: (root.height - (Theme.margin*2)) - header.implicitHeight - parent.spacing
+      implicitHeight: (root.height - (Theme.margin * 2)) - header.implicitHeight - parent.spacing
       implicitWidth: parent.width
       color: Colors.md3.surface_container
       radius: Theme.margin
@@ -241,7 +260,7 @@ Item {
       ListView {
         id: listView
         anchors.margins: Theme.margin
-        spacing: Theme.margin/2
+        spacing: Theme.margin / 2
         anchors.fill: parent
         clip: true
         model: deviceList.visible
@@ -250,29 +269,31 @@ Item {
           id: listItem
           radius: Theme.radius
 
-          color: removalMode ? Colors.md3.error_container
-               : focused ? Colors.md3.surface_container_highest
-               : Colors.md3.surface_container_high
+          color: removalMode ? Colors.md3.error_container : focused ? Colors.md3.surface_container_highest : Colors.md3.surface_container_high
 
           Rectangle {
             anchors.fill: parent
             radius: Theme.radius
             color: Colors.md3.on_surface
-            opacity: listItemHover.hovered ? 0.08: 0
-            Behavior on opacity { NumberAnimation { duration: Theme.animationDuration } }
+            opacity: listItemHover.hovered ? 0.08 : 0
+            Behavior on opacity {
+              NumberAnimation {
+                duration: Theme.animationDuration
+              }
+            }
           }
 
           Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             implicitHeight: deviceText.implicitHeight
             implicitWidth: Theme.margin * 0.4
-            radius: implicitWidth/2
+            radius: implicitWidth / 2
             color: Colors.md3.primary
-            visible: listItem.modelData.connected && ! listItem.removalMode
+            visible: listItem.modelData.connected && !listItem.removalMode
           }
 
           width: ListView.view.width
-          height: deviceText.implicitHeight*2
+          height: deviceText.implicitHeight * 2
 
           required property int index
           required property var modelData
@@ -280,7 +301,9 @@ Item {
           property bool focused: (deviceList.currentItem === modelData) // qmllint disable unqualified
           property bool removalMode: (root.menuState === root.removeState && focused) // qmllint disable unqualified
 
-          HoverHandler { id: listItemHover }
+          HoverHandler {
+            id: listItemHover
+          }
           MouseArea {
             anchors.fill: parent
             onClicked: root.toggle(listItem.modelData) //qmllint disable unqualified
@@ -297,16 +320,22 @@ Item {
               id: deviceText
               text: listItem.removalMode ? "Remove device?" : listItem.modelData.name
               elide: Qt.ElideRight
-              Layout.preferredWidth: listItem.width - listItem.height*4
+              Layout.preferredWidth: listItem.width - listItem.height * 4
               color: {
-                if (listItem.removalMode) return Colors.md3.on_error_container
-                else if (listItem.modelData.connected) return Colors.md3.primary
-                else if (listItem.modelData.paired) return Colors.md3.on_surface
-                else return Qt.alpha(Colors.md3.on_surface_variant, 0.50)
+                if (listItem.removalMode)
+                  return Colors.md3.on_error_container;
+                else if (listItem.modelData.connected)
+                  return Colors.md3.primary;
+                else if (listItem.modelData.paired)
+                  return Colors.md3.on_surface;
+                else
+                  return Qt.alpha(Colors.md3.on_surface_variant, 0.50);
               }
             }
 
-            Item { Layout.fillWidth: true }
+            Item {
+              Layout.fillWidth: true
+            }
 
             IconButton {
               Layout.alignment: Qt.AlignRight
@@ -316,10 +345,10 @@ Item {
 
               onClicked: {
                 if (listItem.removalMode) {
-                  listItem.modelData.forget() // qmllint disable missing-property
-                  root.menuState = noState // qmllint disable unqualified
+                  listItem.modelData.forget(); // qmllint disable missing-property
+                  root.menuState = noState; // qmllint disable unqualified
                 } else {
-                  listItem.modelData.trusted = !listItem.modelData.trusted
+                  listItem.modelData.trusted = !listItem.modelData.trusted;
                 }
               }
             }
@@ -331,10 +360,10 @@ Item {
 
               onClicked: {
                 if (listItem.removalMode) {
-                  root.menuState = noState // qmllint disable unqualified
+                  root.menuState = noState; // qmllint disable unqualified
                 } else {
-                  deviceList.currentItem = listItem.modelData // qmllint disable unqualified
-                  root.menuState = removeState // qmllint disable unqualified
+                  deviceList.currentItem = listItem.modelData; // qmllint disable unqualified
+                  root.menuState = removeState; // qmllint disable unqualified
                 }
               }
             }

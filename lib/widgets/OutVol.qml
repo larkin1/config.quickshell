@@ -10,43 +10,44 @@ Item {
   implicitWidth: vollayout.implicitWidth + Theme.margin
   implicitHeight: Theme.barHeight
 
-  signal changed()
+  signal changed
 
   readonly property var sink: Pipewire.defaultAudioSink
 
   function sinkIconType(node) {
-      if (!node) return "../../svg/vol-max.svg";
-      const p = node.properties || {};
-      const name = (node.name || "").toLowerCase();
-      const factory = (p["factory.name"] || "").toLowerCase();
-
-      if (factory.includes("bluez5") || name.startsWith("bluez_output.")) {
-        if ( node.audio?.muted ) {
-          return "../../svg/bt-off.svg";
-        } else {
-          return "../../svg/bt-on.svg";
-        }
-      }
-
-      if (node.audio) {
-        const volume = node.audio.volume
-        if ( node.audio.muted ) {
-          return "../../svg/vol-off.svg";
-        }
-        if ( volume > 0.75 ) {
-          return "../../svg/vol-max.svg";
-        } else if ( volume > 0.25 ) {
-          return "../../svg/vol-med.svg";
-        } else {
-          return "../../svg/vol-min.svg"
-        }
-      }
-
+    if (!node)
       return "../../svg/vol-max.svg";
+    const p = node.properties || {};
+    const name = (node.name || "").toLowerCase();
+    const factory = (p["factory.name"] || "").toLowerCase();
+
+    if (factory.includes("bluez5") || name.startsWith("bluez_output.")) {
+      if (node.audio?.muted) {
+        return "../../svg/bt-off.svg";
+      } else {
+        return "../../svg/bt-on.svg";
+      }
+    }
+
+    if (node.audio) {
+      const volume = node.audio.volume;
+      if (node.audio.muted) {
+        return "../../svg/vol-off.svg";
+      }
+      if (volume > 0.75) {
+        return "../../svg/vol-max.svg";
+      } else if (volume > 0.25) {
+        return "../../svg/vol-med.svg";
+      } else {
+        return "../../svg/vol-min.svg";
+      }
+    }
+
+    return "../../svg/vol-max.svg";
   }
 
   PwObjectTracker {
-    objects: root.sink ? [ root.sink ] : []
+    objects: root.sink ? [root.sink] : []
   }
 
   RowLayout {
@@ -58,7 +59,9 @@ Item {
       implicitSize: Theme.fontSize
       mipmap: true
       source: Qt.resolvedUrl(root.sinkIconType(root.sink))
-      onSourceChanged: { root.changed() }
+      onSourceChanged: {
+        root.changed();
+      }
       opacity: root.sink?.audio.muted ? 0.38 : 1.0
       layer.enabled: true
       layer.effect: MultiEffect {
@@ -70,7 +73,9 @@ Item {
       id: vol
       text: (root.sink && root.sink.audio) ? Math.round(root.sink.audio.volume * 100) + "%" : "-%"
       color: root.sink?.audio.muted ? Qt.alpha(Colors.md3.on_surface, 0.38) : Colors.md3.on_surface
-      onTextChanged: { root.changed() }
+      onTextChanged: {
+        root.changed();
+      }
     }
   }
 
@@ -78,15 +83,15 @@ Item {
     visible: true
     anchors.fill: parent
     onClicked: {
-      root.sink.audio.muted = !root.sink.audio.muted
+      root.sink.audio.muted = !root.sink.audio.muted;
     }
     cursorShape: Qt.PointingHandCursor
-    onWheel: (wheel) => {
+    onWheel: wheel => {
       if (wheel.angleDelta.y < 0) {
-        root.sink.audio.volume -= 0.01
+        root.sink.audio.volume -= 0.01;
       }
       if (wheel.angleDelta.y > 0) {
-        root.sink.audio.volume += 0.01
+        root.sink.audio.volume += 0.01;
       }
       wheel.accepted = true;
     }

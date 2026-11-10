@@ -10,7 +10,7 @@ Item {
 
   anchors.centerIn: parent
   implicitHeight: Theme.barHeight
-  implicitWidth: visible ? content.implicitWidth + Theme.margin: 0
+  implicitWidth: visible ? content.implicitWidth + Theme.margin : 0
   visible: battery ?? false
 
   property var battery
@@ -22,17 +22,20 @@ Item {
     running: true
     repeat: true
     onTriggered: {
-      root.getBatt()
-      root.updateBattIcon()
+      root.getBatt();
+      root.updateBattIcon();
 
-      if (root.pollCount > 60) stop() // poll for a battery for a minute
-      root.pollCount++
+      if (root.pollCount > 60)
+        stop(); // poll for a battery for a minute
+      root.pollCount++;
     }
   }
 
   Connections {
     target: root.battery ?? null
-    function onStateChanged() { root.updateBattIcon() }
+    function onStateChanged() {
+      root.updateBattIcon();
+    }
   }
 
   function getBatt() {
@@ -40,37 +43,40 @@ Item {
 
     for (let i = 0; i < devices.length; i++) {
       if (devices[i]?.isLaptopBattery) {
-        root.battery = devices[i]
-        timer.stop() // stop polling when the system acquires a battery
+        root.battery = devices[i];
+        timer.stop(); // stop polling when the system acquires a battery
         return;
       }
     }
-    root.battery = null
+    root.battery = null;
   }
 
   function battIcon() {
-    if (!root.battery) return "../../svg/battery-empty.svg";
+    if (!root.battery)
+      return "../../svg/battery-empty.svg";
 
-    let state = root.battery?.state
-    let perc = root.battery?.percentage
+    let state = root.battery?.state;
+    let perc = root.battery?.percentage;
 
     if (state === UPowerDeviceState.Charging) {
-      return "../../svg/battery-charging.svg"
+      return "../../svg/battery-charging.svg";
     }
 
     if (perc >= 0.75) {
-      return "../../svg/battery-full.svg"
+      return "../../svg/battery-full.svg";
     }
     if (perc >= 0.50) {
-      return "../../svg/battery-mid.svg"
+      return "../../svg/battery-mid.svg";
     }
     if (perc >= 0.25) {
-      return "../../svg/battery-low.svg"
+      return "../../svg/battery-low.svg";
     }
-    return "../../svg/battery-empty.svg"
+    return "../../svg/battery-empty.svg";
   }
 
-  function updateBattIcon() { icon.source = Qt.resolvedUrl(root.battIcon()) }
+  function updateBattIcon() {
+    icon.source = Qt.resolvedUrl(root.battIcon());
+  }
 
   RowLayout {
     id: content
@@ -89,14 +95,11 @@ Item {
     }
 
     StyledText {
-      text:
-        hover.hovered
-        ? Math.round((root.battery?.state === UPowerDeviceState.Charging)? root.battery?.timeToFull / 60 : root.battery?.timeToEmpty / 60) + "m"
-        : Math.round(root.battery?.percentage * 100) + "%"
+      text: hover.hovered ? Math.round((root.battery?.state === UPowerDeviceState.Charging) ? root.battery?.timeToFull / 60 : root.battery?.timeToEmpty / 60) + "m" : Math.round(root.battery?.percentage * 100) + "%"
 
       color: Qt.tint(Colors.md3.error, Qt.alpha(Colors.md3.on_surface, root.battery?.percentage ?? 1))
       onTextChanged: {
-        root.updateBattIcon()
+        root.updateBattIcon();
       }
     }
   }

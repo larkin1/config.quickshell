@@ -4,12 +4,11 @@ import Quickshell.Hyprland
 import "../.."
 
 Row {
+  id: root
   required property color bgColor
   required property color activeBGColor
   required property color inactiveTextColor
   required property color activeTextColor
-
-  id: root
   anchors.verticalCenter: parent.verticalCenter
   height: Theme.barHeight
   clip: true
@@ -54,10 +53,12 @@ Row {
         width: parent.width - 3
         height: parent.height - 6
         color: workspaceHover.hovered ? root.activeBGColor : "transparent" // qmllint disable unqualified
-        radius: height/2
+        radius: height / 2
         anchors.centerIn: parent
         Behavior on color {
-          ColorAnimation { duration: Theme.colorAnimationDuration }
+          ColorAnimation {
+            duration: Theme.colorAnimationDuration
+          }
         }
       }
 

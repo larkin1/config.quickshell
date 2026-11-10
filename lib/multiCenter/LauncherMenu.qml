@@ -8,18 +8,14 @@ Item {
   id: root
   anchors.fill: parent
 
-  readonly property var items: DesktopEntries.applications.values
-    .filter(e => !e.noDisplay)
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(e => ({
+  readonly property var items: DesktopEntries.applications.values.filter(e => !e.noDisplay).sort((a, b) => a.name.localeCompare(b.name)).map(e => ({
         id: e.id,
         name: e.name || e.id,
         genericName: e.genericName,
         comment: e.comment,
         icon: e.icon,
         entry: e
-    }))
-
+      }))
 
   ListMgr {
     id: programList
@@ -29,81 +25,87 @@ Item {
     onListChanged: jumpFirst()
     onSearchChanged: jumpFirst()
     onCurrentIdxChanged: {
-      listView.positionViewAtIndex(programList.currentIdx, ListView.Contain)
+      listView.positionViewAtIndex(programList.currentIdx, ListView.Contain);
     }
   }
 
   onVisibleChanged: {
     if (visible) {
-      searchField.text = ""
-      searchField.forceActiveFocus()
-      programList.jumpFirst()
+      searchField.text = "";
+      searchField.forceActiveFocus();
+      programList.jumpFirst();
     }
   }
 
-    function handleKeys(event) {
+  function handleKeys(event) {
     switch (event.key) {
-      case Qt.Key_J:
-      case Qt.Key_Down:
-        programList.moveDn()
-        event.accepted = true; break
-      case Qt.Key_K:
-      case Qt.Key_Up:
-        programList.moveUp()
-        event.accepted = true; break
-      case Qt.Key_G:
-        programList.jumpFirst()
-        event.accepted = true; break
-      case Qt.Key_Return:
-      case Qt.Key_Space:
-        if (programList.visible.length > 0 && programList.currentItem)
-          programList.currentItem.entry.execute()
-        else
-          if (searchField.text !== "") Quickshell.execDetached(["sh", "-c", searchField.text])
-        ShellUI.close()
-        event.accepted = true; break
-      case Qt.Key_Slash:
-      case Qt.Key_I:
-      case Qt.Key_A:
-        searchField.forceActiveFocus()
-        event.accepted = true; break
+    case Qt.Key_J:
+    case Qt.Key_Down:
+      programList.moveDn();
+      event.accepted = true;
+      break;
+    case Qt.Key_K:
+    case Qt.Key_Up:
+      programList.moveUp();
+      event.accepted = true;
+      break;
+    case Qt.Key_G:
+      programList.jumpFirst();
+      event.accepted = true;
+      break;
+    case Qt.Key_Return:
+    case Qt.Key_Space:
+      if (programList.visible.length > 0 && programList.currentItem)
+        programList.currentItem.entry.execute();
+      else if (searchField.text !== "")
+        Quickshell.execDetached(["sh", "-c", searchField.text]);
+      ShellUI.close();
+      event.accepted = true;
+      break;
+    case Qt.Key_Slash:
+    case Qt.Key_I:
+    case Qt.Key_A:
+      searchField.forceActiveFocus();
+      event.accepted = true;
+      break;
     }
   }
 
   function handleShiftKeys(event) {
     switch (event.key) {
-      case Qt.Key_J:
-      case Qt.Key_G:
-      case Qt.Key_Down:
-        programList.jumpLast()
-        event.accepted = true; break
-      case Qt.Key_K:
-      case Qt.Key_Up:
-        programList.jumpFirst()
-        event.accepted = true; break
+    case Qt.Key_J:
+    case Qt.Key_G:
+    case Qt.Key_Down:
+      programList.jumpLast();
+      event.accepted = true;
+      break;
+    case Qt.Key_K:
+    case Qt.Key_Up:
+      programList.jumpFirst();
+      event.accepted = true;
+      break;
     }
   }
 
   Keys.onPressed: event => {
     if (event.modifiers === Qt.ShiftModifier) {
-      handleShiftKeys(event)
+      handleShiftKeys(event);
     } else {
       handleKeys(event);
     }
   }
 
-
   ColumnLayout {
     id: content
-    width: parent.width - Theme.margin*2
-    height: parent.height - Theme.margin*2
+    width: parent.width - Theme.margin * 2
+    height: parent.height - Theme.margin * 2
     anchors.centerIn: parent
     spacing: Theme.margin
 
     Rectangle {
       id: header
       implicitWidth: parent.width
-      implicitHeight: (root.height - (Theme.margin*2)) / 13
+      implicitHeight: (root.height - (Theme.margin * 2)) / 13
       radius: Theme.radius
       color: Colors.md3.surface_container
 
@@ -111,7 +113,7 @@ Item {
         id: searchField
 
         anchors.centerIn: parent
-        implicitWidth: parent.width - Theme.margin*2
+        implicitWidth: parent.width - Theme.margin * 2
         horizontalAlignment: TextInput.AlignHCenter
 
         renderType: Text.NativeRendering
@@ -126,8 +128,8 @@ Item {
 
         Keys.onPressed: event => {
           if (event.key == Qt.Key_Escape) {
-            root.forceActiveFocus()
-            event.accepted = true
+            root.forceActiveFocus();
+            event.accepted = true;
           }
         }
 
@@ -152,7 +154,7 @@ Item {
         anchors.fill: parent
         anchors.margins: Theme.margin
         clip: true
-        spacing: Theme.margin/2
+        spacing: Theme.margin / 2
 
         model: programList.visible
         delegate: Rectangle {
@@ -174,16 +176,22 @@ Item {
             radius: parent.radius
             color: Colors.md3.on_surface
             opacity: hover.hovered ? 0.08 : 0
-            Behavior on opacity { NumberAnimation { duration: Theme.animationDuration } }
+            Behavior on opacity {
+              NumberAnimation {
+                duration: Theme.animationDuration
+              }
+            }
           }
 
-          HoverHandler { id: hover }
+          HoverHandler {
+            id: hover
+          }
 
           MouseArea {
             anchors.fill: parent
             onClicked: {
-              listItem.modelData.entry.execute()
-              ShellUI.close()
+              listItem.modelData.entry.execute();
+              ShellUI.close();
             }
           }
 

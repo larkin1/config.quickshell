@@ -21,9 +21,7 @@ Variants {
 
     property var modelData
 
-    readonly property bool onFocusedScreen:
-      Hyprland.focusedMonitor?.name ===
-      modelData.name
+    readonly property bool onFocusedScreen: Hyprland.focusedMonitor?.name === modelData.name
 
     LeftGroup {
       id: leftGroup

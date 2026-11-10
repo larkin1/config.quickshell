@@ -31,10 +31,10 @@ Item {
         id: audioHoverInit
         onHoveredChanged: {
           if (hovered) {
-            audioCloseTimer.stop()
-            audioOpen.start()
+            audioCloseTimer.stop();
+            audioOpen.start();
           } else {
-            audioCloseTimer.restart()
+            audioCloseTimer.restart();
           }
         }
       }
@@ -52,9 +52,9 @@ Item {
         id: audioHover
         onHoveredChanged: {
           if (hovered) {
-            audioCloseTimer.stop()
+            audioCloseTimer.stop();
           } else {
-            audioCloseTimer.restart()
+            audioCloseTimer.restart();
           }
         }
       }
@@ -64,7 +64,7 @@ Item {
         interval: Theme.collapseTimeout
         onTriggered: {
           if (!audioHover.hovered) {
-            audioClose.start()
+            audioClose.start();
           }
         }
       }
@@ -75,15 +75,15 @@ Item {
         Mic {
           id: mic
           onChanged: {
-            audioOpen.start()
-            audioCloseTimer.restart()
+            audioOpen.start();
+            audioCloseTimer.restart();
           }
         }
         OutVol {
           id: outVol
           onChanged: {
-            audioOpen.start()
-            audioCloseTimer.restart()
+            audioOpen.start();
+            audioCloseTimer.restart();
           }
         }
       }
@@ -150,10 +150,10 @@ Item {
         id: trayHoverInit
         onHoveredChanged: {
           if (hovered) {
-            trayCloseTimer.stop()
-            trayOpen.start()
+            trayCloseTimer.stop();
+            trayOpen.start();
           } else {
-            trayCloseTimer.restart()
+            trayCloseTimer.restart();
           }
         }
       }
@@ -171,9 +171,9 @@ Item {
         id: trayHover
         onHoveredChanged: {
           if (hovered) {
-            trayCloseTimer.stop()
+            trayCloseTimer.stop();
           } else {
-            trayCloseTimer.start()
+            trayCloseTimer.start();
           }
         }
       }
@@ -183,7 +183,7 @@ Item {
         interval: Theme.collapseTimeout
         onTriggered: {
           if (!trayHover.hovered) {
-            trayClose.start()
+            trayClose.start();
           }
         }
       }
@@ -191,8 +191,8 @@ Item {
       Tray {
         id: tray
         onChanged: {
-          trayOpen.start()
-          trayCloseTimer.restart()
+          trayOpen.start();
+          trayCloseTimer.restart();
         }
       }
 
@@ -242,12 +242,12 @@ Item {
 
     PowerButton {
       id: power
-      Layout.rightMargin: (Theme.margin/1.5)
+      Layout.rightMargin: (Theme.margin / 1.5)
       onClicked: {
         if (Record.recording) {
-          Record.toggle()
+          Record.toggle();
         } else {
-          ShellUI.openPower()
+          ShellUI.openPower();
         }
       }
     }

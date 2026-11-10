@@ -19,8 +19,12 @@ Item {
 
   activeFocusOnTab: true
 
-  function forceActiveFocus() { input.forceActiveFocus() }
-  function clear() { input.text = "" }
+  function forceActiveFocus() {
+    input.forceActiveFocus();
+  }
+  function clear() {
+    input.text = "";
+  }
 
   RowLayout {
     spacing: 0
@@ -73,7 +77,7 @@ Item {
         onTextEdited: root.textEdited(text)
 
         onAccepted: {
-          root.accepted(text)
+          root.accepted(text);
         }
       }
 

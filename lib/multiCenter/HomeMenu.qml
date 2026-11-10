@@ -7,16 +7,18 @@ Item {
   anchors.fill: parent
 
   onVisibleChanged: {
-    root.opacity = 0.0
+    root.opacity = 0.0;
     if (visible) {
-      root.forceActiveFocus()
-      fadeIn.restart()
+      root.forceActiveFocus();
+      fadeIn.restart();
     }
   }
 
   SequentialAnimation {
     id: fadeIn
-    PauseAnimation { duration: Theme.animationDuration*2 }
+    PauseAnimation {
+      duration: Theme.animationDuration * 2
+    }
     PropertyAnimation {
       target: root
       property: "opacity"
@@ -28,47 +30,57 @@ Item {
 
   Keys.onPressed: event => {
     switch (event.key) {
-      case Qt.Key_Space:
-        Media.currentPlayer?.togglePlaying()
-        event.accepted = true; break
-      case Qt.Key_H:
-      case Qt.Key_Left:
-        powerButton.forceActiveFocus()
-        event.accepted = true; break
-      case Qt.Key_J:
-      case Qt.Key_Down:
-        powerButton.forceActiveFocus()
-        event.accepted = true; break
-      case Qt.Key_K:
-      case Qt.Key_Up:
-        powerButton.forceActiveFocus()
-        event.accepted = true; break
-      case Qt.Key_L:
-      case Qt.Key_Right:
-        powerButton.forceActiveFocus()
-        event.accepted = true; break
-      case Qt.Key_P:
-        powerButton.clicked()
-        event.accepted = true; break
-      case Qt.Key_B:
-        bluetoothButton.clicked()
-        event.accepted = true; break
-      case Qt.Key_A:
-        audioButton.clicked()
-        event.accepted = true; break
-      case Qt.Key_S:
-        screenRecButton.clicked()
-        event.accepted = true; break
-      case Qt.Key_R:
-        launcherButton.clicked()
-        event.accepted = true; break
+    case Qt.Key_Space:
+      Media.currentPlayer?.togglePlaying();
+      event.accepted = true;
+      break;
+    case Qt.Key_H:
+    case Qt.Key_Left:
+      powerButton.forceActiveFocus();
+      event.accepted = true;
+      break;
+    case Qt.Key_J:
+    case Qt.Key_Down:
+      powerButton.forceActiveFocus();
+      event.accepted = true;
+      break;
+    case Qt.Key_K:
+    case Qt.Key_Up:
+      powerButton.forceActiveFocus();
+      event.accepted = true;
+      break;
+    case Qt.Key_L:
+    case Qt.Key_Right:
+      powerButton.forceActiveFocus();
+      event.accepted = true;
+      break;
+    case Qt.Key_P:
+      powerButton.clicked();
+      event.accepted = true;
+      break;
+    case Qt.Key_B:
+      bluetoothButton.clicked();
+      event.accepted = true;
+      break;
+    case Qt.Key_A:
+      audioButton.clicked();
+      event.accepted = true;
+      break;
+    case Qt.Key_S:
+      screenRecButton.clicked();
+      event.accepted = true;
+      break;
+    case Qt.Key_R:
+      launcherButton.clicked();
+      event.accepted = true;
+      break;
     }
   }
 
   GridLayout {
     id: buttons
 
-    readonly property int buttonHeight: root.width/5
+    readonly property int buttonHeight: root.width / 5
 
     rowSpacing: Theme.margin
     columnSpacing: Theme.margin
@@ -84,7 +96,7 @@ Item {
       implicitHeight: parent.buttonHeight
       iconPath: "../../svg/power-button.svg"
       onClicked: {
-        ShellUI.openPower()
+        ShellUI.openPower();
       }
       focusRight: bluetoothButton
       focusDown: launcherButton
@@ -97,7 +109,7 @@ Item {
       implicitHeight: parent.buttonHeight
       iconPath: "../../svg/bt.svg"
       onClicked: {
-        ShellUI.multiMenu = "bluetooth"
+        ShellUI.multiMenu = "bluetooth";
       }
       focusLeft: powerButton
       focusRight: audioButton
@@ -111,7 +123,7 @@ Item {
       implicitHeight: parent.buttonHeight
       iconPath: "../../svg/speaker.svg"
       onClicked: {
-        ShellUI.multiMenu = "audio"
+        ShellUI.multiMenu = "audio";
       }
       focusLeft: bluetoothButton
     }
@@ -125,7 +137,7 @@ Item {
       focusUp: bluetoothButton
       focusLeft: launcherButton
       onClicked: {
-        Record.toggle()
+        Record.toggle();
       }
     }
 
@@ -136,7 +148,7 @@ Item {
       implicitHeight: parent.buttonHeight
       iconPath: "../../svg/apps.svg"
       onClicked: {
-        ShellUI.multiMenu = "launcher"
+        ShellUI.multiMenu = "launcher";
       }
       focusRight: screenRecButton
       focusUp: powerButton

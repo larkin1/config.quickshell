@@ -10,19 +10,19 @@ Scope {
   id: root
 
   function lock() {
-    pam.start()
-    lock.locked = true
-    password = ""
+    pam.start();
+    lock.locked = true;
+    password = "";
   }
   function unlock() {
-    lock.locked = false
+    lock.locked = false;
   }
   function submit(pw) {
     if (!pam.active) {
-      pam.start()
+      pam.start();
     }
-    authFailed = false
-    pam.respond(pw)
+    authFailed = false;
+    pam.respond(pw);
   }
 
   property string password: ""
@@ -46,16 +46,18 @@ Scope {
         anchors.centerIn: parent
 
         PasswordField {
-          anchors.centerIn: parent
           id: passwordField
+          anchors.centerIn: parent
           text: LockScreen.password
-          onTextEdited: {LockScreen.password = text}
+          onTextEdited: {
+            LockScreen.password = text;
+          }
           error: LockScreen.authFailed
           authenticating: LockScreen.authenticating
 
           onAccepted: {
-            LockScreen.authenticating = true
-            LockScreen.submit(text)
+            LockScreen.authenticating = true;
+            LockScreen.submit(text);
           }
 
           Timer {
@@ -73,13 +75,13 @@ Scope {
     config: "login"
     onCompleted: result => {
       if (result === PamResult.Success) {
-        root.unlock()
-        root.authenticating = false
+        root.unlock();
+        root.authenticating = false;
       } else {
-        pam.start()
-        root.password = ""
-        root.authFailed = true
-        root.authenticating = false
+        pam.start();
+        root.password = "";
+        root.authFailed = true;
+        root.authenticating = false;
       }
     }
   }
@@ -87,7 +89,7 @@ Scope {
   IpcHandler {
     target: "lockScreen"
     function lock(): void {
-      root.lock()
+      root.lock();
     }
   }
 }

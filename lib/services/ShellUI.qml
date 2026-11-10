@@ -15,35 +15,49 @@ Singleton {
   readonly property bool powerOpen: mode === "power"
 
   function close() {
-    mode = "none"
-    multiMenu = ""
+    mode = "none";
+    multiMenu = "";
   }
 
   function openMulti(menu) {
-    mode = "multi"
-    multiMenu = menu ?? "home"
+    mode = "multi";
+    multiMenu = menu ?? "home";
   }
 
   function openPower() {
-    mode = "power"
+    mode = "power";
   }
 
   function toggleMulti(menu) {
-    if (mode === "multi") close()
-    else openMulti(menu)
+    if (mode === "multi")
+      close();
+    else
+      openMulti(menu);
   }
 
   function togglePower() {
-    if (mode === "power") close()
-    else openPower()
+    if (mode === "power")
+      close();
+    else
+      openPower();
   }
 
   IpcHandler {
     target: "screens"
-    function close(): void { ui.close() }
-    function toggleMulti(): void { ui.toggleMulti("home") }
-    function openMulti(menu: string): void { ui.openMulti(menu) }
-    function togglePower(): void { ui.togglePower() }
-    function openPower(): void { ui.openPower() }
+    function close(): void {
+      ui.close();
+    }
+    function toggleMulti(): void {
+      ui.toggleMulti("home");
+    }
+    function openMulti(menu: string): void {
+      ui.openMulti(menu);
+    }
+    function togglePower(): void {
+      ui.togglePower();
+    }
+    function openPower(): void {
+      ui.openPower();
+    }
   }
 }

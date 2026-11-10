@@ -5,7 +5,7 @@ import "../.."
 
 Item {
   id: root
-  signal clicked()
+  signal clicked
 
   implicitWidth: powerButton.width
   height: Theme.barHeight
@@ -17,9 +17,9 @@ Item {
 
   onRecChanged: {
     if (rec) {
-      recOn.restart()
+      recOn.restart();
     } else {
-      recOff.restart()
+      recOff.restart();
     }
   }
 
@@ -34,7 +34,7 @@ Item {
     }
     ScriptAction {
       script: {
-        root.iconPath = Qt.resolvedUrl("../../svg/power-button.svg")
+        root.iconPath = Qt.resolvedUrl("../../svg/power-button.svg");
       }
     }
     NumberAnimation {
@@ -57,7 +57,7 @@ Item {
     }
     ScriptAction {
       script: {
-        root.iconPath = Qt.resolvedUrl("../../svg/video.svg")
+        root.iconPath = Qt.resolvedUrl("../../svg/video.svg");
       }
     }
     NumberAnimation {

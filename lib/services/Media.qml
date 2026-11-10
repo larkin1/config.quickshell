@@ -13,14 +13,26 @@ Singleton {
   property var prevPlayers: []
   property var playerIcon: {
     switch (currentPlayer?.identity) {
-      case "Mozilla firefox":
-        return { icon:"󰈹", color: "#FF9500" };
-      case "Helium":
-        return { icon:"", color: "#3450D1" };
-      case "Spotify":
-        return { icon:"", color: "#1ED760" };
-      default:
-        return { icon:"", color: Colors.md3.on_surface };
+    case "Mozilla firefox":
+      return {
+        icon: "󰈹",
+        color: "#FF9500"
+      };
+    case "Helium":
+      return {
+        icon: "",
+        color: "#3450D1"
+      };
+    case "Spotify":
+      return {
+        icon: "",
+        color: "#1ED760"
+      };
+    default:
+      return {
+        icon: "",
+        color: Colors.md3.on_surface
+      };
     }
   }
 
@@ -29,14 +41,17 @@ Singleton {
   onPlayerListChanged: selectPlayer(playingPlayers)
 
   function selectPlayer(now) {
-    const started = now.find(p => !prevPlayers.includes(p))
-    prevPlayers = now
-    if (started) { currentPlayer = started; return; }
+    const started = now.find(p => !prevPlayers.includes(p));
+    prevPlayers = now;
+    if (started) {
+      currentPlayer = started;
+      return;
+    }
     if (currentPlayer && playerList.includes(currentPlayer)) {
       if (currentPlayer.playbackState === MprisPlaybackState.Playing || now.length === 0) {
-        return
+        return;
       }
     }
-    currentPlayer = now[0] ?? playerList[0] ?? null
+    currentPlayer = now[0] ?? playerList[0] ?? null;
   }
 }

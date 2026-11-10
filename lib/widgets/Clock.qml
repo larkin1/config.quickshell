@@ -16,7 +16,7 @@ Item {
   HoverHandler {
     id: hover
     onHoveredChanged: {
-      clockText.text = Qt.formatDateTime(new Date(), (hovered ? root.altTimeStr : root.timeStr))
+      clockText.text = Qt.formatDateTime(new Date(), (hovered ? root.altTimeStr : root.timeStr));
     }
   }
 
@@ -31,7 +31,7 @@ Item {
     running: true
     repeat: true
     onTriggered: {
-      clockText.text = Qt.formatDateTime(new Date(), (hover.hovered ? root.altTimeStr : root.timeStr))
+      clockText.text = Qt.formatDateTime(new Date(), (hover.hovered ? root.altTimeStr : root.timeStr));
     }
   }
 

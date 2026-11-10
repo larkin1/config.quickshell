@@ -28,8 +28,8 @@ PanelWindow { //qmllint disable uncreatable-type
 
   onVisibleChanged: {
     if (visible) {
-      open.restart()
-      content.forceActiveFocus()
+      open.restart();
+      content.forceActiveFocus();
       grab.active = true;
     }
   }
@@ -42,16 +42,17 @@ PanelWindow { //qmllint disable uncreatable-type
 
     Keys.onPressed: event => {
       switch (event.key) {
-        case Qt.Key_H:
-        case Qt.Key_J:
-        case Qt.Key_K:
-        case Qt.Key_L:
-          poweroff.forceActiveFocus()
-          event.accepted = true; break
-        case Qt.Key_Escape:
-        case Qt.Key_Q:
-          ShellUI.close()
-          event.accepted = true;
+      case Qt.Key_H:
+      case Qt.Key_J:
+      case Qt.Key_K:
+      case Qt.Key_L:
+        poweroff.forceActiveFocus();
+        event.accepted = true;
+        break;
+      case Qt.Key_Escape:
+      case Qt.Key_Q:
+        ShellUI.close();
+        event.accepted = true;
       }
     }
 
@@ -122,7 +123,7 @@ PanelWindow { //qmllint disable uncreatable-type
       focusRight: poweroff
 
       onClicked: {
-        LockScreen.lock()
+        LockScreen.lock();
       }
     }
 
@@ -140,14 +141,62 @@ PanelWindow { //qmllint disable uncreatable-type
       properties: "buttonOpacity,implicitWidth"
       value: 0
     }
-    NumberAnimation { target: poweroff; property: "implicitWidth"; to: content.implicitHeight; duration: Theme.animationDuration; easing: Easing.InQuart; }
-    NumberAnimation { target: poweroff; property: "buttonOpacity"; to: 1; duration: Theme.animationDuration*0.5; easing: Theme.animationEasing; }
-    NumberAnimation { target: reboot; property: "implicitWidth"; to: content.implicitHeight; duration: Theme.animationDuration; easing: Easing.InQuart; }
-    NumberAnimation { target: reboot; property: "buttonOpacity"; to: 1; duration: Theme.animationDuration*0.5; easing: Theme.animationEasing; }
-    NumberAnimation { target: sleep; property: "implicitWidth"; to: content.implicitHeight; duration: Theme.animationDuration; easing: Easing.InQuart; }
-    NumberAnimation { target: sleep; property: "buttonOpacity"; to: 1; duration: Theme.animationDuration*0.5; easing: Theme.animationEasing; }
-    NumberAnimation { target: lock; property: "implicitWidth"; to: content.implicitHeight; duration: Theme.animationDuration; easing: Easing.InQuart; }
-    NumberAnimation { target: lock; property: "buttonOpacity"; to: 1; duration: Theme.animationDuration*0.5; easing: Theme.animationEasing; }
+    NumberAnimation {
+      target: poweroff
+      property: "implicitWidth"
+      to: content.implicitHeight
+      duration: Theme.animationDuration
+      easing: Easing.InQuart
+    }
+    NumberAnimation {
+      target: poweroff
+      property: "buttonOpacity"
+      to: 1
+      duration: Theme.animationDuration * 0.5
+      easing: Theme.animationEasing
+    }
+    NumberAnimation {
+      target: reboot
+      property: "implicitWidth"
+      to: content.implicitHeight
+      duration: Theme.animationDuration
+      easing: Easing.InQuart
+    }
+    NumberAnimation {
+      target: reboot
+      property: "buttonOpacity"
+      to: 1
+      duration: Theme.animationDuration * 0.5
+      easing: Theme.animationEasing
+    }
+    NumberAnimation {
+      target: sleep
+      property: "implicitWidth"
+      to: content.implicitHeight
+      duration: Theme.animationDuration
+      easing: Easing.InQuart
+    }
+    NumberAnimation {
+      target: sleep
+      property: "buttonOpacity"
+      to: 1
+      duration: Theme.animationDuration * 0.5
+      easing: Theme.animationEasing
+    }
+    NumberAnimation {
+      target: lock
+      property: "implicitWidth"
+      to: content.implicitHeight
+      duration: Theme.animationDuration
+      easing: Easing.InQuart
+    }
+    NumberAnimation {
+      target: lock
+      property: "buttonOpacity"
+      to: 1
+      duration: Theme.animationDuration * 0.5
+      easing: Theme.animationEasing
+    }
   }
 
   HyprlandFocusGrab {
@@ -157,6 +206,8 @@ PanelWindow { //qmllint disable uncreatable-type
 
   Connections {
     target: grab
-    function onCleared() { ShellUI.close() }
+    function onCleared() {
+      ShellUI.close();
+    }
   }
 }

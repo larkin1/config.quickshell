@@ -11,7 +11,7 @@ Item {
   implicitHeight: parent.height
   implicitWidth: root.height
 
-  signal clicked()
+  signal clicked
 
   property string iconPath: ""
   property color iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
@@ -30,38 +30,42 @@ Item {
 
   onClicked: {
     if (root.command !== undefined && root.command !== null) {
-      Quickshell.execDetached(root.command)
+      Quickshell.execDetached(root.command);
     }
   }
 
   Keys.onPressed: event => {
     switch (event.key) {
-      case Qt.Key_H:
-      case Qt.Key_Left:
-        if (root.focusLeft) root.focusLeft.forceActiveFocus();
-        event.accepted = true;
-        break;
-      case Qt.Key_L:
-      case Qt.Key_Right:
-        if (root.focusRight) root.focusRight.forceActiveFocus();
-        event.accepted = true;
-        break;
-      case Qt.Key_J:
-      case Qt.Key_Down:
-        if (root.focusDown) root.focusDown.forceActiveFocus();
-        event.accepted = true;
-        break;
-      case Qt.Key_K:
-      case Qt.Key_Up:
-        if (root.focusUp) root.focusUp.forceActiveFocus();
-        event.accepted = true;
-        break;
-      case Qt.Key_Return:
-      case Qt.Key_Enter:
-      case Qt.Key_Space:
-        clicked();
-        event.accepted = true;
-        break;
+    case Qt.Key_H:
+    case Qt.Key_Left:
+      if (root.focusLeft)
+        root.focusLeft.forceActiveFocus();
+      event.accepted = true;
+      break;
+    case Qt.Key_L:
+    case Qt.Key_Right:
+      if (root.focusRight)
+        root.focusRight.forceActiveFocus();
+      event.accepted = true;
+      break;
+    case Qt.Key_J:
+    case Qt.Key_Down:
+      if (root.focusDown)
+        root.focusDown.forceActiveFocus();
+      event.accepted = true;
+      break;
+    case Qt.Key_K:
+    case Qt.Key_Up:
+      if (root.focusUp)
+        root.focusUp.forceActiveFocus();
+      event.accepted = true;
+      break;
+    case Qt.Key_Return:
+    case Qt.Key_Enter:
+    case Qt.Key_Space:
+      clicked();
+      event.accepted = true;
+      break;
     }
   }
 
@@ -81,7 +85,7 @@ Item {
       anchors.fill: parent
       cursorShape: Qt.PointingHandCursor
       onClicked: {
-        root.clicked()
+        root.clicked();
       }
     }
 

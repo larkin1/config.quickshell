@@ -9,13 +9,13 @@ Item {
   implicitWidth: micIcon.implicitWidth + Theme.margin
   implicitHeight: Theme.barHeight
 
-  signal changed()
+  signal changed
 
   readonly property var source: Pipewire.defaultAudioSource
 
   PwObjectTracker {
     id: obj
-    objects: root.source ? [ root.source ] : []
+    objects: root.source ? [root.source] : []
   }
 
   IconImage {
@@ -30,14 +30,16 @@ Item {
       colorization: 1.00
       colorizationColor: Colors.md3.on_surface
     }
-    onSourceChanged: { root.changed() }
+    onSourceChanged: {
+      root.changed();
+    }
   }
 
   MouseArea {
     visible: true
     anchors.fill: parent
     onClicked: {
-      root.source.audio.muted = !root.source.audio.muted
+      root.source.audio.muted = !root.source.audio.muted;
     }
     cursorShape: Qt.PointingHandCursor
   }

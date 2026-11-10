@@ -24,12 +24,13 @@ Item {
     visible: Media.currentPlayer?.positionSupported ? true : false
     anchors.left: parent.left
     anchors.bottom: parent.bottom
-    radius: implicitHeight/2
+    radius: implicitHeight / 2
     implicitHeight: parent.height * 0.15
     implicitWidth: {
-      const p = Media.currentPlayer
-      if (!p?.length || !Number.isFinite(p.position / p.length)) return 0
-      return (parent.width - implicitHeight) * (p.position / p.length) + implicitHeight
+      const p = Media.currentPlayer;
+      if (!p?.length || !Number.isFinite(p.position / p.length))
+        return 0;
+      return (parent.width - implicitHeight) * (p.position / p.length) + implicitHeight;
     }
     color: Media.isPlaying ? root.activeProgressbarColor : root.progressbarColor
 
@@ -65,16 +66,17 @@ Item {
       textFormat: Text.StyledText
       text: {
         const player = Media.currentPlayer;
-        if (!player || !player.trackTitle) return "";
+        if (!player || !player.trackTitle)
+          return "";
 
         let result = "";
 
-        const icon = Media.playerIcon
+        const icon = Media.playerIcon;
         if (icon && icon.icon && icon.color) {
           result += "<font color='" + icon.color + "'>" + icon.icon + "</font> ";
         }
 
-        result += (Media.isPlaying ? " " : " ")
+        result += (Media.isPlaying ? " " : " ");
         result += Media.currentPlayer.trackTitle;
 
         if (player.trackArtist) {
@@ -89,15 +91,15 @@ Item {
       visible: Media.currentPlayer?.canTogglePlaying ?? false
       anchors.fill: parent
       onClicked: {
-        Media.currentPlayer.togglePlaying()
+        Media.currentPlayer.togglePlaying();
       }
       cursorShape: Media.currentPlayer?.canTogglePlaying ? Qt.PointingHandCursor : Qt.ArrowCursor
-      onWheel: (wheel) => {
+      onWheel: wheel => {
         if (wheel.angleDelta.y < 0) {
-          Media.currentPlayer.next()
+          Media.currentPlayer.next();
         }
         if (wheel.angleDelta.y > 0) {
-          Media.currentPlayer.previous()
+          Media.currentPlayer.previous();
         }
         wheel.accepted = true;
       }

@@ -20,13 +20,15 @@ Item {
     onLoaded: parse()
 
     function parse() {
-      const lines = text().split("\n")
-      let total = 0, avail = 0
+      const lines = text().split("\n");
+      let total = 0, avail = 0;
       for (const line of lines) {
-        if (line.startsWith("MemTotal:")) total = parseInt(line.replace(/\D+/g, "")) || 0
-        if (line.startsWith("MemAvailable:")) avail = parseInt(line.replace(/\D+/g, "")) || 0
+        if (line.startsWith("MemTotal:"))
+          total = parseInt(line.replace(/\D+/g, "")) || 0;
+        if (line.startsWith("MemAvailable:"))
+          avail = parseInt(line.replace(/\D+/g, "")) || 0;
       }
-      root.memUsage = total ? Math.round(((total-avail)/total * 100)) : 0
+      root.memUsage = total ? Math.round(((total - avail) / total * 100)) : 0;
     }
   }
 
@@ -51,14 +53,14 @@ Item {
       layer.enabled: true
       layer.effect: MultiEffect {
         colorization: 1.00
-        colorizationColor: Qt.tint(Colors.md3.on_surface, Qt.alpha(Colors.md3.error, root.memUsage/100)) // qmllint disable unqualified
+        colorizationColor: Qt.tint(Colors.md3.on_surface, Qt.alpha(Colors.md3.error, root.memUsage / 100)) // qmllint disable unqualified
       }
     }
 
     StyledText {
       id: memText
       text: root.memUsage + "%"
-      color: Qt.tint(Colors.md3.on_surface, Qt.alpha(Colors.md3.error, root.memUsage/100))
+      color: Qt.tint(Colors.md3.on_surface, Qt.alpha(Colors.md3.error, root.memUsage / 100))
     }
   }
 }

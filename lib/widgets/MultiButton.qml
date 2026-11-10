@@ -11,9 +11,7 @@ Item {
   implicitWidth: rect.implicitWidth
   implicitHeight: Theme.barHeight
 
-  readonly property bool onFocusedScreen:
-    Hyprland.focusedMonitor?.name ===
-    QsWindow.window?.screen.name // qmllint disable missing-property
+  readonly property bool onFocusedScreen: Hyprland.focusedMonitor?.name === QsWindow.window?.screen.name // qmllint disable missing-property
 
   readonly property bool open: ShellUI.multiOpen && onFocusedScreen
 
@@ -28,7 +26,7 @@ Item {
   MouseArea {
     anchors.fill: parent
     onClicked: {
-      ShellUI.toggleMulti()
+      ShellUI.toggleMulti();
     }
   }
 
@@ -36,9 +34,7 @@ Item {
     id: rect
     anchors.fill: parent
     color: root.background
-    implicitWidth: root.open
-      ? root.expandedWidth
-      : nixIcon.implicitWidth + Theme.margin
+    implicitWidth: root.open ? root.expandedWidth : nixIcon.implicitWidth + Theme.margin
 
     IconImage {
       id: nixIcon

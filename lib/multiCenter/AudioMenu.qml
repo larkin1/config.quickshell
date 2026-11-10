@@ -10,8 +10,8 @@ Item {
 
   onVisibleChanged: {
     if (visible) {
-      sinkList.currentItem = outputDevices?.length ? Pipewire.defaultAudioSink : null
-      root.forceActiveFocus()
+      sinkList.currentItem = outputDevices?.length ? Pipewire.defaultAudioSink : null;
+      root.forceActiveFocus();
     }
   }
 
@@ -28,81 +28,94 @@ Item {
     id: sinkList
     list: root.outputDevices
     onCurrentIdxChanged: {
-      listView.positionViewAtIndex(sinkList.currentIdx, ListView.Contain)
+      listView.positionViewAtIndex(sinkList.currentIdx, ListView.Contain);
     }
   }
 
   function handleKeys(event) {
     switch (event.key) {
-      case Qt.Key_J:
-        sinkList.moveDn()
-        event.accepted = true; break
-      case Qt.Key_K:
-        sinkList.moveUp()
-        event.accepted = true; break
-      case Qt.Key_G:
-        sinkList.jumpFirst()
-        event.accepted = true; break
-      case Qt.Key_H:
-        sinkList.currentItem.audio.volume -= 0.05
-        event.accepted = true; break
-      case Qt.Key_L:
-        sinkList.currentItem.audio.volume += 0.05
-        event.accepted = true; break
-      case Qt.Key_X:
-      case Qt.Key_D:
-      case Qt.Key_M:
-        sinkList.currentItem.audio.muted = !sinkList.currentItem.audio.muted
-        event.accepted = true; break
-      case Qt.Key_Return:
-      case Qt.Key_Space:
-        Pipewire.preferredDefaultAudioSink = sinkList.currentItem
-        event.accepted = true; break
+    case Qt.Key_J:
+      sinkList.moveDn();
+      event.accepted = true;
+      break;
+    case Qt.Key_K:
+      sinkList.moveUp();
+      event.accepted = true;
+      break;
+    case Qt.Key_G:
+      sinkList.jumpFirst();
+      event.accepted = true;
+      break;
+    case Qt.Key_H:
+      sinkList.currentItem.audio.volume -= 0.05;
+      event.accepted = true;
+      break;
+    case Qt.Key_L:
+      sinkList.currentItem.audio.volume += 0.05;
+      event.accepted = true;
+      break;
+    case Qt.Key_X:
+    case Qt.Key_D:
+    case Qt.Key_M:
+      sinkList.currentItem.audio.muted = !sinkList.currentItem.audio.muted;
+      event.accepted = true;
+      break;
+    case Qt.Key_Return:
+    case Qt.Key_Space:
+      Pipewire.preferredDefaultAudioSink = sinkList.currentItem;
+      event.accepted = true;
+      break;
     }
   }
 
   function handleShiftKeys(event) {
     switch (event.key) {
-      case Qt.Key_J:
-      case Qt.Key_G:
-        sinkList.jumpLast()
-        event.accepted = true; break
-      case Qt.Key_K:
-        sinkList.jumpFirst()
-        event.accepted = true; break
-      case Qt.Key_X:
-      case Qt.Key_D:
-      case Qt.Key_M:
-        const mute = !root.allMuted
-        for (const i of root.outputDevices) i.audio.muted = mute
-        event.accepted = true; break
-      case Qt.Key_H:
-        sinkList.currentItem.audio.volume = 0
-        event.accepted = true; break
-      case Qt.Key_L:
-        sinkList.currentItem.audio.volume = 1
-        event.accepted = true; break
+    case Qt.Key_J:
+    case Qt.Key_G:
+      sinkList.jumpLast();
+      event.accepted = true;
+      break;
+    case Qt.Key_K:
+      sinkList.jumpFirst();
+      event.accepted = true;
+      break;
+    case Qt.Key_X:
+    case Qt.Key_D:
+    case Qt.Key_M:
+      const mute = !root.allMuted;
+      for (const i of root.outputDevices)
+        i.audio.muted = mute;
+      event.accepted = true;
+      break;
+    case Qt.Key_H:
+      sinkList.currentItem.audio.volume = 0;
+      event.accepted = true;
+      break;
+    case Qt.Key_L:
+      sinkList.currentItem.audio.volume = 1;
+      event.accepted = true;
+      break;
     }
   }
 
   Keys.onPressed: event => {
     if (event.modifiers === Qt.ShiftModifier) {
-      handleShiftKeys(event)
+      handleShiftKeys(event);
     } else {
       handleKeys(event);
     }
   }
 
   ColumnLayout {
-    implicitWidth: parent.width - (Theme.margin*2)
-    implicitHeight: parent.height - (Theme.margin*2)
+    implicitWidth: parent.width - (Theme.margin * 2)
+    implicitHeight: parent.height - (Theme.margin * 2)
     anchors.centerIn: parent
     spacing: Theme.margin
 
     Rectangle {
       id: header
       implicitWidth: parent.width
-      implicitHeight: (root.height - (Theme.margin*2)) / 13
+      implicitHeight: (root.height - (Theme.margin * 2)) / 13
       radius: Theme.radius
       color: Colors.md3.surface_container
 
@@ -117,8 +130,9 @@ Item {
           iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
           onClicked: {
-            const mute = !root.allMuted
-            for (const i of root.outputDevices) i.audio.muted = mute
+            const mute = !root.allMuted;
+            for (const i of root.outputDevices)
+              i.audio.muted = mute;
           }
         }
       }
@@ -126,14 +140,14 @@ Item {
 
     Rectangle {
       implicitWidth: parent.width
-      implicitHeight: (root.height - (Theme.margin*2)) - header.implicitHeight - parent.spacing
+      implicitHeight: (root.height - (Theme.margin * 2)) - header.implicitHeight - parent.spacing
       color: Colors.md3.surface_container
       radius: Theme.radius
 
       ListView {
         id: listView
         anchors.margins: Theme.margin
-        spacing: Theme.margin/2
+        spacing: Theme.margin / 2
         anchors.fill: parent
         clip: true
         model: root.outputDevices
@@ -156,31 +170,37 @@ Item {
             radius: Theme.radius
             color: Colors.md3.on_surface
             opacity: hover.hovered ? 0.08 : 0
-            Behavior on opacity { NumberAnimation { duration: Theme.animationDuration } }
+            Behavior on opacity {
+              NumberAnimation {
+                duration: Theme.animationDuration
+              }
+            }
           }
 
           Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             implicitHeight: text.implicitHeight
             implicitWidth: Theme.margin * 0.4
-            radius: implicitWidth/2
+            radius: implicitWidth / 2
             color: Colors.md3.primary
             visible: Pipewire.defaultAudioSink === listItem.modelData
           }
 
-          HoverHandler { id: hover }
+          HoverHandler {
+            id: hover
+          }
 
           MouseArea {
             anchors.fill: parent
             onPressed: {
-              Pipewire.preferredDefaultAudioSink = listItem.modelData
+              Pipewire.preferredDefaultAudioSink = listItem.modelData;
             }
-            onWheel: (wheel) => {
+            onWheel: wheel => {
               if (wheel.angleDelta.y < 0) {
-                listItem.modelData.audio.volume -= 0.01
+                listItem.modelData.audio.volume -= 0.01;
               }
               if (wheel.angleDelta.y > 0) {
-                listItem.modelData.audio.volume += 0.01
+                listItem.modelData.audio.volume += 0.01;
               }
               wheel.accepted = true;
             }
@@ -211,7 +231,7 @@ Item {
               id: text
               elide: Qt.ElideRight
               color: Pipewire.defaultAudioSink === listItem.modelData ? Colors.md3.primary : Colors.md3.on_surface
-              Layout.preferredWidth: listItem.width - listItem.height*4
+              Layout.preferredWidth: listItem.width - listItem.height * 4
               text: listItem.modelData.description
             }
 
@@ -226,7 +246,7 @@ Item {
               Layout.alignment: Qt.AlignRight
 
               onClicked: {
-                listItem.modelData.audio.muted = !listItem.modelData.audio.muted
+                listItem.modelData.audio.muted = !listItem.modelData.audio.muted;
               }
             }
           }

@@ -7,7 +7,7 @@ import "../.."
 
 Item {
   id: root
-  signal changed()
+  signal changed
   property var window: QsWindow.window
   implicitWidth: tray.implicitWidth + Theme.margin
   implicitHeight: Theme.barHeight
@@ -18,8 +18,12 @@ Item {
     anchors.centerIn: parent
     Repeater {
       model: SystemTray.items
-      onItemAdded: {root.changed()}
-      onItemRemoved: {root.changed()}
+      onItemAdded: {
+        root.changed();
+      }
+      onItemRemoved: {
+        root.changed();
+      }
       delegate: Rectangle {
         implicitWidth: icon.implicitWidth + Theme.margin / 2
         implicitHeight: Theme.barHeight
@@ -36,7 +40,7 @@ Item {
           anchors.fill: parent
           acceptedButtons: Qt.LeftButton | Qt.RightButton
           cursorShape: Qt.PointingHandCursor
-          onClicked: (mouse) => {
+          onClicked: mouse => {
             if (mouse.button == Qt.RightButton) {
               if (modelData.menu) {
                 menu.menu = modelData.menu;
@@ -44,7 +48,7 @@ Item {
               }
             } else {
               if (!modelData.onlyMenu) {
-                modelData.activate()
+                modelData.activate();
               } else {
                 if (modelData.menu) {
                   menu.menu = modelData.menu;
@@ -52,7 +56,7 @@ Item {
                 }
               }
             }
-            // qmllint enable
+          // qmllint enable
           }
         }
       }

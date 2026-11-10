@@ -9,24 +9,22 @@ Item {
   implicitWidth: parent.width
 
   required property int expandedWidth
-  readonly property bool onFocusedScreen:
-    Hyprland.focusedMonitor?.name ===
-    QsWindow.window?.screen.name // qmllint disable missing-property
+  readonly property bool onFocusedScreen: Hyprland.focusedMonitor?.name === QsWindow.window?.screen.name // qmllint disable missing-property
   readonly property bool open: ShellUI.multiOpen && onFocusedScreen
 
   onOpenChanged: {
     if (open) {
       if (Hyprland.focusedMonitor) {
-        window.visible = true
-        background.opacity = 0
-        openAnim.start()
-        grab.active = true
+        window.visible = true;
+        background.opacity = 0;
+        openAnim.start();
+        grab.active = true;
       }
     } else {
-      openAnim.stop()
-      window.visible = false
-      background.implicitHeight = 1
-      grab.active = false
+      openAnim.stop();
+      window.visible = false;
+      background.implicitHeight = 1;
+      grab.active = false;
     }
   }
 
@@ -47,10 +45,10 @@ Item {
 
       Keys.onPressed: event => {
         switch (event.key) {
-          case Qt.Key_Escape:
-          case Qt.Key_Q:
-            ShellUI.close();
-            event.accepted = true;
+        case Qt.Key_Escape:
+        case Qt.Key_Q:
+          ShellUI.close();
+          event.accepted = true;
         }
       }
 
@@ -69,8 +67,12 @@ Item {
 
   SequentialAnimation {
     id: openAnim
-    PauseAnimation { duration: Theme.animationDuration }
-    ScriptAction { script: window.anchor.updateAnchor() }
+    PauseAnimation {
+      duration: Theme.animationDuration
+    }
+    ScriptAction {
+      script: window.anchor.updateAnchor()
+    }
     PropertyAction {
       target: background
       property: "opacity"
@@ -91,6 +93,8 @@ Item {
   }
   Connections {
     target: grab
-    function onCleared() { ShellUI.close() }
+    function onCleared() {
+      ShellUI.close();
+    }
   }
 }
