@@ -34,12 +34,12 @@ Item {
     }
     color: Media.isPlaying ? root.activeProgressbarColor : root.progressbarColor
 
-    Behavior on implicitWidth {
-      NumberAnimation {
-        duration: Math.min(300, progSync.interval)
-        easing.type: Theme.animationEasing
-      }
-    }
+    // Behavior on implicitWidth {
+    //   NumberAnimation {
+    //     duration: Math.min(300, progSync.interval)
+    //     easing.type: Theme.animationEasing
+    //   }
+    // }
 
     Timer {
       id: progSync
