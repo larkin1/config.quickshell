@@ -39,6 +39,8 @@ Item {
     visible: true
     anchors.fill: parent
     onClicked: {
+      if (!root.source)
+        return;
       root.source.audio.muted = !root.source.audio.muted;
     }
     cursorShape: Qt.PointingHandCursor

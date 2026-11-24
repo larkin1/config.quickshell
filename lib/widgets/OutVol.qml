@@ -83,6 +83,8 @@ Item {
     visible: true
     anchors.fill: parent
     onClicked: {
+      if (!root.sink)
+        return;
       root.sink.audio.muted = !root.sink.audio.muted;
     }
     cursorShape: Qt.PointingHandCursor
@@ -91,7 +93,10 @@ Item {
         root.sink.audio.volume -= 0.01;
       }
       if (wheel.angleDelta.y > 0) {
-        root.sink.audio.volume += 0.01;
+        if (root.sink.audio.volume + 0.01 <= 1)
+          root.sink.audio.volume += 0.01;
+        else
+          root.sink.audio.volume = 1;
       }
       wheel.accepted = true;
     }

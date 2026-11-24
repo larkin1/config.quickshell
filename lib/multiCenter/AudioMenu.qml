@@ -47,21 +47,32 @@ Item {
       event.accepted = true;
       break;
     case Qt.Key_H:
+      if (!sinkList.currentItem)
+        break;
       sinkList.currentItem.audio.volume -= 0.05;
       event.accepted = true;
       break;
     case Qt.Key_L:
-      sinkList.currentItem.audio.volume += 0.05;
+      if (!sinkList.currentItem)
+        break;
+      if (sinkList.currentItem.audio.volume + 0.05 <= 1)
+        sinkList.currentItem.audio.volume += 0.05;
+      else
+        sinkList.currentItem.audio.volume = 1;
       event.accepted = true;
       break;
     case Qt.Key_X:
     case Qt.Key_D:
     case Qt.Key_M:
+      if (!sinkList.currentItem)
+        break;
       sinkList.currentItem.audio.muted = !sinkList.currentItem.audio.muted;
       event.accepted = true;
       break;
     case Qt.Key_Return:
     case Qt.Key_Space:
+      if (!sinkList.currentItem)
+        break;
       Pipewire.preferredDefaultAudioSink = sinkList.currentItem;
       event.accepted = true;
       break;
@@ -200,7 +211,10 @@ Item {
                 listItem.modelData.audio.volume -= 0.01;
               }
               if (wheel.angleDelta.y > 0) {
-                listItem.modelData.audio.volume += 0.01;
+                if (listItem.modelData.audio.volume + 0.01 <= 1)
+                  listItem.modelData.audio.volume += 0.01;
+                else
+                  listItem.modelData.audio.volume = 1;
               }
               wheel.accepted = true;
             }
