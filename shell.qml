@@ -6,4 +6,5 @@ Bar {
   property var _ls: LockScreen
   property var _mp: Media
   property var _rc: Record
+  property var _bt: Bt
 }

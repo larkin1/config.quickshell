@@ -13,43 +13,7 @@ Item {
   implicitWidth: visible ? content.implicitWidth + Theme.margin : 0
   visible: battery ?? false
 
-  property var battery
-
-  property int pollCount: 0
-  Timer {
-    id: timer
-    interval: 1000
-    running: true
-    repeat: true
-    onTriggered: {
-      root.getBatt();
-      root.updateBattIcon();
-
-      if (root.pollCount > 60)
-        stop(); // poll for a battery for a minute
-      root.pollCount++;
-    }
-  }
-
-  Connections {
-    target: root.battery ?? null
-    function onStateChanged() {
-      root.updateBattIcon();
-    }
-  }
-
-  function getBatt() {
-    let devices = UPower.devices.values; // qmllint disable missing-property
-
-    for (let i = 0; i < devices.length; i++) {
-      if (devices[i]?.isLaptopBattery) {
-        root.battery = devices[i];
-        timer.stop(); // stop polling when the system acquires a battery
-        return;
-      }
-    }
-    root.battery = null;
-  }
+  property var battery: UPower.displayDevice
 
   function battIcon() {
     if (!root.battery)
@@ -61,7 +25,6 @@ Item {
     if (state === UPowerDeviceState.Charging) {
       return "../../svg/battery-charging.svg";
     }
-
     if (perc >= 0.75) {
       return "../../svg/battery-full.svg";
     }
@@ -72,10 +35,6 @@ Item {
       return "../../svg/battery-low.svg";
     }
     return "../../svg/battery-empty.svg";
-  }
-
-  function updateBattIcon() {
-    icon.source = Qt.resolvedUrl(root.battIcon());
   }
 
   RowLayout {
@@ -96,11 +55,7 @@ Item {
 
     StyledText {
       text: hover.hovered ? Math.round((root.battery?.state === UPowerDeviceState.Charging) ? root.battery?.timeToFull / 60 : root.battery?.timeToEmpty / 60) + "m" : Math.round(root.battery?.percentage * 100) + "%"
-
       color: Qt.tint(Colors.md3.error, Qt.alpha(Colors.md3.on_surface, root.battery?.percentage ?? 1))
-      onTextChanged: {
-        root.updateBattIcon();
-      }
     }
   }
 

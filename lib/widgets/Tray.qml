@@ -64,8 +64,7 @@ Item {
   }
   QsMenuAnchor {
     id: menu
-    anchor.window: root.window
-    anchor.rect.x: root.window?.width ?? 0
-    anchor.rect.y: root.window?.height ?? 0
+    anchor.item: tray
+    anchor.edges: Edges.Bottom // qmllint disable incompatible-type
   }
 }

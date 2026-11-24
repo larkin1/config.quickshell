@@ -1,5 +1,3 @@
-import Quickshell.Bluetooth
-import Quickshell.Io
 import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
@@ -13,27 +11,14 @@ Item {
   onVisibleChanged: {
     if (visible) {
       root.forceActiveFocus();
-      deviceList.currentItem = devices?.length ? devices[0] : null;
-    }
-  }
-
-  property var devices: Bluetooth.defaultAdapter?.devices.values // qmllint disable unresolved-type
-
-  Process {
-    running: true
-    command: ["bluetoothctl", "--agent", "NoInputNoOutput"]
-    stdout: SplitParser {
-      onRead: data => {}
-    }
-    stderr: SplitParser {
-      onRead: data => {}
+      deviceList.currentItem = Bt.devices?.length ? Bt.devices[0] : null;
     }
   }
 
   // -- Focus Management --
   ListMgr {
     id: deviceList
-    list: root.devices
+    list: Bt.devices
     searchKey: items => items.name ?? ""
     search: searchField.text
     onCurrentIdxChanged: {
@@ -65,12 +50,14 @@ Item {
       }
       break;
     case Qt.Key_P:
-      Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
+      // Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
+      Bt.toggle_power();
       event.accepted = true;
       break;
     case Qt.Key_S:
-      Bluetooth.defaultAdapter.discovering = true; // qmllint disable unresolved-type
-      scanTimeout.restart();
+      // Bluetooth.defaultAdapter.discovering = true; // qmllint disable unresolved-type
+      // scanTimeout.restart();
+      Bt.discover();
       event.accepted = true;
       break;
     case Qt.Key_Slash:
@@ -97,12 +84,14 @@ Item {
     case Qt.Key_Space:
       if (menuState === removeState)
         break;
-      toggle(deviceList.currentItem);
+      // toggle(deviceList.currentItem);
+      Bt.toggle_connection(deviceList.currentItem);
       event.accepted = true;
       break;
     case Qt.Key_Y:
       if (menuState === removeState)
-        deviceList.currentItem.forget();
+        // deviceList.currentItem.forget();
+        Bt.unpair(deviceList.currentItem);
       menuState = noState;
       event.accepted = true;
       break;
@@ -111,7 +100,8 @@ Item {
       event.accepted = true;
       break;
     case Qt.Key_T:
-      deviceList.currentItem.trusted = !deviceList.currentItem.trusted;
+      // deviceList.currentItem.trusted = !deviceList.currentItem.trusted;
+      Bt.toggle_trust(deviceList.currentItem);
       event.accepted = true;
       break;
     }
@@ -129,29 +119,10 @@ Item {
       break;
     case Qt.Key_D:
     case Qt.Key_X:
-      Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
+      // Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
+      Bt.toggle_power();
       event.accepted = true;
       break;
-    }
-  }
-
-  function toggle(d) {
-    if (d.state === BluetoothDeviceState.Connecting || d.state === BluetoothDeviceState.Disconnecting || d.pairing)
-      return;
-    if (d.connected)
-      d.disconnect();
-    else if (d.paired)
-      d.connect();
-    else
-      d.pair();
-  }
-
-  Timer {
-    id: scanTimeout
-    interval: 30 * 1000
-    running: false
-    onTriggered: {
-      Bluetooth.defaultAdapter.discovering = false; // qmllint disable unresolved-type
     }
   }
 
@@ -176,11 +147,13 @@ Item {
         IconButton {
           Layout.alignment: Qt.AlignRight
           implicitHeight: header.height
-          iconPath: Bluetooth.defaultAdapter?.enabled ? "../../svg/bt.svg" : "../../svg/bt-off.svg" // qmllint disable unresolved-type
+          // iconPath: Bluetooth.defaultAdapter?.enabled ? "../../svg/bt.svg" : "../../svg/bt-off.svg" // qmllint disable unresolved-type
+          iconPath: Bt.powered ? "../../svg/bt.svg" : "../../svg/bt-off.svg" // qmllint disable unresolved-type
           iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
           onClicked: {
-            Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
+            // Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
+            Bt.toggle_power();
           }
         }
 
@@ -209,7 +182,8 @@ Item {
               event.accepted = true;
               break;
             case Qt.Key_Return:
-              root.toggle(deviceList.currentItem);
+              // root.toggle(deviceList.currentItem);
+              Bt.toggle_connection(deviceList.currentItem);
               searchField.text = "";
               root.forceActiveFocus();
               event.accepted = true;
@@ -234,7 +208,8 @@ Item {
           RotationAnimation {
             target: scan
             property: "iconRotation"
-            running: Bluetooth.defaultAdapter?.discovering ?? false// qmllint disable unresolved-type
+            // running: Bluetooth.defaultAdapter?.discovering ?? false// qmllint disable unresolved-type
+            running: Bt.discovering
             loops: Animation.Infinite
             duration: 2500
             from: 0
@@ -244,8 +219,9 @@ Item {
           }
 
           onClicked: {
-            Bluetooth.defaultAdapter.discovering = true; // qmllint disable unresolved-type
-            scanTimeout.restart();
+            // Bluetooth.defaultAdapter.discovering = true; // qmllint disable unresolved-type
+            // scanTimeout.restart();
+            Bt.discover();
           }
         }
       }
@@ -306,7 +282,8 @@ Item {
           }
           MouseArea {
             anchors.fill: parent
-            onClicked: root.toggle(listItem.modelData) //qmllint disable unqualified
+            // onClicked: root.toggle(listItem.modelData) //qmllint disable unqualified
+            onClicked: Bt.toggle_connection(listItem.modelData)
             cursorShape: Qt.PointingHandCursor
           }
 
@@ -345,10 +322,11 @@ Item {
 
               onClicked: {
                 if (listItem.removalMode) {
-                  listItem.modelData.forget(); // qmllint disable missing-property
+                  Bt.unpair(listItem.modelData);
                   root.menuState = noState; // qmllint disable unqualified
                 } else {
-                  listItem.modelData.trusted = !listItem.modelData.trusted;
+                  // listItem.modelData.trusted = !listItem.modelData.trusted;
+                  Bt.toggle_trust(listItem.modelData);
                 }
               }
             }

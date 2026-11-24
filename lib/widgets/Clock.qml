@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell
 import "../.."
 
 Item {
@@ -15,24 +16,17 @@ Item {
 
   HoverHandler {
     id: hover
-    onHoveredChanged: {
-      clockText.text = Qt.formatDateTime(new Date(), (hovered ? root.altTimeStr : root.timeStr));
-    }
+  }
+
+  SystemClock {
+    id: clock
+    precision: SystemClock.Seconds
   }
 
   StyledText {
     id: clockText
-    text: Qt.formatDateTime(new Date(), (hover.hovered ? root.altTimeStr : root.timeStr))
+    text: Qt.formatDateTime(clock.date, (hover.hovered ? root.altTimeStr : root.timeStr))
     anchors.centerIn: parent
-  }
-
-  Timer {
-    interval: root.interval
-    running: true
-    repeat: true
-    onTriggered: {
-      clockText.text = Qt.formatDateTime(new Date(), (hover.hovered ? root.altTimeStr : root.timeStr));
-    }
   }
 
   Behavior on implicitWidth {
