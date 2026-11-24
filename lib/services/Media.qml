@@ -7,7 +7,7 @@ import "../.."
 
 Singleton {
   readonly property bool isPlaying: currentPlayer?.playbackState === MprisPlaybackState.Playing
-  readonly property var playerList: Mpris.players.values.filter(p => !p.dbusName.includes("playerctld"))
+  readonly property var playerList: Mpris.players.values.filter(p => !p.dbusName.includes("playerctld")) // qmllint disable missing-property
   readonly property var playingPlayers: playerList.filter(p => p.playbackState === MprisPlaybackState.Playing)
   property var currentPlayer
   property var prevPlayers: []

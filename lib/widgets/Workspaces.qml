@@ -5,7 +5,6 @@ import "../.."
 
 Row {
   id: root
-  required property color bgColor
   required property color activeBGColor
   required property color inactiveTextColor
   required property color activeTextColor

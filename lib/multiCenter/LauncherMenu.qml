@@ -8,14 +8,7 @@ Item {
   id: root
   anchors.fill: parent
 
-  readonly property var items: DesktopEntries.applications.values.filter(e => !e.noDisplay).sort((a, b) => a.name.localeCompare(b.name)).map(e => ({
-        id: e.id,
-        name: e.name || e.id,
-        genericName: e.genericName,
-        comment: e.comment,
-        icon: e.icon,
-        entry: e
-      }))
+  readonly property var items: DesktopEntries.applications.values.filter(e => !e.noDisplay).sort((a, b) => a.name.localeCompare(b.name))
 
   ListMgr {
     id: programList
@@ -56,7 +49,7 @@ Item {
     case Qt.Key_Return:
     case Qt.Key_Space:
       if (programList.visible.length > 0 && programList.currentItem)
-        programList.currentItem.entry.execute();
+        programList.currentItem.execute();
       else if (searchField.text !== "")
         Quickshell.execDetached(["sh", "-c", searchField.text]);
       ShellUI.close();
@@ -190,7 +183,7 @@ Item {
           MouseArea {
             anchors.fill: parent
             onClicked: {
-              listItem.modelData.entry.execute();
+              listItem.modelData.execute();
               ShellUI.close();
             }
           }

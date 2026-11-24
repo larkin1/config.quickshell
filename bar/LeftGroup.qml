@@ -36,7 +36,6 @@ Item {
 
       Workspaces {
         id: workspaces
-        bgColor: Colors.md3.surface_container
         activeBGColor: Qt.alpha(Colors.md3.on_surface, 0.08)
         inactiveTextColor: Colors.md3.on_surface_variant
         activeTextColor: Colors.md3.primary
