@@ -8,7 +8,6 @@ Row {
   required property color activeBGColor
   required property color inactiveTextColor
   required property color activeTextColor
-  anchors.verticalCenter: parent.verticalCenter
   height: Theme.barHeight
   clip: true
 

@@ -21,7 +21,7 @@ Item {
   Shape {
     antialiasing: true
     layer.enabled: true
-    layer.samples: 5
+    layer.samples: 4
     anchors.fill: parent
 
     ShapePath {
@@ -45,36 +45,6 @@ Item {
       startX: root.mx(0)
       startY: 0
       PathLine {
-        x: root.mx(root.arrowWidth)
-        y: root.midY
-      }
-      PathLine {
-        x: root.mx(root.arrowWidth)
-        y: 0
-      }
-    }
-
-    ShapePath {
-      strokeWidth: 0
-      fillColor: root.background
-      startX: root.mx(0)
-      startY: root.height
-      PathLine {
-        x: root.mx(root.arrowWidth)
-        y: root.midY
-      }
-      PathLine {
-        x: root.mx(root.arrowWidth)
-        y: root.height
-      }
-    }
-
-    ShapePath {
-      strokeWidth: 0
-      fillColor: root.background
-      startX: root.mx(root.arrowWidth)
-      startY: 0
-      PathLine {
         x: root.mx(root.arrowWidth + root.outerMargin)
         y: 0
       }
@@ -83,8 +53,12 @@ Item {
         y: root.height
       }
       PathLine {
-        x: root.mx(root.arrowWidth)
+        x: root.mx(0)
         y: root.height
+      }
+      PathLine {
+        x: root.mx(root.arrowWidth)
+        y: root.midY
       }
     }
   }

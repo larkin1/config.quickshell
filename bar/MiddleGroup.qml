@@ -9,10 +9,6 @@ Item {
 
   implicitHeight: Theme.barHeight
 
-  anchors {
-    horizontalCenter: parent.horizontalCenter
-  }
-
   RowLayout {
     id: leftLayout
     spacing: 0
@@ -113,7 +109,7 @@ Item {
       id: clockWidget
       color: Colors.md3.surface_container_highest
       Layout.fillHeight: true
-      implicitWidth: clock.implicitWidth
+      implicitWidth: clock.implicitWidth + Theme.margin
 
       Clock {
         id: clock
@@ -131,7 +127,7 @@ Item {
       id: dateWidget
       color: Colors.md3.surface_container
       Layout.fillHeight: true
-      implicitWidth: date.implicitWidth
+      implicitWidth: date.implicitWidth + Theme.margin
 
       Clock {
         id: date

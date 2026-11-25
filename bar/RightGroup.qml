@@ -7,10 +7,6 @@ Item {
 
   implicitHeight: Theme.barHeight
 
-  anchors {
-    right: parent.right
-  }
-
   RowLayout {
     id: innerRow
     spacing: 0
@@ -201,7 +197,7 @@ Item {
         PropertyAnimation {
           target: trayRect
           property: "implicitWidth"
-          to: tray.implicitWidth
+          to: tray.implicitWidth + Theme.margin / 2
           duration: Theme.animationDuration
           easing: Theme.animationEasing
         }

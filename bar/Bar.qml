@@ -38,10 +38,14 @@ Variants {
 
     MiddleGroup {
       id: middleGroup
+
+      anchors.horizontalCenter: parent.horizontalCenter
     }
 
     RightGroup {
       id: rightGroup
+
+      anchors.right: parent.right
 
       opacity: ShellUI.multiOpen && root.onFocusedScreen ? 0 : 1
       Behavior on opacity {

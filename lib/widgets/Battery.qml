@@ -8,7 +8,6 @@ import "../.."
 Item {
   id: root
 
-  anchors.centerIn: parent
   implicitHeight: Theme.barHeight
   implicitWidth: visible ? content.implicitWidth + Theme.margin : 0
   visible: battery ?? false

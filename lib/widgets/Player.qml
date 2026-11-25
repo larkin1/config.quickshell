@@ -9,7 +9,6 @@ Item {
   required property color activeProgressbarColor
   required property color progressbarColor
 
-  anchors.verticalCenter: parent.verticalCenter
   height: Theme.barHeight
   implicitWidth: mediaWidget.implicitWidth
   visible: Media.currentPlayer != null

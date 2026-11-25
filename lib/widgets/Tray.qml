@@ -14,7 +14,7 @@ Item {
   clip: true
   RowLayout {
     id: tray
-    spacing: 0
+    spacing: Theme.margin / 2
     anchors.centerIn: parent
     Repeater {
       model: SystemTray.items
@@ -25,7 +25,7 @@ Item {
         root.changed();
       }
       delegate: Rectangle {
-        implicitWidth: icon.implicitWidth + Theme.margin / 2
+        implicitWidth: icon.implicitWidth
         implicitHeight: Theme.barHeight
         color: "transparent"
         IconImage {
