@@ -1,17 +1,23 @@
 import QtQuick
+import Quickshell
 
 QtObject {
+  id: root
   required property var list
   property string search: ""
   property var searchKey: null
 
-  readonly property var visible: (!search || !searchKey || !list) ? list : list.map(d => ({
+  readonly property var filtered: (!search || !searchKey || !list) ? list : list.map(d => ({
         d,
         score: fuzzyScore(search, searchKey(d) ?? "")
       })).filter(x => x.score >= 0).sort((a, b) => b.score - a.score).map(x => x.d)
 
+  readonly property ScriptModel model: ScriptModel {
+    values: root.filtered ?? []
+  }
+
   property var currentItem: null
-  readonly property int currentIdx: visible ? visible.findIndex(d => d === currentItem) : -1
+  readonly property int currentIdx: filtered ? filtered.findIndex(d => d === currentItem) : -1
   property int lastKnownIdx: 0
 
   signal moved
@@ -23,8 +29,8 @@ QtObject {
   onCurrentItemChanged: moved()
 
   function rescue() {
-    if (currentIdx === -1 && visible?.length > 0)
-      currentItem = visible[Math.min(lastKnownIdx, visible.length - 1)];
+    if (currentIdx === -1 && filtered?.length > 0)
+      currentItem = filtered[Math.min(lastKnownIdx, filtered.length - 1)];
   }
 
   function fuzzyScore(needle, hay) {
@@ -51,7 +57,7 @@ QtObject {
   }
 
   function moveUp() {
-    if (!visible?.length)
+    if (!filtered?.length)
       return;
     if (currentIdx === -1) {
       jumpFirst();
@@ -61,30 +67,30 @@ QtObject {
       jumpLast();
       return;
     }
-    currentItem = visible[currentIdx - 1];
+    currentItem = filtered[currentIdx - 1];
   }
 
   function moveDn() {
-    if (!visible?.length)
+    if (!filtered?.length)
       return;
-    if (currentIdx === visible.length - 1 || currentIdx === -1) {
+    if (currentIdx === filtered.length - 1 || currentIdx === -1) {
       jumpFirst();
       return;
     }
-    currentItem = visible[currentIdx + 1];
+    currentItem = filtered[currentIdx + 1];
   }
 
   function jumpFirst() {
-    if (visible?.length > 0) {
-      currentItem = visible[0];
+    if (filtered?.length > 0) {
+      currentItem = filtered[0];
       return;
     }
     currentItem = null;
   }
 
   function jumpLast() {
-    if (visible?.length > 0) {
-      currentItem = visible[visible.length - 1];
+    if (filtered?.length > 0) {
+      currentItem = filtered[filtered.length - 1];
       return;
     }
     currentItem = null;

@@ -50,13 +50,10 @@ Item {
       }
       break;
     case Qt.Key_P:
-      // Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
       Bt.toggle_power();
       event.accepted = true;
       break;
     case Qt.Key_S:
-      // Bluetooth.defaultAdapter.discovering = true; // qmllint disable unresolved-type
-      // scanTimeout.restart();
       Bt.discover();
       event.accepted = true;
       break;
@@ -84,13 +81,11 @@ Item {
     case Qt.Key_Space:
       if (menuState === removeState)
         break;
-      // toggle(deviceList.currentItem);
       Bt.toggle_connection(deviceList.currentItem);
       event.accepted = true;
       break;
     case Qt.Key_Y:
       if (menuState === removeState)
-        // deviceList.currentItem.forget();
         Bt.unpair(deviceList.currentItem);
       menuState = noState;
       event.accepted = true;
@@ -100,7 +95,6 @@ Item {
       event.accepted = true;
       break;
     case Qt.Key_T:
-      // deviceList.currentItem.trusted = !deviceList.currentItem.trusted;
       Bt.toggle_trust(deviceList.currentItem);
       event.accepted = true;
       break;
@@ -119,7 +113,6 @@ Item {
       break;
     case Qt.Key_D:
     case Qt.Key_X:
-      // Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
       Bt.toggle_power();
       event.accepted = true;
       break;
@@ -147,12 +140,10 @@ Item {
         IconButton {
           Layout.alignment: Qt.AlignRight
           implicitHeight: header.height
-          // iconPath: Bluetooth.defaultAdapter?.enabled ? "../../svg/bt.svg" : "../../svg/bt-off.svg" // qmllint disable unresolved-type
           iconPath: Bt.powered ? "../../svg/bt.svg" : "../../svg/bt-off.svg" // qmllint disable unresolved-type
           iconColor: active ? Colors.md3.primary : Colors.md3.on_surface
 
           onClicked: {
-            // Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled; // qmllint disable unresolved-type
             Bt.toggle_power();
           }
         }
@@ -182,7 +173,6 @@ Item {
               event.accepted = true;
               break;
             case Qt.Key_Return:
-              // root.toggle(deviceList.currentItem);
               Bt.toggle_connection(deviceList.currentItem);
               searchField.text = "";
               root.forceActiveFocus();
@@ -208,7 +198,6 @@ Item {
           RotationAnimation {
             target: scan
             property: "iconRotation"
-            // running: Bluetooth.defaultAdapter?.discovering ?? false// qmllint disable unresolved-type
             running: Bt.discovering
             loops: Animation.Infinite
             duration: 2500
@@ -219,8 +208,6 @@ Item {
           }
 
           onClicked: {
-            // Bluetooth.defaultAdapter.discovering = true; // qmllint disable unresolved-type
-            // scanTimeout.restart();
             Bt.discover();
           }
         }
@@ -239,7 +226,7 @@ Item {
         spacing: Theme.margin / 2
         anchors.fill: parent
         clip: true
-        model: deviceList.visible
+        model: deviceList.model
 
         delegate: ClippingRectangle {
           id: listItem
@@ -282,7 +269,6 @@ Item {
           }
           MouseArea {
             anchors.fill: parent
-            // onClicked: root.toggle(listItem.modelData) //qmllint disable unqualified
             onClicked: Bt.toggle_connection(listItem.modelData)
             cursorShape: Qt.PointingHandCursor
           }
@@ -323,9 +309,8 @@ Item {
               onClicked: {
                 if (listItem.removalMode) {
                   Bt.unpair(listItem.modelData);
-                  root.menuState = noState; // qmllint disable unqualified
+                  root.menuState = root.noState; // qmllint disable unqualified
                 } else {
-                  // listItem.modelData.trusted = !listItem.modelData.trusted;
                   Bt.toggle_trust(listItem.modelData);
                 }
               }

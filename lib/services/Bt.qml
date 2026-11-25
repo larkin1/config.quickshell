@@ -5,8 +5,6 @@ import Quickshell.Bluetooth
 import Quickshell.Io
 import Quickshell
 
-import "../.."
-
 Singleton {
   readonly property var devices: Bluetooth.defaultAdapter?.devices.values // qmllint disable unresolved-type
   readonly property bool discovering: Bluetooth.defaultAdapter?.discovering ?? false // qmllint disable unresolved-type
@@ -24,7 +22,6 @@ Singleton {
   }
 
   function toggle_trust(d) {
-    // deviceList.currentItem.trusted = !deviceList.currentItem.trusted;
     d.trusted = !d.trusted;
   }
 
@@ -58,11 +55,5 @@ Singleton {
   Process {
     running: true
     command: ["bluetoothctl", "--agent", "NoInputNoOutput"]
-    stdout: SplitParser {
-      onRead: data => {}
-    }
-    stderr: SplitParser {
-      onRead: data => {}
-    }
   }
 }

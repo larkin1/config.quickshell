@@ -48,7 +48,7 @@ Item {
       break;
     case Qt.Key_Return:
     case Qt.Key_Space:
-      if (programList.visible.length > 0 && programList.currentItem)
+      if (programList.filtered.length > 0 && programList.currentItem)
         programList.currentItem.execute();
       else if (searchField.text !== "")
         Quickshell.execDetached(["sh", "-c", searchField.text]);
@@ -149,7 +149,7 @@ Item {
         clip: true
         spacing: Theme.margin / 2
 
-        model: programList.visible
+        model: programList.model
         delegate: Rectangle {
           id: listItem
 
@@ -162,7 +162,7 @@ Item {
           implicitWidth: listView?.width ?? 0 //qmllint disable unqualified
           implicitHeight: text.implicitHeight * 2
 
-          color: programList.currentItem?.id == modelData.id ? Colors.md3.surface_container_highest : Colors.md3.surface_container_high //qmllint disable unqualified
+          color: programList.currentItem == modelData ? Colors.md3.surface_container_highest : Colors.md3.surface_container_high //qmllint disable unqualified
 
           Rectangle {
             anchors.fill: parent

@@ -161,7 +161,7 @@ Item {
         spacing: Theme.margin / 2
         anchors.fill: parent
         clip: true
-        model: root.outputDevices
+        model: sinkList.model
 
         delegate: ClippingRectangle {
           id: listItem
@@ -171,7 +171,7 @@ Item {
 
           Layout.leftMargin: Theme.margin
 
-          implicitWidth: parent.width
+          implicitWidth: listView.width
           implicitHeight: text.implicitHeight * 2
           radius: Theme.radius
           color: sinkList.currentItem == modelData ? Colors.md3.surface_container_highest : Colors.md3.surface_container_high //qmllint disable unqualified
