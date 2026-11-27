@@ -5,9 +5,9 @@ import "../.."
 Item {
   id: root
 
-  property int interval: 1000
   property string timeStr: "HH:mm"
   property string altTimeStr: "HH:mm:ss"
+  property var precision: SystemClock.Seconds
 
   implicitWidth: clockText.implicitWidth
   implicitHeight: Theme.barHeight
@@ -20,7 +20,7 @@ Item {
 
   SystemClock {
     id: clock
-    precision: SystemClock.Seconds
+    precision: root.precision
   }
 
   StyledText {

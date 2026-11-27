@@ -16,7 +16,6 @@ Singleton {
 
   function close() {
     mode = "none";
-    multiMenu = "";
   }
 
   function openMulti(menu) {

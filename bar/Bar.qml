@@ -1,6 +1,6 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
-import Quickshell.Hyprland
 import ".."
 
 Variants {
@@ -19,39 +19,32 @@ Variants {
       right: true
     }
 
-    property var modelData
+    required property ShellScreen modelData
 
-    readonly property bool onFocusedScreen: Hyprland.focusedMonitor?.name === modelData.name
+    RowLayout {
+      spacing: 0
+      anchors {
+        fill: parent
+        topMargin: Theme.barVertSpacing
+      }
 
-    LeftGroup {
-      id: leftGroup
-      rightBoundary: middleGroup.x + middleGroup.contentLeft - Theme.margin
-
-      opacity: ShellUI.multiOpen && root.onFocusedScreen ? 0 : 1
-      Behavior on opacity {
-        NumberAnimation {
-          duration: Theme.animationDuration
-          easing: Theme.animationEasing
+      Item {
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+        Layout.preferredWidth: 0
+        LeftGroup {
+          anchors.fill: parent
         }
       }
-    }
 
-    MiddleGroup {
-      id: middleGroup
+      MultiButton {}
 
-      anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    RightGroup {
-      id: rightGroup
-
-      anchors.right: parent.right
-
-      opacity: ShellUI.multiOpen && root.onFocusedScreen ? 0 : 1
-      Behavior on opacity {
-        NumberAnimation {
-          duration: Theme.animationDuration
-          easing: Theme.animationEasing
+      Item {
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+        Layout.preferredWidth: 0
+        RightGroup {
+          anchors.fill: parent
         }
       }
     }

@@ -7,24 +7,8 @@ Item {
   anchors.fill: parent
 
   onVisibleChanged: {
-    root.opacity = 0.0;
     if (visible) {
       root.forceActiveFocus();
-      fadeIn.restart();
-    }
-  }
-
-  SequentialAnimation {
-    id: fadeIn
-    PauseAnimation {
-      duration: Theme.animationDuration * 2
-    }
-    PropertyAnimation {
-      target: root
-      property: "opacity"
-      duration: Theme.animationDuration
-      from: 0.0
-      to: 1.0
     }
   }
 
@@ -109,7 +93,7 @@ Item {
       implicitHeight: parent.buttonHeight
       iconPath: "../../svg/bt.svg"
       onClicked: {
-        ShellUI.multiMenu = "bluetooth";
+        ShellUI.openMulti("bluetooth");
       }
       focusLeft: powerButton
       focusRight: audioButton
@@ -123,7 +107,7 @@ Item {
       implicitHeight: parent.buttonHeight
       iconPath: "../../svg/speaker.svg"
       onClicked: {
-        ShellUI.multiMenu = "audio";
+        ShellUI.openMulti("audio");
       }
       focusLeft: bluetoothButton
     }
@@ -148,7 +132,7 @@ Item {
       implicitHeight: parent.buttonHeight
       iconPath: "../../svg/apps.svg"
       onClicked: {
-        ShellUI.multiMenu = "launcher";
+        ShellUI.openMulti("launcher");
       }
       focusRight: screenRecButton
       focusUp: powerButton

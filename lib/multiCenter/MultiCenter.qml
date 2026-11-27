@@ -5,43 +5,52 @@ import "../.."
 
 Item {
   id: root
+  anchors.fill: parent
 
-  implicitWidth: parent.width
-
+  required property bool open
+  required property bool buttonReady
   required property int expandedWidth
-  readonly property bool onFocusedScreen: Hyprland.focusedMonitor?.name === QsWindow.window?.screen.name // qmllint disable missing-property
-  readonly property bool open: ShellUI.multiOpen && onFocusedScreen
 
-  onOpenChanged: {
-    if (open) {
-      if (Hyprland.focusedMonitor) {
-        window.visible = true;
-        background.opacity = 0;
-        openAnim.start();
-        grab.active = true;
-      }
-    } else {
-      openAnim.stop();
-      window.visible = false;
-      background.implicitHeight = 1;
-      grab.active = false;
-    }
-  }
+  property int expandedHeight: 500
+
+  readonly property bool panelVisible: background.height > 0
+  readonly property bool panelReady: background.height >= root.expandedHeight
 
   PopupWindow {
     id: window
 
-    visible: false
+    visible: root.open || root.panelVisible
     color: "transparent"
-
     implicitWidth: root.expandedWidth
-    implicitHeight: 500
+    implicitHeight: root.expandedHeight
+
     anchor.item: root //qmllint disable missing-property
-    anchor.rect.x: 0 //qmllint disable unresolved-type unqualified
-    anchor.rect.y: root.height
+    anchor.edges: Edges.Bottom //qmllint disable missing-property
+    anchor.gravity: Edges.Bottom //qmllint disable missing-property
 
     Rectangle {
       id: background
+
+      anchors {
+        top: parent.top
+        left: parent.left
+        right: parent.right
+      }
+
+      height: root.open && root.buttonReady ? root.expandedHeight : 0
+      clip: true
+      color: Colors.md3.surface
+      bottomLeftRadius: Theme.radius
+      bottomRightRadius: Theme.radius
+
+      Behavior on height {
+        SequentialAnimation {
+          NumberAnimation {
+            duration: Theme.animationDuration
+            easing.type: Theme.animationEasing
+          }
+        }
+      }
 
       Keys.onPressed: event => {
         switch (event.key) {
@@ -52,49 +61,28 @@ Item {
         }
       }
 
-      color: Colors.md3.surface
-      bottomLeftRadius: Theme.radius
-      bottomRightRadius: Theme.radius
-
-      implicitWidth: parent.width
-      anchors.top: parent.top
-
       MultiUI {
-        id: screens
+        opacity: root.open && root.panelReady ? 1 : 0
+        height: root.expandedHeight
+        anchors {
+          top: parent.top
+          left: parent.left
+          right: parent.right
+        }
+
+        Behavior on opacity {
+          NumberAnimation {
+            duration: Theme.animationDuration / 2
+            easing.type: Theme.animationEasing
+          }
+        }
       }
     }
   }
 
-  SequentialAnimation {
-    id: openAnim
-    PauseAnimation {
-      duration: Theme.animationDuration
-    }
-    ScriptAction {
-      script: window.anchor.updateAnchor()
-    }
-    PropertyAction {
-      target: background
-      property: "opacity"
-      value: 1
-    }
-    PropertyAnimation {
-      target: background
-      property: "implicitHeight"
-      duration: Theme.animationDuration
-      from: root.height
-      to: 500
-    }
-  }
-
   HyprlandFocusGrab {
-    id: grab
     windows: [window]
-  }
-  Connections {
-    target: grab
-    function onCleared() {
-      ShellUI.close();
-    }
+    active: root.open
+    onCleared: ShellUI.close()
   }
 }

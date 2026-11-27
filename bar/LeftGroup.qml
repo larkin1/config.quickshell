@@ -2,83 +2,108 @@ import QtQuick
 import QtQuick.Layouts
 import ".."
 
-Item {
-  id: root
-
-  property real rightBoundary: 0
-
+RowLayout {
+  id: innerLayout
   implicitHeight: Theme.barHeight
+  spacing: 0
 
-  RowLayout {
-    id: innerLayout
-    spacing: 0
+  // Content
+  Border {
+    background: "transparent"
+    foreground: Colors.md3.surface_container
+    Layout.leftMargin: Theme.margin
+    reversed: true
+  }
 
-    anchors {
-      top: parent.top
-      topMargin: Theme.barVertSpacing
-      bottom: parent.bottom
+  Rectangle { // Workspaces
+    color: Colors.md3.surface_container
+    Layout.fillHeight: true
+    implicitWidth: workspaces.implicitWidth
+
+    Workspaces {
+      id: workspaces
+      activeBGColor: Qt.alpha(Colors.md3.on_surface, 0.08)
+      inactiveTextColor: Colors.md3.on_surface_variant
+      activeTextColor: Colors.md3.primary
     }
+  }
 
-    // Content
-    Border {
-      background: "transparent"
-      foreground: Colors.md3.surface_container
-      Layout.leftMargin: Theme.margin
-      reversed: true
-      implicitHeight: Theme.barHeight
-    }
+  Border {
+    foreground: Colors.md3.surface_container
+    background: Colors.md3.surface_container_lowest
+    outerMargin: Theme.margin
+  }
 
-    Rectangle { // Workspaces
-      id: text1
-      color: Colors.md3.surface_container
-      Layout.fillHeight: true
-      implicitWidth: workspaces.implicitWidth
+  Rectangle {
+    id: mediaWidget
+    color: Colors.md3.surface_container_lowest
+    Layout.fillHeight: true
+    Layout.fillWidth: true
+    Layout.maximumWidth: implicitWidth
+    implicitWidth: media.implicitWidth
 
-      Workspaces {
-        id: workspaces
-        activeBGColor: Qt.alpha(Colors.md3.on_surface, 0.08)
-        inactiveTextColor: Colors.md3.on_surface_variant
-        activeTextColor: Colors.md3.primary
+    Behavior on implicitWidth {
+      NumberAnimation {
+        duration: Theme.animationDuration
+        easing.type: Theme.animationEasing
       }
     }
 
-    Border {
-      foreground: Colors.md3.surface_container
-      background: Colors.md3.surface_container_lowest
-      outerMargin: Theme.margin
-      implicitHeight: Theme.barHeight
+    Player {
+      id: media
+      width: parent.width
+      textColor: Colors.md3.on_surface
+      bgColor: Colors.md3.surface_container_lowest
+      activeProgressbarColor: Colors.md3.primary
+      progressbarColor: Qt.alpha(Colors.md3.on_surface_variant, 0.50)
     }
+  }
 
-    Rectangle {
-      id: mediaWidget
-      color: Colors.md3.surface_container_lowest
-      Layout.fillHeight: true
-      implicitWidth: media.implicitWidth
-      clip: true
+  Border {
+    foreground: Colors.md3.surface_container_lowest
+    background: "transparent"
+  }
 
-      Layout.maximumWidth: Math.max(80, root.rightBoundary - mediaWidget.x - Theme.margin)
+  Item {
+    Layout.fillWidth: true
+    Layout.minimumWidth: Theme.margin
+  }
 
-      Behavior on implicitWidth {
-        NumberAnimation {
-          duration: Theme.animationDuration
-          easing.type: Theme.animationEasing
-        }
-      }
+  Border {
+    background: "transparent"
+    foreground: Colors.md3.surface_container
+    reversed: true
+  }
 
-      Player {
-        id: media
-        width: parent.width
-        textColor: Colors.md3.on_surface
-        bgColor: Colors.md3.surface_container_lowest
-        activeProgressbarColor: Colors.md3.primary
-        progressbarColor: Qt.alpha(Colors.md3.on_surface_variant, 0.50)
-      }
+  Rectangle {
+    color: Colors.md3.surface_container
+    Layout.fillHeight: true
+    implicitWidth: mem.width + Theme.margin
+    Mem {
+      id: mem
+      anchors.centerIn: parent
     }
+  }
 
-    Border {
-      foreground: Colors.md3.surface_container_lowest
-      background: "transparent"
-      implicitHeight: Theme.barHeight
+  Border {
+    foreground: Colors.md3.surface_container_highest
+    background: Colors.md3.surface_container
+    reversed: true
+  }
+
+  Rectangle {
+    color: Colors.md3.surface_container_highest
+    Layout.fillHeight: true
+    implicitWidth: cpu.width + Theme.margin
+    Cpu {
+      id: cpu
+      anchors.centerIn: parent
     }
+  }
+
+  Border {
+    background: Colors.md3.surface_container_highest
+    foreground: "transparent"
+    reversed: true
   }
 }

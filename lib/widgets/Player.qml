@@ -52,7 +52,7 @@ Item {
     StyledText {
       id: mediaText
       anchors.verticalCenter: parent.verticalCenter
-      width: parent.width
+      width: root.width + 1
       elide: Text.ElideRight
       wrapMode: Text.NoWrap
       textFormat: Text.StyledText

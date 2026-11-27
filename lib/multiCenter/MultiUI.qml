@@ -3,7 +3,6 @@ import "../.."
 
 Item {
   id: root
-  anchors.fill: parent
 
   BluetoothMenu {
     id: bluetooth

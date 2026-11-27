@@ -8,7 +8,6 @@ singleton Colors lib/services/Colors.qml
 singleton Bt lib/services/Bt.qml
 LeftGroup bar/LeftGroup.qml
 RightGroup bar/RightGroup.qml
-MiddleGroup bar/MiddleGroup.qml
 Bar bar/Bar.qml
 StyledText lib/components/StyledText.qml
 Border lib/components/Border.qml
