@@ -165,9 +165,10 @@ RowLayout {
     id: battRect
     color: Colors.md3.surface_container
     implicitHeight: Theme.barHeight
-    implicitWidth: batt.implicitWidth
+    implicitWidth: batt.implicitWidth + Theme.margin
     Battery {
       id: batt
+      anchors.centerIn: parent
     }
   }
 
@@ -223,6 +224,7 @@ RowLayout {
         trayOpen.start();
         trayCloseTimer.restart();
       }
+      anchors.centerIn: parent
     }
 
     SequentialAnimation {
@@ -230,7 +232,7 @@ RowLayout {
       PropertyAnimation {
         target: trayRect
         property: "implicitWidth"
-        to: tray.implicitWidth + Theme.margin / 2
+        to: tray.implicitWidth + Theme.margin
         duration: Theme.animationDuration
         easing: Theme.animationEasing
       }

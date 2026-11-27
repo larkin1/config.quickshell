@@ -9,7 +9,7 @@ Item {
   id: root
 
   implicitHeight: Theme.barHeight
-  implicitWidth: visible ? content.implicitWidth + Theme.margin : 0
+  implicitWidth: visible ? content.implicitWidth : 0
   visible: battery ?? false
 
   property var battery: UPower.displayDevice

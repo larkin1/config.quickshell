@@ -9,7 +9,7 @@ Item {
   id: root
   signal changed
   property var window: QsWindow.window
-  implicitWidth: tray.implicitWidth + Theme.margin
+  implicitWidth: tray.implicitWidth
   implicitHeight: Theme.barHeight
   clip: true
   RowLayout {
